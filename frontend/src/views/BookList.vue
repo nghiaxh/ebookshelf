@@ -1,7 +1,7 @@
 <template>
   <h1 class="text-4xl font-bold m-8">Nổi bật</h1>
   <div class="grid grid-cols-1 gap-4 lg:grid-cols-5 lg:gap-8 lg:m-8">
-    
+
     <article class="overflow-hidden rounded-lg shadow-sm transition hover:shadow-lg h-48">
       <img alt=""
         src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
