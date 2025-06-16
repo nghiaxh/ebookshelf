@@ -48,15 +48,6 @@
             </div>
 
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
-
-              <div class="rating ml-8">
-                <input type="radio" name="rating-1" class="mask mask-star" aria-label="1 star" />
-                <input type="radio" name="rating-1" class="mask mask-star" aria-label="2 star" checked="checked" />
-                <input type="radio" name="rating-1" class="mask mask-star" aria-label="3 star" />
-                <input type="radio" name="rating-1" class="mask mask-star" aria-label="4 star" />
-                <input type="radio" name="rating-1" class="mask mask-star" aria-label="5 star" />
-              </div>
-
               <button class="btn btn-neutral hover:scale-[1.01]">Yêu thích</button>
               <button class="btn btn-neutral hover:scale-[1.01]">Mượn sách</button>
             </div>
