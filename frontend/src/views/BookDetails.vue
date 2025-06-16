@@ -10,7 +10,7 @@
         <div class="mt-8 mb-8">
           <img
             src="https://images.unsplash.com/photo-1731690415686-e68f78e2b5bd?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            class="rounded-box shadow-xl" alt="" />
+            class="rounded-box shadow hover:shadow-2xl hover:scale-[1.01] transition" alt="" />
         </div>
 
         <div class="flow-root">

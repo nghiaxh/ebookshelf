@@ -13,7 +13,7 @@
       </label>
       <button class="btn btn-neutral mt-2 lg:text-base">Đăng Nhập</button>
       
-      <label class="label mt-2">Hoặc với tài khoản</label>
+      <label class="label mt-2">Hoặc đăng nhập với tài khoản</label>
       <!-- Google Login -->
       <button class="btn bg-white text-black border-[#e5e5e5] lg:text-base">
         <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
