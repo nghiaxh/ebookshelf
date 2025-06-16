@@ -3,8 +3,15 @@
 
 <template>
   <section>
-    <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8 mt-16 h-screen">
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:items-center md:gap-8 mt-8">
+    <div class="lg:grid lg:h-screen lg:place-content-center">
+      <div
+        class="mx-auto w-screen max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 md:grid md:grid-cols-2 md:items-center md:gap-4 lg:px-8 lg:py-32">
+
+        <div class="mt-8 mb-8">
+          <img
+            src="https://images.unsplash.com/photo-1731690415686-e68f78e2b5bd?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            class="rounded-box shadow-xl" alt="" />
+        </div>
 
         <div class="flow-root">
           <dl class="-my-3 divide-y divide-gray-200 rounded border border-gray-200 text-sm *:even:bg-gray-50">
@@ -53,12 +60,6 @@
             </div>
 
           </dl>
-        </div>
-
-        <div>
-          <img
-            src="https://images.unsplash.com/photo-1731690415686-e68f78e2b5bd?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            class="rounded-box shadow-xl" alt="" />
         </div>
 
       </div>
