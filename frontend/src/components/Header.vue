@@ -34,7 +34,7 @@
       </ul>
     </div>
     <div class="navbar-end">
-      <RouterLink to="/login" class="btn btn-neutral px-4 text-base hover:scale-[1.01]">Đăng Nhập</RouterLink>
+      <RouterLink to="/login" class="btn btn-neutral px-4 text-base mr-4 hover:scale-[1.01]">Đăng Nhập</RouterLink>
     </div>
   </div>
 
@@ -44,4 +44,5 @@
       Deadline còn khoảng 2 tháng 😢
     </p>
   </div>
+
 </template>
