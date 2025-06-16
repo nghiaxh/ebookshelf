@@ -6,7 +6,7 @@
 
     <div class="bg-white p-4 sm:p-6">
 
-      <RouterLink to="/">
+      <RouterLink to="/bookdetails">
         <h3 class="mt-0.5 text-lg text-gray-900">Lorem ipsum dolor sit amet.</h3>
       </RouterLink>
 

@@ -9,25 +9,25 @@ import BookCard from "../components/BookCard.vue";
     <article class="overflow-hidden rounded-lg shadow-sm transition hover:shadow-lg h-32 hover:scale-[1.05]">
       <img alt=""
         src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-        class="w-full object-fill" />
+        class="w-full object-cover" />
     </article>
 
     <article class="overflow-hidden rounded-lg shadow-sm transition hover:shadow-lg h-32 hover:scale-[1.05]">
       <img alt=""
         src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-        class="w-full object-fill" />
+        class="w-full object-cover" />
     </article>
 
     <article class="overflow-hidden rounded-lg shadow-sm transition hover:shadow-lg h-32 hover:scale-[1.05]">
       <img alt=""
         src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-        class="w-full object-fill" />
+        class="w-full object-cover" />
     </article>
 
     <article class="overflow-hidden rounded-lg shadow-sm transition hover:shadow-lg h-32 hover:scale-[1.05]">
       <img alt=""
         src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-        class="w-full object-fill" />
+        class="w-full object-cover" />
     </article>
 
   </div>

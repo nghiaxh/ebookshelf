@@ -34,7 +34,7 @@
       </ul>
     </div>
     <div class="navbar-end">
-      <RouterLink to="/login" class="btn btn-neutral px-4 text-base">Đăng Nhập</RouterLink>
+      <RouterLink to="/login" class="btn btn-neutral px-4 text-base hover:scale-[1.01]">Đăng Nhập</RouterLink>
     </div>
   </div>
 
