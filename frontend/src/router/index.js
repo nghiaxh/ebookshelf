@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import BookList from "../views/BookList.vue";
+import BookDetails from "../views/BookDetails.vue"
 import Dashboard from "../views/Dashboard.vue";
 
 const routes = [
@@ -11,6 +12,7 @@ const routes = [
   { path: "/login", name: "Login", component: Login },
   { path: "/register", name: "Register", component: Register },
   { path: "/books", name: BookList, component: BookList },
+  { path: "/bookdetails", name: BookDetails, component: BookDetails },
   { path: "/dashboard", name: Dashboard, component: Dashboard }
 ];
 
