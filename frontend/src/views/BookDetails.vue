@@ -10,7 +10,7 @@
         <div class="mt-8 mb-8">
           <img
             src="https://images.unsplash.com/photo-1731690415686-e68f78e2b5bd?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            class="rounded-box shadow hover:shadow-2xl hover:scale-[1.01] transition" alt="" />
+            class="rounded-box shadow hover:shadow-2xl hover:scale-[1.005] transition" alt="" />
         </div>
 
         <div class="flow-root">
@@ -55,8 +55,8 @@
             </div>
 
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
-              <button class="btn btn-neutral hover:scale-[1.01]">Yêu thích</button>
-              <button class="btn btn-neutral hover:scale-[1.01]">Mượn sách</button>
+              <button class="btn btn-neutral hover:scale-[1.005]">Yêu thích</button>
+              <button class="btn btn-neutral hover:scale-[1.005]">Mượn sách</button>
             </div>
 
           </dl>
