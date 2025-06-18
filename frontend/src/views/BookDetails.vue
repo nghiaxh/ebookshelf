@@ -1,4 +1,5 @@
 <script setup>
+import Modal from '../components/Modal.vue';
 </script>
 
 <template>
@@ -55,8 +56,10 @@
             </div>
 
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
+              <button class="btn btn-neutral hover:scale-[1.005]" onclick="my_modal_1.showModal()">Mượn sách</button>
+              <Modal/>
+              
               <button class="btn btn-neutral hover:scale-[1.005]">Yêu thích</button>
-              <button class="btn btn-neutral hover:scale-[1.005]">Mượn sách</button>
             </div>
 
           </dl>
