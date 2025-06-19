@@ -4,14 +4,14 @@ import Modal from '../components/Modal.vue';
 
 <template>
   <section>
-    <div class="lg:grid lg:h-screen lg:place-content-center">
+    <div class="lg:grid lg:h-screen lg:place-content-center -mt-16">
       <div
         class="mx-auto w-screen max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 md:grid md:grid-cols-2 md:items-center md:gap-4 lg:px-8 lg:py-32">
 
         <div class="mt-8 mb-8">
           <img
             src="https://images.unsplash.com/photo-1731690415686-e68f78e2b5bd?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            class="rounded-box shadow hover:shadow-2xl hover:scale-[1.005] transition" alt="" />
+            class="rounded-box shadow hover:shadow-2xl hover:scale-[1.01] transition" alt="" />
         </div>
 
         <div class="flow-root">
@@ -56,10 +56,8 @@ import Modal from '../components/Modal.vue';
             </div>
 
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
-              <button class="btn btn-neutral hover:scale-[1.005]" onclick="my_modal_1.showModal()">Mượn sách</button>
-              <Modal/>
-              
-              <button class="btn btn-neutral hover:scale-[1.005]">Yêu thích</button>
+              <button class="btn btn-neutral hover:scale-[1.01]" onclick="my_modal_1.showModal()">Mượn sách</button>
+              <Modal />
             </div>
 
           </dl>

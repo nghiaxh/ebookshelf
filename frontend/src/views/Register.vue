@@ -28,7 +28,7 @@
 
         <label class="label">Mật khẩu</label>
         <input type="password" minlength="6" maxlength="18" class="input" placeholder="Nhập mật khẩu" />
-        <button class="btn btn-neutral mt-4 text-base hover:scale-[1.005] lg:text-base">Đăng Ký</button>
+        <button class="btn btn-neutral mt-4 text-base hover:scale-[1.01] lg:text-base">Đăng Ký</button>
 
         <span class="mt-8">Bạn đã có tài khoản? <strong class="hover:underline">
             <RouterLink to="/login" class="lg:text-base">Đăng nhập</RouterLink>

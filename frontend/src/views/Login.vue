@@ -11,11 +11,11 @@
         <label class="label">Mật khẩu</label>
         <input type="password" minlength="6" maxlength="18" class="input" placeholder="Nhập mật khẩu" />
 
-        <button class="btn btn-neutral mt-4 lg:text-base hover:scale-[1.005]">Đăng Nhập</button>
+        <button class="btn btn-neutral mt-4 lg:text-base hover:scale-[1.01]">Đăng Nhập</button>
 
         <label class="label mt-4">Hoặc đăng nhập với</label>
         <!-- Admin login -->
-        <button class="btn bg-white text-black border-[#e5e5e5] lg:text-base hover:scale-[1.005]">
+        <button class="btn bg-white text-black border-[#e5e5e5] lg:text-base hover:scale-[1.01]">
           Đăng Nhập Nhân Viên
         </button>
 
