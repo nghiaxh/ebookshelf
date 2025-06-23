@@ -1,18 +1,27 @@
 <template>
-  <article class="overflow-hidden rounded-lg shadow-sm transition hover:shadow-lg h-128 hover:scale-[1.01]">
-    <img alt=""
-      src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-      class="h-64 w-full object-cover" />
+  <!-- <article class="overflow-hidden rounded-lg shadow-sm transition hover:shadow-lg h-128 hover:scale-[1.01]">
+    <img alt="" src="../../public/images/vo-long-ve-khoa-hoc-vat-ly-luong-tu-cho-tre-em.jpg" class="h-64 w-full object-cover" />
 
     <div class="bg-white p-4 sm:p-6">
+      <h3 class="mt-0.5 text-lg text-gray-900">Tên bìa sách</h3>
+      <time datetime="2022-12-31" class="block text-sm/relaxed text-gray-500 mt-4">Năm xuất bản</time>
 
-      <RouterLink to="/bookdetails">
-        <h3 class="mt-0.5 text-lg text-gray-900">Lorem ipsum dolor sit amet.</h3>
-      </RouterLink>
+      <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">Tên tác giả</p>
 
-      <time datetime="2022-10-10" class="block text-sm/relaxed text-gray-500 mt-4">Năm xuất bản</time>
+      <RouterLink to="/bookdetails" class="btn btn-neutral px-8 py-4 text-xl hover:scale-[1.01]">Chi tiết</RouterLink>
 
-      <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">Đơn giá</p>
     </div>
-  </article>
+  </article> -->
+
+  <RouterLink to="/bookdetails" class="block shadow rounded-lg overflow-hidden ">
+    <img alt=""
+      src="https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+      class="w-full object-cover sm:h-80 lg:h-96" />
+
+    <h3 class="mt-4 text-lg font-bold text-gray-900 sm:text-xl">Lorem, ipsum dolor.</h3>
+
+    <p class="my-8 max-w-sm text-gray-700">
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni reiciendis sequi ipsam incidunt.
+    </p>
+  </RouterLink>
 </template>
