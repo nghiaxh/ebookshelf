@@ -1,12 +1,12 @@
 import app from "./app.js";
 import config from "./src/config/index.js";
-import MongoDB from "./src/utils/mongodb.util.js";
+import mongoose from "mongoose";
 
 const PORT = config.app.port;
 
 async function startServer() {
     try {
-        await MongoDB.connect(config.db.uri);
+        mongoose.connect(config.db.uri);
         console.log("Connected to the database!");
 
         app.listen(PORT, () => {
