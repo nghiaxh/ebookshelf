@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export default function auth(req, res, next) {
+export function auth(req, res, next) {
     const token = req.headers["authorization"]?.split(" ")[1];
 
     if (!token) {
@@ -22,3 +22,5 @@ export default function auth(req, res, next) {
         return next(new ApiError(401, "Invalid token"));
     }
 };
+
+export default auth;

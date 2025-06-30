@@ -1,7 +1,7 @@
 import ApiError from "./src/api-error.js";
 import express from "express";
 import cors from "cors";
-import path, { dirname } from "path";
+import path from "path";
 import { fileURLToPath } from "url";
 
 import staffRouter from "./src/routes/staff.route.js";
@@ -14,7 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to CTU Ebookshelf" });
@@ -31,9 +31,9 @@ app.use((req, res, next) => {
     return next(new ApiError(404, "Resource not found"));
 });
 
-app.use((err, req, res, next) => {
-    return res.status(err.statusCode || 500).json({
-        message: err.message || "Internal Server Error",
+app.use((error, req, res, next) => {
+    return res.status(error.statusCode || 500).json({
+        message: error.message || "Internal Server Error",
     });
 });
 
