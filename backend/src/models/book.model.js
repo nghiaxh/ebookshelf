@@ -25,7 +25,11 @@ const bookSchema = mongoose.Schema({
     image: {
         type: String, default: ""
     }
-});
+},
+    {
+        timestamps: true,
+    }
+);
 
-const book = mongoose.model("Book", bookSchema);
-export default book;
+const Book = mongoose.model("Book", bookSchema);
+export default Book;

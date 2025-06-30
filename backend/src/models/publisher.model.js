@@ -9,7 +9,11 @@ const publisherSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-});
+},
+    {
+        timestamps: true,
+    }
+);
 
-const publisher = model("Publisher", publisherSchema);
-export default publisher;
+const Publisher = mongoose.model("Publisher", publisherSchema);
+export default Publisher;

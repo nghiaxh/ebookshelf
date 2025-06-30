@@ -29,8 +29,11 @@ const staffSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-});
+},
+    {
+        timestamps: true,
+    }
+);
 
-const staff = mongoose.model("Staff", staffSchema);
-
-export default staff;
+const Staff = mongoose.model("Staff", staffSchema);
+export default Staff;
