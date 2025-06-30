@@ -1,20 +1,23 @@
-import Book from "../models/book.model";
+import Book from "../models/book.model.js";
 import multer from "multer";
 import path from "path";
 
 class BookService {
-    static imageStorage = multer({
-        storage: multer.diskStorage({
-            destination: "./uploads/books",
-            filename: (req, file, callback) => {
-                callback(null, `${Date.now()}${path.extname(file.originalname)}`);
-            }
-        }),
+    static imageStorage = multer.diskStorage({
+        destination: "./uploads/books",
+        filename: (req, file, callback) => {
+            callback(null, `${Date.now()}${path.extname(file.originalname)}`);
+        }
     });
 
-    static uploadImage = multer({ storage: BookService.imageStorage });
+    static uploadImage = multer({
+        storage: BookService.imageStorage,
+        limits: {
+            files: 1,
+        }
+    });
 
-    async create(payload) {
+    async create(payload, image_url) {
         const book = new Book({
             title: payload.title,
             price: payload.price,
@@ -24,13 +27,19 @@ class BookService {
             author: payload.author,
             description: payload.description,
             image: image_url,
-            
+
         });
         return await book.save();
     }
 
     async find(filter) {
         return await Book.find(filter);
+    }
+
+    async findByName(title) {
+        return await Book.find({
+            title: { $regex: title, $options: "i" }
+        });
     }
 
     async findById(id) {

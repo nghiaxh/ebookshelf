@@ -1,4 +1,4 @@
-import Publisher from "../models/publisher.model";
+import Publisher from "../models/publisher.model.js";
 
 class PublisherService {
     async create(payload) {
@@ -24,7 +24,7 @@ class PublisherService {
         return result;
     }
 
-    async delete(id) {
+    async deleteOne(id) {
         const result = await Publisher.findByIdAndDelete(id);
         return result;
     }

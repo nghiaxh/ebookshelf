@@ -1,4 +1,4 @@
-import Staff from "../models/staff.model";
+import Staff from "../models/staff.model.js";
 import bcrypt from "bcrypt";
 
 class StaffService {
@@ -26,24 +26,24 @@ class StaffService {
 
     async findByName(name) {
         return await Staff.find({
-            name: { $regex: new RegExp(name, "i") },
+            name: { $regex: name, $options: "i" }
         });
     }
 
-    async findByUsername(user_id) {
-        return await Staff.find(user_id);
+    async findByUsername(username) {
+        return await Staff.findOne({ username });
     }
 
     async update(id, payload) {
         const existingStaff = await Staff.findById(id);
         if (!existingStaff) {
-            throw new Error( "Staff not found");
+            throw new Error("Staff not found");
         }
 
-        if (payload.password && payload.password !== existingStaff.password) {
+        if (payload.password) {
             payload.password = await bcrypt.hash(payload.password, 12);
         } else {
-            payload.password = existingStaff.password;
+            delete payload.password;
         }
 
         const result = await Staff.findByIdAndUpdate(
@@ -53,7 +53,7 @@ class StaffService {
         return result;
     }
 
-    async delete(id) {
+    async deleteOne(id) {
         const result = await Staff.findByIdAndDelete(id);
         return result;
     }
