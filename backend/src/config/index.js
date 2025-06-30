@@ -1,5 +1,5 @@
 const config = {
-    app: {
+    src: {
         port: process.env.PORT || 3000,
     },
     db: {
