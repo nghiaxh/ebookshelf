@@ -2,7 +2,7 @@ import app from "./app.js";
 import config from "./src/config/index.js";
 import mongoose from "mongoose";
 
-const PORT = config.app.port;
+const PORT = config.src.port;
 
 async function startServer() {
     try {
