@@ -13,10 +13,6 @@ const staffSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    role: {
-        type: String,
-        default: "staff",
-    },
     address: {
         type: String,
         required: true,
@@ -28,6 +24,10 @@ const staffSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
+    },
+    role: {
+        type: String,
+        default: "staff",
     },
 },
     {
