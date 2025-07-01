@@ -4,7 +4,7 @@ import UserController from "../controllers/user.controller.js";
 
 const router = express.Router();
 
-router.route("/login", UserController.login);
+router.post("/login", UserController.login);
 
 router.route("/")
     .post(UserController.create)
@@ -12,7 +12,7 @@ router.route("/")
     .delete(auth, UserController.deleteAll);
 
 router.route("/:id")
-    .put(auth, UserController.update)
+    .post(auth, UserController.update)
     .get(auth, UserController.findOne)
     .delete(auth, UserController.deleteOne);
 
