@@ -12,6 +12,7 @@ class StaffService {
             phone: payload.phone,
             email: payload.email,
         });
+        
         staff.password = await bcrypt.hash(staff.password, 12);
         return await staff.save();
     }

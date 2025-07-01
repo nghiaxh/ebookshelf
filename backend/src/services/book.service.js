@@ -4,7 +4,7 @@ import path from "path";
 
 class BookService {
     static imageStorage = multer.diskStorage({
-        destination: "./uploads/books",
+        destination: "./assets/books",
         filename: (req, file, callback) => {
             callback(null, `${Date.now()}${path.extname(file.originalname)}`);
         }
