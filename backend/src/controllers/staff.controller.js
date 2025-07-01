@@ -8,8 +8,8 @@ const staffService = new StaffService();
 dotenv.config();
 
 export async function create(req, res, next) {
-    if (!req.body?.username || !req.body?.name || !req.body?.password) {
-        return next(new ApiError(400, "Username, name and password cannot be empty"));
+    if (!req.body?.username || !req.body?.password) {
+        return next(new ApiError(400, "Username or password cannot be empty"));
     }
     try {
         const existingStaff = await staffService.findByUsername(req.body.username);
@@ -17,8 +17,9 @@ export async function create(req, res, next) {
             return next(new ApiError(400, "Username already exists"));
         }
 
-        const document = await staffService.create(req.body);
-        return res.status(201).json({ message: "Staff record created successfully" }, document);
+        await staffService.create(req.body);
+
+        return res.status(201).json({ message: "Staff record created successfully" });
     } catch (error) {
         return next(new ApiError(500, "Error creating the staff record"));
     }

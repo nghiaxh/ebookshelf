@@ -8,8 +8,8 @@ const userService = new UserService();
 dotenv.config();
 
 export async function create(req, res, next) {
-    if (!req.body?.username || !req.body?.name || !req.body?.password) {
-        return next(new ApiError(400, "Username, name and password cannot be empty"));
+    if (!req.body?.username || !req.body?.password) {
+        return next(new ApiError(400, "Username or password cannot be empty"));
     }
     try {
         const existingUser = await userService.findByUsername(req.body.username);
@@ -17,13 +17,11 @@ export async function create(req, res, next) {
             return next(new ApiError(400, "Username already exists"));
         }
 
-        const hashedPassword = await bcrypt.hash(req.body.password, 12);
-        const userData = { ...req.body, password: hashedPassword };
+        await userService.create(req.body);
 
-        const document = await userService.create(userData);
         return res.status(201).json({ message: "User record created successfully" });
     } catch (error) {
-        return next(new ApiError(500, "Error creating user record"));
+        return next(new ApiError(500, "Error while creating user record"));
     }
 }
 
@@ -100,7 +98,7 @@ export async function deleteAll(req, res, next) {
 
 export async function login(req, res, next) {
     if (!req.body?.username || !req.body?.password) {
-        return next(new ApiError(400, "Username and password cannot be empty"));
+        return next(new ApiError(400, "Username or password cannot be empty"));
     }
 
     try {
@@ -109,9 +107,8 @@ export async function login(req, res, next) {
             return next(new ApiError(404, "User not found"));
         }
 
-        const passwordIsValid = await bcrypt.compare(req.body.password, user.password);
-
-        if (!passwordIsValid) {
+        const passwordIsMatch = await bcrypt.compare(req.body.password, user.password);
+        if (!passwordIsMatch) {
             return next(new ApiError(401, "Invalid password"));
         }
 
@@ -126,7 +123,7 @@ export async function login(req, res, next) {
             user: {
                 id: user._id,
                 name: user.name,
-                role: user.role
+                role: user.role,
             }
         });
     } catch (error) {
