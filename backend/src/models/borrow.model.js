@@ -2,23 +2,22 @@ import mongoose from "mongoose";
 
 const borrowSchema = mongoose.Schema({
     user_id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "User",
         required: true,
     },
     staff_id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "Staff",
         required: true,
     },
     book_id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "Book",
         required: true,
     },
     borrow_date: { type: Date, default: Date.now },
     return_date: { type: Date },
-
     // quantity: {
     //   type: Number,
     //   required: true,

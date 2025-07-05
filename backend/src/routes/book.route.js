@@ -6,7 +6,7 @@ import BookService from "../services/book.service.js";
 const router = express.Router();
 
 router.route("/")
-    .post(auth, BookService.uploadImage.single("image"), BookController.create)
+    .post(BookService.uploadImage.single("image"), BookController.create)
     .get(BookController.findAll)
     .delete(auth, BookController.deleteAll);
 

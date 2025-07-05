@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const staffSchema = mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: false,
     },
     username: {
         type: String,
@@ -15,15 +15,15 @@ const staffSchema = mongoose.Schema({
     },
     address: {
         type: String,
-        required: true,
+        required: false,
     },
     phone: {
         type: String,
-        required: true,
+        required: false,
     },
     email: {
         type: String,
-        required: true,
+        required: false,
     },
     role: {
         type: String,
