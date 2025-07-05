@@ -8,41 +8,94 @@
           </svg>
         </div>
         <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-          <li>
-            <RouterLink to="/" class="text-base hover:font-medium">Giới Thiệu</RouterLink>
-            <RouterLink to="/books" class="text-base hover:font-medium">Danh Mục Sách</RouterLink>
-            <RouterLink to="/" class="text-base hover:font-medium">Liên hệ</RouterLink>
-          </li>
+
+          <template v-if=" role === 'staff' ">
+            <li>
+              <RouterLink to="/publishers" class="text-base hover:font-medium">Nhà xuất bản</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/users" class="text-base hover:font-medium">Người dùng</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/staffs" class="text-base hover:font-medium">Nhân viên</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/pendingborrow" class="text-base hover:font-medium">Đơn mượn sách</RouterLink>
+            </li>
+          </template>
+
+          <template v-if=" role === 'user' ">
+            <li>
+              <RouterLink to="/books" class="text-base hover:font-medium">Danh Mục Sách</RouterLink>
+            </li>
+          </template>
+
         </ul>
       </div>
       <RouterLink to="/" class="mx-4 text-xl font-bold hover:underline">Ebookshelf</RouterLink>
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1 text-base">
-        <li>
-          <RouterLink to="/" class="text-base hover:font-medium">Giới Thiệu</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/books" class="text-base hover:font-medium">Danh Mục Sách</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/" class="text-base hover:font-medium">Danh Mục Yêu Thích</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/" class="text-base hover:font-medium">Liên Hệ</RouterLink>
-        </li>
+
+        <template v-if=" role === 'staff' ">
+          <li>
+            <RouterLink to="/publisher" class="text-base hover:font-medium">Nhà xuất bản</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/user" class="text-base hover:font-medium">Người dùng</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/staff" class="text-base hover:font-medium">Nhân viên</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/books" class="text-base hover:font-medium">Sách</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/pendingborrow" class="text-base hover:font-medium">Đơn mượn sách</RouterLink>
+          </li>
+        </template>
+
+        <template v-if=" role === 'user' ">
+          <li>
+            <RouterLink to="/books" class="text-base hover:font-medium">Danh sách Sách</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/checkingborrow" class="text-base hover:font-medium">Kiểm tra mượn sách</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/userprofile" class="text-base hover:font-medium">Thông tin cá nhân</RouterLink>
+          </li>
+        </template>
+
       </ul>
     </div>
     <div class="navbar-end">
-      <RouterLink to="/login" class="btn btn-neutral px-4 text-base mr-4 hover:scale-[1.01]">Đăng Nhập</RouterLink>
+      <template v-if=" !name ">
+        <RouterLink to="/user/login" class="btn btn-neutral px-4 text-base mr-4 hover:scale-[1.01]">Đăng Nhập
+        </RouterLink>
+      </template>
+      <template v-else-if=" role === 'user' ">
+        <RouterLink to="/userprofile" class="mx-4 text-base font-bold hover:underline">Xin chào, {{ name }}</RouterLink>
+      </template>
+      <template v-else-if=" role === 'staff' ">
+        <RouterLink to="/staffprofile" class="mx-4 text-base font-bold hover:underline">Xin chào, {{ name }}
+        </RouterLink>
+      </template>
     </div>
   </div>
 
   <!-- banner -->
   <div class="border-b border-gray-200 bg-base-300 px-4 py-2 text-gray-900">
     <p class="text-center font-medium">
-      Deadline còn khoảng 2 tháng 😢
+      Deadline còn khoảng 1 tháng 😢
     </p>
   </div>
 
 </template>
+
+<script setup>
+import { useUserInfo } from "../composables/useUserInfo";
+
+const { name, role } = useUserInfo();
+
+</script>

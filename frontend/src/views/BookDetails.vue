@@ -1,46 +1,18 @@
 <script setup>
+import Header from '../components/Header.vue';
+import Footer from '../components/Footer.vue';
 import Modal from '../components/Modal.vue';
 </script>
 
 <template>
-  <nav aria-label="Breadcrumb">
-    <ol class="flex items-center gap-2 text-md text-black m-8 justify-center">
-      <li>
-        <RouterLink to="/" class="hover:underline"> Trang chủ </RouterLink>
-      </li>
-
-      <li class="rtl:rotate-180">
-        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd"
-            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-            clip-rule="evenodd" />
-        </svg>
-      </li>
-
-      <li>
-        <RouterLink to="/books" class="hover:underline"> Danh mục sách </RouterLink>
-      </li>
-
-      <li class="rtl:rotate-180">
-        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd"
-            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-            clip-rule="evenodd" />
-        </svg>
-      </li>
-
-      <li>
-        <RouterLink to="/bookdetails" class="hover:underline"> Chi tiết sách </RouterLink>
-      </li>
-    </ol>
-  </nav>
+<Header></Header>
 
   <section>
-    <div class="lg:grid lg:h-screen lg:place-content-center -mt-16">
+    <div class="lg:grid lg:h-screen lg:w-full lg:place-items-center">
       <div
         class="mx-auto w-screen max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 md:grid md:grid-cols-2 md:items-center md:gap-4 lg:px-8 lg:py-32">
 
-        <div class="mt-8 mb-8 mr-8 shadow-xl">
+        <div class="mt-8 mb-8 mr-8 shadow">
           <img src="/books/471698887_10162694206219085_8219443336668216655_n.jpg"
             class="rounded-box shadow hover:shadow-2xl hover:scale-[1.01] transition h-full w-full" alt="" />
         </div>
@@ -97,4 +69,10 @@ import Modal from '../components/Modal.vue';
       </div>
     </div>
   </section>
+
+<Footer></Footer>
 </template>
+
+<script setup>
+
+</script>

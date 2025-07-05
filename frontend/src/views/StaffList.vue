@@ -1,4 +1,10 @@
+<script setup>
+import Header from '../components/Header.vue';
+import Footer from '../components/Footer.vue';
+</script>
+
 <template>
+  <Header></Header>
   <div class="flex flex-col justify-center items-center h-screen gap-8">
     <div class="stats stats-vertical lg:stats-horizontal shadow">
       <div class="stat">
@@ -55,4 +61,5 @@
       </table>
     </div>
   </div>
+  <Footer></Footer>
 </template>
