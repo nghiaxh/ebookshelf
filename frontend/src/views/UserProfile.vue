@@ -3,6 +3,9 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 import { useAuth } from '../composables/useAuth';
 import { useUserInfo } from '../composables/useUserInfo';
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const { logOut } = useAuth();
 const {
@@ -16,6 +19,13 @@ const {
   phone: user_phone,
   email: user_email,
 } = useUserInfo();
+
+const editUserProfile = (user_id) => {
+  router.push({
+    name: 'userprofile.edit',
+    params: { id: user_id }
+  });
+};
 
 </script>
 
@@ -68,10 +78,12 @@ const {
               <dd class="text-gray-700 sm:col-span-2">{{ user_email }}</dd>
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 lg:grid-cols-3 sm:gap-4">
-              <RouterLink to="/userprofile/edit" class="btn btn-neutral hover:scale-[1.01]">Chỉnh sửa thông tin
-              </RouterLink>
+              <button @click=" editUserProfile( user_id )" class="btn btn-neutral hover:scale-[1.01]">Chỉnh sửa thông
+                tin
+              </button>
               <!-- TODO show modal view popup later-->
               <button @click=" logOut " class="btn btn-neutral hover:scale-[1.01]">Đăng xuất</button>
+              <!-- TODO handle delete account -->
               <button @click=" deleteAccount " class="btn btn-neutral hover:scale-[1.01]">Xóa tài khoản</button>
             </div>
           </dl>

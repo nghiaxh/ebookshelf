@@ -1,27 +1,30 @@
 <template>
-    <div class="grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8 place-items-center h-screen">
-        <form @submit.prevent class="mb-24">
-            <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
-                <!-- User login -->
-                <legend class="fieldset-legend text-xl ">Đăng Nhập Nhân Viên</legend>
+    <div class="bg-cover bg-[url(/images/t3_luan_van.jpg)]">
+        <div
+            class="backdrop-brightness-50 backdrop-blur-xs grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8 place-items-center h-screen">
+            <form @submit.prevent class="mb-24">
+                <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
+                    <!-- User login -->
+                    <h1 class="font-bold text-2xl text-center mb-4">Đăng Nhập</h1>
 
-                <label class="label" for="username">Tên đăng nhập</label>
-                <input v-model=" username " id="username" type="text" minlength="3" maxlength="18" class="input"
-                    required placeholder="Nhập tên đăng nhập" />
+                    <label class="label" for="username">Tên đăng nhập</label>
+                    <input v-model=" username " id="username" type="text" minlength="3" maxlength="18" class="input"
+                        required placeholder="Nhập tên đăng nhập" />
 
-                <label class="label" for="password">Mật khẩu</label>
-                <input v-model=" password " id="password" type="password" minlength="3" maxlength="18" class="input"
-                    required placeholder="Nhập mật khẩu" />
+                    <label class="label" for="password">Mật khẩu</label>
+                    <input v-model=" password " id="password" type="password" minlength="3" maxlength="18" class="input"
+                        required placeholder="Nhập mật khẩu" />
 
-                <button @click=" handleStaffLogin " type="submit"
-                    class="btn btn-neutral mt-4 text-base hover:scale-[1.01]">Đăng
-                    Nhập</button>
+                    <button @click=" handleStaffLogin " type="submit"
+                        class="btn btn-neutral mt-4 text-base hover:scale-[1.01]">Đăng
+                        Nhập</button>
 
-                <span class="mt-8">Bạn là người dùng? <strong class="hover:underline">
-                        <RouterLink to="/user/login">Đăng nhập</RouterLink>
-                    </strong></span>
-            </fieldset>
-        </form>
+                    <span class="mt-8">Bạn là người dùng? <strong class="hover:underline">
+                            <RouterLink to="/user/login">Đăng nhập</RouterLink>
+                        </strong></span>
+                </fieldset>
+            </form>
+        </div>
     </div>
 </template>
 
