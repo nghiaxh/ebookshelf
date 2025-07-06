@@ -5,7 +5,7 @@ class BookService {
     this.api = FileApiClient(baseUrl);
   }
 
-  async getAllBook() {
+  async getAllBooks() {
     return (await this.api.get("/")).data;
   }
 
