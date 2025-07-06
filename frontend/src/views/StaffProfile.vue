@@ -14,6 +14,7 @@ const {
     gender: staff_gender,
     address: staff_address,
     phone: staff_phone,
+    email: staff_email,
 } = useStaffInfo();
 
 </script>
@@ -64,6 +65,10 @@ const {
                         <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
                             <dt class="font-medium text-gray-900">Số điện thoại</dt>
                             <dd class="text-gray-700 sm:col-span-2">{{ staff_phone }}</dd>
+                        </div>
+                        <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
+                            <dt class="font-medium text-gray-900">Email</dt>
+                            <dd class="text-gray-700 sm:col-span-2">{{ staff_email }}</dd>
                         </div>
                         <div class="grid grid-cols-1 gap-1 p-3 lg:grid-cols-3 sm:gap-4">
                             <RouterLink to="/userprofile/edit" class="btn btn-neutral hover:scale-[1.01]">Chỉnh sửa
