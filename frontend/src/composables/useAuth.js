@@ -1,13 +1,12 @@
-import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserInfo } from './useUserInfo';
 
 export function useAuth() {
     const router = useRouter();
-    const { name, role } = useUserInfo();
+    const user = useUserInfo();
 
     const checkAuthentication = () => {
-        if (!name.value || !role.value) {
+        if (!user.name || !user.role) {
             localStorage.clear();
             router.push('/user/login');
         }
