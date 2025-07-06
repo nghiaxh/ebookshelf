@@ -7,29 +7,33 @@ import InputSearch from "../components/InputSearch.vue";
 
 <template>
 
-  <div class="h-screen">
+  <div class="flex flex-col min-h-screen">
+
     <Header></Header>
-    <div class="grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8 mx-8 my-8">
-      <div class="grid place-items-center grid-rows-1 grid-cols-1">
-        <InputSearch></InputSearch>
+    
+    <div class="flex-grow mx-16 my-8">
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8">
+
+        <!-- filter books -->
+        <div class="grid place-items-center">
+          <InputSearch></InputSearch>
+        </div>
+        <!-- list books -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>
+          <BookCard></BookCard>  
+        </div>
+
       </div>
-
-      <!-- list books -->
-      <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-        <BookCard></BookCard>
-        <BookCard></BookCard>
-        <BookCard></BookCard>
-        <BookCard></BookCard>
-
-        <BookCard></BookCard>
-        <BookCard></BookCard>
-        <BookCard></BookCard>
-        <BookCard></BookCard>
-
-      </div>
-
     </div>
-    <Footer></Footer>
-  </div>
 
+    <Footer></Footer>
+    
+  </div>
 </template>

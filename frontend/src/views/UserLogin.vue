@@ -1,3 +1,42 @@
+        <script setup>
+        import { ref } from 'vue';
+        import { useRouter } from 'vue-router';
+        import UserService from '../services/user.service';
+
+        const userService = new UserService();
+
+        const router = useRouter();
+
+        const username = ref("");
+        const password = ref("");
+
+        const handleUserLogin = async () => {
+          try {
+            const response = await userService.login(username.value, password.value);
+
+            console.log(response.data);
+
+            if (response?.data?.token) {
+              localStorage.setItem("authenticateToken", response.data.token);
+              localStorage.setItem("name", response.data.user.name);
+              localStorage.setItem("birthday", response.data.user.birthday);
+              localStorage.setItem("email", response.data.user.email);
+              localStorage.setItem("phone", response.data.user.phone);
+              localStorage.setItem("gender", response.data.user.gender);
+              localStorage.setItem("address", response.data.user.address);
+              localStorage.setItem("username", response.data.user.username);
+              localStorage.setItem("user_id", response.data.user.user_id);
+              localStorage.setItem("role", "user");
+              router.push("/books");
+            }
+
+          } catch (error) {
+            alert("Đăng nhập thất bại");
+            console.error(error.response?.data || error);
+          }
+        };
+</script>
+
 <template>
   <div class="grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8 place-items-center h-screen">
     <form @submit.prevent class="mb-24">
@@ -17,7 +56,7 @@
           Nhập</button>
 
         <span class="mt-8">Bạn chưa có tài khoản? <strong class="hover:underline">
-            <RouterLink to="/register">Đăng ký</RouterLink>
+            <RouterLink to="/user/register">Đăng ký</RouterLink>
           </strong></span>
         <span>Bạn là nhân viên? <strong class="hover:underline">
             <RouterLink to="/staff/login">Đăng nhập</RouterLink>
@@ -27,36 +66,3 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import UserService from '../services/user.service';
-
-const userService = new UserService();
-
-const router = useRouter();
-
-const username = ref("");
-const password = ref("");
-
-const handleUserLogin = async () => {
-  try {
-    const response = await userService.login(username.value, password.value);
-
-    console.log(response?.data);
-    console.log(response.data);
-
-    if (response?.data?.token) {
-      localStorage.setItem("authenticateToken", response.data.token);
-      localStorage.setItem("name", response.data.user.name);
-      localStorage.setItem("_id", response.data.user.id);
-      localStorage.setItem("role", "user");
-      router.push("/books");
-    }
-
-  } catch (error) {
-    alert("Đăng nhập thất bại");
-    console.error(error.response?.data || error);
-  }
-};
-</script>
