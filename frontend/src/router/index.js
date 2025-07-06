@@ -4,13 +4,12 @@ import Home from "../views/Home.vue";
 import UserLogin from "../views/UserLogin.vue";
 import UserRegister from "../views/UserRegister.vue";
 import BookList from "../views/BookList.vue";
-import BookDetails from "../views/BookDetails.vue";
 
 import StaffList from "../views/StaffList.vue";
 import StaffEdit from "../views/StaffProfileEdit.vue";
 import StaffAdd from "../views/StaffAdd.vue";
 import StaffLogin from "../views/StaffLogin.vue";
-import StaffProfile from "../views/StaffProfile.vue"
+import StaffProfile from "../views/StaffProfile.vue";
 
 import BookAdd from "../views/BookAdd.vue";
 import BookEdit from "../views/BookEdit.vue";
@@ -31,6 +30,7 @@ import PublisherEdit from "../views/PublisherEdit.vue";
 import NotFound from "../views/NotFound.vue";
 
 const routes = [
+  // * working routes
   {
     path: "/",
     name: "home",
@@ -52,14 +52,31 @@ const routes = [
     component: UserRegister
   },
   {
+    path: "/userprofile",
+    name: "userprofile",
+    component: UserProfile,
+  },
+  {
+    path: "/userprofile/edit/:id",
+    name: "userprofile.edit",
+    component: UserProfileEdit,
+    props: true
+  },
+  {
     path: "/books",
     name: "booklist",
     component: BookList
   },
+  // TODO testing routes
   {
-    path: "/book/:id",
-    name: "book.details",
-    component: BookDetails,
+    path: "/book/add",
+    name: "book.add",
+    component: BookAdd
+  },
+  {
+    path: "/book/edit/:id",
+    name: "book.edit",
+    component: BookEdit,
     props: true
   },
   {
@@ -76,16 +93,6 @@ const routes = [
     path: "/borrow/edit",
     name: "borrow.edit",
     component: BorrowEdit
-  },
-  {
-    path: "/userprofile",
-    name: "userprofile",
-    component: UserProfile,
-  },
-  {
-    path: "/userprofile/edit",
-    name: "userprofile.edit",
-    component: UserProfileEdit,
   },
   {
     path: "/staffs",
@@ -106,17 +113,6 @@ const routes = [
     path: "/staff/edit/:id",
     name: "staff.edit",
     component: StaffEdit,
-  },
-  {
-    path: "/book/add",
-    name: "book.add",
-    component: BookAdd
-  },
-  {
-    path: "/book/edit/:id",
-    name: "book.edit",
-    component: BookEdit,
-    props: true
   },
   {
     path: "/publisher",
