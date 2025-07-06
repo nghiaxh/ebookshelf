@@ -9,8 +9,6 @@
           <p class="mb-8 text-2xl">
             Kết nối dễ dàng với kho tàng kiến thức.
           </p>
-          <RouterLink to="/books" class="btn btn-lg text-xl hover:underline" @click=" checkAuthentication ">Khám phá
-          </RouterLink>
         </div>
       </div>
     </div>
@@ -21,9 +19,4 @@
 <script setup>
 import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
-
-import { useAuth } from '../composables/useAuth.js';
-
-const { checkAuthentication } = useAuth();
-
 </script>

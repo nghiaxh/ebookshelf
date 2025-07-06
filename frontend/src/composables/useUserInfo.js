@@ -21,7 +21,7 @@ export function useUserInfo() {
     const deleteAccount = async () => {
         if (confirm('Bạn có chắc chắn muốn xóa tài khoản này?')) {
             try {
-                await userService.deleteUser(user.user_id);
+                await userService.deleteUser(user_id);
                 alert('Tài khoản đã được xóa thành công!');
                 localStorage.clear();
                 router.push('/');

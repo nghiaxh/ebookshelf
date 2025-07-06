@@ -27,7 +27,7 @@
               localStorage.setItem("username", response.data.user.username);
               localStorage.setItem("user_id", response.data.user.user_id);
               localStorage.setItem("role", "user");
-              router.push("/books");
+              router.push("/");
             }
 
           } catch (error) {

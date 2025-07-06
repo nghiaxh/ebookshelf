@@ -53,9 +53,6 @@ const {
               <template v-if=" user_gender === 'false' ">
                 <dd class=" text-gray-700 sm:col-span-2">Nữ</dd>
               </template>
-              <template v-else>
-                <dd class=" text-gray-700 sm:col-span-2">Không rõ</dd>
-              </template>
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Địa chỉ</dt>
