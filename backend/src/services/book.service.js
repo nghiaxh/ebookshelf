@@ -46,18 +46,18 @@ class BookService {
     }
 
     async findById(book_id) {
-        return await Book.findById(book_id);
+        return await Book.findOne(book_id);
     }
 
     async update(book_id, payload) {
-        const result = await Book.findByIdAndUpdate(
+        const result = await Book.findOneAndUpdate(
             book_id, { $set: payload }, { new: true, runValidators: true }
         );
         return result;
     }
 
     async delete(book_id) {
-        const result = await Book.findByIdAndDelete(book_id);
+        const result = await Book.findOneAndDelete(book_id);
         return result;
     }
 
