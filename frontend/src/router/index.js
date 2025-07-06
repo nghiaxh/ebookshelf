@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Home from "../views/Home.vue";
 import UserLogin from "../views/UserLogin.vue";
-import Register from "../views/Register.vue";
+import UserRegister from "../views/UserRegister.vue";
 import BookList from "../views/BookList.vue";
 import BookDetails from "../views/BookDetails.vue";
 
@@ -38,7 +38,7 @@ const routes = [
   },
   {
     path: "/user/login",
-    name: "login",
+    name: "user.login",
     component: UserLogin
   },
   {
@@ -47,9 +47,9 @@ const routes = [
     component: StaffLogin
   },
   {
-    path: "/register",
-    name: "register",
-    component: Register
+    path: "/user/register",
+    name: "user.register",
+    component: UserRegister
   },
   {
     path: "/books",
