@@ -29,7 +29,10 @@ const handleUserRegister = async () => {
       phone: phone.value,
     };
 
+    console.log(data);
+
     const response = await userService.register(data);
+    
     console.log(response.data);
 
     // TODO show toast popup 

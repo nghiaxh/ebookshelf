@@ -2,8 +2,8 @@
 import { useUserInfo } from "../composables/useUserInfo";
 import { useStaffInfo } from "../composables/useStaffInfo";
 
-const { user } = useUserInfo();
-const { staff } = useStaffInfo();
+const { role: user_role, name: user_name } = useUserInfo();
+const { role: staff_role, name: staff_name } = useStaffInfo();
 
 </script>
 
@@ -18,7 +18,7 @@ const { staff } = useStaffInfo();
         </div>
         <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
 
-          <template v-if=" staff.role === 'staff' ">
+          <template v-if=" staff_role === 'staff' ">
             <li>
               <RouterLink to="/publishers" class="text-base hover:font-medium">Nhà xuất bản</RouterLink>
             </li>
@@ -33,7 +33,7 @@ const { staff } = useStaffInfo();
             </li>
           </template>
 
-          <template v-if=" user.role === 'user' ">
+          <template v-if=" user_role === 'user' ">
             <li>
               <RouterLink to="/books" class="text-base hover:font-medium">Danh Mục Sách</RouterLink>
             </li>
@@ -52,7 +52,7 @@ const { staff } = useStaffInfo();
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1 text-base">
 
-        <template v-if=" staff.role === 'staff' ">
+        <template v-if=" staff_role === 'staff' ">
           <li>
             <RouterLink to="/publisher" class="text-base hover:font-medium">Nhà xuất bản</RouterLink>
           </li>
@@ -70,7 +70,7 @@ const { staff } = useStaffInfo();
           </li>
         </template>
 
-        <template v-if=" user.role === 'user' ">
+        <template v-if=" user_role === 'user' ">
           <li>
             <RouterLink to="/books" class="text-base hover:font-medium">Danh sách Sách</RouterLink>
           </li>
@@ -85,16 +85,16 @@ const { staff } = useStaffInfo();
       </ul>
     </div>
     <div class="navbar-end">
-      <template v-if=" !user.name ">
+      <template v-if=" !user_name ">
         <RouterLink to="/user/login" class="btn btn-neutral px-4 text-base mr-4 hover:scale-[1.01]">Đăng Nhập
         </RouterLink>
       </template>
-      <template v-else-if=" user.role === 'user' ">
-        <RouterLink to="/userprofile" class="mr-4 text-base font-bold hover:underline">Xin chào, {{ user.name }}
+      <template v-else-if=" user_role === 'user' ">
+        <RouterLink to="/userprofile" class="mr-4 text-base font-bold hover:underline">Xin chào, {{ user_name }}
         </RouterLink>
       </template>
-      <template v-else-if=" staff.role === 'staff' ">
-        <RouterLink to="/staffprofile" class="mr-4 text-base font-bold hover:underline">Xin chào, {{ staff.name }}
+      <template v-else-if=" staff_role === 'staff' ">
+        <RouterLink to="/staffprofile" class="mr-4 text-base font-bold hover:underline">Xin chào, {{ staff_name }}
         </RouterLink>
       </template>
     </div>

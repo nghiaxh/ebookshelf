@@ -5,7 +5,16 @@ import { useAuth } from '../composables/useAuth';
 import { useStaffInfo } from '../composables/useStaffInfo';
 
 const { logOut } = useAuth();
-const { staff, deleteAccount } = useStaffInfo();
+const {
+    deleteAccount,
+    staff_id: staff_id,
+    username: staff_username,
+    name: staff_name,
+    birthday: staff_birthday,
+    gender: staff_gender,
+    address: staff_address,
+    phone: staff_phone,
+} = useStaffInfo();
 
 </script>
 
@@ -22,36 +31,39 @@ const { staff, deleteAccount } = useStaffInfo();
                         </div>
                         <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
                             <dt class="font-medium text-gray-900">ID Nhân viên</dt>
-                            <dd class="text-gray-700 sm:col-span-2">{{ staff.staff_id }}</dd>
+                            <dd class="text-gray-700 sm:col-span-2">{{ staff_id }}</dd>
                         </div>
                         <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
                             <dt class="font-medium text-gray-900">Họ và tên</dt>
-                            <dd class="text-gray-700 sm:col-span-2">{{ staff.name }}</dd>
+                            <dd class="text-gray-700 sm:col-span-2">{{ staff_name }}</dd>
                         </div>
                         <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
                             <dt class="font-medium text-gray-900">Tên đăng nhập</dt>
-                            <dd class="text-gray-700 sm:col-span-2">{{ staff.username }}</dd>
+                            <dd class="text-gray-700 sm:col-span-2">{{ staff_username }}</dd>
                         </div>
                         <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
                             <dt class="font-medium text-gray-900">Ngày sinh</dt>
-                            <dd class="text-gray-700 sm:col-span-2">{{ staff.birthday }}</dd>
+                            <dd class="text-gray-700 sm:col-span-2">{{ staff_birthday }}</dd>
                         </div>
                         <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
                             <dt class="font-medium text-gray-900">Giới tính</dt>
-                            <template v-if=" staff.gender === true ">
+                            <template v-if=" staff_gender === true ">
                                 <dd class="text-gray-700 sm:col-span-2">Nam</dd>
                             </template>
-                            <template v-else-if=" staff.gender === false ">
+                            <template v-else-if=" staff_gender === false ">
                                 <dd class=" text-gray-700 sm:col-span-2">Nữ</dd>
+                            </template>
+                            <template v-else>
+                                <dd class=" text-gray-700 sm:col-span-2">Không rõ</dd>
                             </template>
                         </div>
                         <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
                             <dt class="font-medium text-gray-900">Địa chỉ</dt>
-                            <dd class="text-gray-700 sm:col-span-2">{{ staff.address }}</dd>
+                            <dd class="text-gray-700 sm:col-span-2">{{ staff_address }}</dd>
                         </div>
                         <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
                             <dt class="font-medium text-gray-900">Số điện thoại</dt>
-                            <dd class="text-gray-700 sm:col-span-2">{{ staff.phone }}</dd>
+                            <dd class="text-gray-700 sm:col-span-2">{{ staff_phone }}</dd>
                         </div>
                         <div class="grid grid-cols-1 gap-1 p-3 lg:grid-cols-3 sm:gap-4">
                             <RouterLink to="/userprofile/edit" class="btn btn-neutral hover:scale-[1.01]">Chỉnh sửa

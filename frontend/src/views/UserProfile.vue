@@ -5,7 +5,16 @@ import { useAuth } from '../composables/useAuth';
 import { useUserInfo } from '../composables/useUserInfo';
 
 const { logOut } = useAuth();
-const { user, deleteAccount } = useUserInfo();
+const {
+  deleteAccount,
+  user_id: user_id,
+  username: user_username,
+  name: user_name,
+  birthday: user_birthday,
+  gender: user_gender,
+  address: user_address,
+  phone: user_phone,
+} = useUserInfo();
 
 </script>
 
@@ -22,36 +31,39 @@ const { user, deleteAccount } = useUserInfo();
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">ID Người dùng</dt>
-              <dd class="text-gray-700 sm:col-span-2">{{ user.user_id }}</dd>
+              <dd class="text-gray-700 sm:col-span-2">{{ user_id }}</dd>
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Họ và tên</dt>
-              <dd class="text-gray-700 sm:col-span-2">{{ user.name }}</dd>
+              <dd class="text-gray-700 sm:col-span-2">{{ user_name }}</dd>
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Tên đăng nhập</dt>
-              <dd class="text-gray-700 sm:col-span-2">{{ user.username }}</dd>
+              <dd class="text-gray-700 sm:col-span-2">{{ user_username }}</dd>
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Ngày sinh</dt>
-              <dd class="text-gray-700 sm:col-span-2">{{ user.birthday }}</dd>
+              <dd class="text-gray-700 sm:col-span-2">{{ new Date( user_birthday ).toLocaleDateString( 'vi-VN' ) }}</dd>
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Giới tính</dt>
-              <template v-if=" user.gender === 'true' ">
+              <template v-if=" user_gender === 'true' ">
                 <dd class="text-gray-700 sm:col-span-2">Nam</dd>
               </template>
-              <template v-if=" user.gender === 'false' ">
+              <template v-if=" user_gender === 'false' ">
                 <dd class=" text-gray-700 sm:col-span-2">Nữ</dd>
+              </template>
+              <template v-else>
+                <dd class=" text-gray-700 sm:col-span-2">Không rõ</dd>
               </template>
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Địa chỉ</dt>
-              <dd class="text-gray-700 sm:col-span-2">{{ user.address }}</dd>
+              <dd class="text-gray-700 sm:col-span-2">{{ user_address }}</dd>
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Số điện thoại</dt>
-              <dd class="text-gray-700 sm:col-span-2">{{ user.phone }}</dd>
+              <dd class="text-gray-700 sm:col-span-2">{{ user_phone }}</dd>
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 lg:grid-cols-3 sm:gap-4">
               <RouterLink to="/userprofile/edit" class="btn btn-neutral hover:scale-[1.01]">Chỉnh sửa thông tin
