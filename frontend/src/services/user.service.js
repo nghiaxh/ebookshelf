@@ -5,10 +5,6 @@ class UserService {
     this.api = ApiClient(baseUrl);
   }
 
-  async create(data) {
-    return (await this.api.post("/", data)).data;
-  }
-
   async getAllUser() {
     return (await this.api.get("/")).data;
   }
@@ -28,6 +24,15 @@ class UserService {
   // async deleteAllUser() {
   //   return (await this.api.delete("/")).data;
   // }
+
+  async register(data) {
+    try {
+      const response = await this.api.post("/register", data);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   async login(username, password) {
     try {
