@@ -28,9 +28,9 @@ class BookService {
             published_year: payload.published_year,
             publisher_id: payload.publisher_id,
             author: payload.author,
+            genre: payload.genre,
             description: payload.description,
             image: image_url,
-
         });
         return await book.save();
     }
@@ -45,19 +45,19 @@ class BookService {
         });
     }
 
-    async findById(id) {
-        return await Book.findById(id);
+    async findById(book_id) {
+        return await Book.findById(book_id);
     }
 
-    async update(id, payload) {
+    async update(book_id, payload) {
         const result = await Book.findByIdAndUpdate(
-            id, { $set: payload }, { new: true, runValidators: true }
+            book_id, { $set: payload }, { new: true, runValidators: true }
         );
         return result;
     }
 
-    async delete(id) {
-        const result = await Book.findByIdAndDelete(id);
+    async delete(book_id) {
+        const result = await Book.findByIdAndDelete(book_id);
         return result;
     }
 

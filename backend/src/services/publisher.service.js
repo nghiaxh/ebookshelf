@@ -1,8 +1,11 @@
 import Publisher from "../models/publisher.model.js";
+import { customAlphabet } from "nanoid";
 
 class PublisherService {
     async create(payload) {
+        const customId = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 6);
         const publisher = new Publisher({
+            publisher_id: `PID-${customId()}`,
             name: payload.name,
             address: payload.address
         });
@@ -13,19 +16,19 @@ class PublisherService {
         return await Publisher.find(filter);
     }
 
-    async findById(id) {
-        return await Publisher.findById(id);
+    async findById(publisher_id) {
+        return await Publisher.findById(publisher_id);
     }
 
-    async update(id, payload) {
+    async update(publisher_id, payload) {
         const result = await Publisher.findByIdAndUpdate(
-            id, { $set: payload }, { new: true, runValidators: true }
+            publisher_id, { $set: payload }, { new: true, runValidators: true }
         );
         return result;
     }
 
-    async deleteOne(id) {
-        const result = await Publisher.findByIdAndDelete(id);
+    async deleteOne(publisher_id) {
+        const result = await Publisher.findByIdAndDelete(publisher_id);
         return result;
     }
 

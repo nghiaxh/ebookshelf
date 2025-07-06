@@ -1,18 +1,25 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
+import { customAlphabet } from "nanoid";
 
 class UserService {
     async create(payload) {
+        const customId = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 6);
+        const customBirthday = (payload.birthday).toISOString().splice(0, 10);
+
         const user = new User({
-            name: payload.name,
+            user_id: `UID-${customId()}`,
             username: payload.username,
+            name: payload.name,
             password: payload.password,
             role: payload.role || "user",
+            birthday: customBirthday,
+            gender: payload.gender,
             address: payload.address,
             phone: payload.phone,
             email: payload.email,
         });
-        
+
         user.password = await bcrypt.hash(user.password, 12);
         return await user.save();
     }
@@ -21,8 +28,8 @@ class UserService {
         return await User.find(filter);
     }
 
-    async findById(id) {
-        return await User.findById(id);
+    async findById(user_id) {
+        return await User.findById(user_id);
     }
 
     async findByName(name) {
@@ -35,7 +42,7 @@ class UserService {
         return await User.findOne({ username });
     }
 
-    async update(id, payload) {
+    async update(user_id, payload) {
         if (payload.password) {
             payload.password = await bcrypt.hash(payload.password, 12);
         } else {
@@ -43,7 +50,7 @@ class UserService {
         }
 
         const result = await User.findByIdAndUpdate(
-            id, { $set: payload }, { new: true, runValidators: true }
+            user_id, { $set: payload }, { new: true, runValidators: true }
         );
 
         if (!result) {
@@ -53,8 +60,8 @@ class UserService {
         return result;
     }
 
-    async deleteOne(id) {
-        const result = await User.findByIdAndDelete(id);
+    async deleteOne(user_id) {
+        const result = await User.findOneAndDelete({ user_id: user_id });
         return result;
     }
 
