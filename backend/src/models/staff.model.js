@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const staffSchema = mongoose.Schema({
+    staff_id: {
+        type: String,
+        required: false,
+        unique: true,
+    },
     name: {
         type: String,
         required: false,

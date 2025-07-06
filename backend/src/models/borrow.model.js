@@ -4,20 +4,25 @@ const borrowSchema = mongoose.Schema({
     user_id: {
         type: String,
         ref: "User",
-        required: true,
+        required: false,
     },
     staff_id: {
         type: String,
         ref: "Staff",
-        required: true,
+        required: false,
     },
     book_id: {
         type: String,
         ref: "Book",
-        required: true,
+        required: false,
     },
-    borrow_date: { type: Date, default: Date.now },
-    return_date: { type: Date },
+    borrow_date: {
+        type: Date,
+        default: Date.now
+    },
+    return_date: {
+        type: Date
+    },
     // quantity: {
     //   type: Number,
     //   required: true,
