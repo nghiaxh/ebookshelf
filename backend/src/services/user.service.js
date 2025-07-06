@@ -5,7 +5,6 @@ import { customAlphabet } from "nanoid";
 class UserService {
     async create(payload) {
         const customId = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 6);
-        const customBirthday = (payload.birthday).toISOString().splice(0, 10);
 
         const user = new User({
             user_id: `UID-${customId()}`,
@@ -13,7 +12,7 @@ class UserService {
             name: payload.name,
             password: payload.password,
             role: payload.role || "user",
-            birthday: customBirthday,
+            birthday: payload.birthday,
             gender: payload.gender,
             address: payload.address,
             phone: payload.phone,
