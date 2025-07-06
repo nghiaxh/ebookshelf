@@ -29,11 +29,12 @@ const handleUserRegister = async () => {
       phone: phone.value,
     };
 
-    console.log(data);
-
-    const response = await userService.register(data);
     
-    console.log(response.data);
+    const response = await userService.register(data);
+
+    // ? Debug code
+    // console.log(data);
+    // console.log(response.data);
 
     // TODO show toast popup 
     alert("Đăng ký người dùng thành công");

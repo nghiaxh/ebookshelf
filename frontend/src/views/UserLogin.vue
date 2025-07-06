@@ -14,7 +14,7 @@
           try {
             const response = await userService.login(username.value, password.value);
 
-            console.log(response.data);
+            // console.log(response.data);
 
             if (response?.data?.token) {
               localStorage.setItem("authenticateToken", response.data.token);

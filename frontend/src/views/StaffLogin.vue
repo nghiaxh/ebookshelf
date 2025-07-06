@@ -41,7 +41,7 @@ const handleStaffLogin = async () => {
     try {
         const response = await staffService.login(username.value, password.value);
 
-        console.log(response.data);
+        // console.log(response.data);
 
         if (response?.data?.token) {
             localStorage.setItem("authenticateToken", response.data.token);
