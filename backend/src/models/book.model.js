@@ -3,37 +3,35 @@ import mongoose from "mongoose";
 const bookSchema = mongoose.Schema({
     book_id: {
         type: String,
-        required: false,
         unique: true,
     },
     title: {
-        type: String, required: true,
+        type: String,
     },
     price: {
-        type: Number, required: false,
+        type: Number,
     },
     quantity: {
-        type: Number, required: false,
+        type: Number,
     },
     published_year: {
-        type: Number, required: false,
+        type: Number,
     },
     publisher_id: {
-        type: String, required: false,
+        type: String,
     },
     author: {
-        type: String, required: false,
+        type: String,
     },
     genre: {
-        type: String, required: false,
+        type: String,
     },
     description: {
-        type: String, required: false,
+        type: String,
     },
     image: {
         type: String,
         default: "",
-        required: false,
     }
 },
     {
