@@ -37,7 +37,7 @@ export async function findAll(req, res, next) {
 
 export async function findOne(req, res, next) {
     try {
-        const document = await bookService.findById(req.params.id);
+        const document = await bookService.findOne(req.params.id);
         if (!document) {
             return next(new ApiError(404, "Book not found"));
         }
