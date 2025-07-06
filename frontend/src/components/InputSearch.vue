@@ -1,3 +1,10 @@
+<script setup> 
+import { defineModel } from "vue";
+
+const searchText = defineModel();
+
+</script>
+
 <template>
     <label class="input">
         <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -6,6 +13,6 @@
                 <path d="m21 21-4.3-4.3"></path>
             </g>
         </svg>
-        <input type="search" placeholder="Nhập tên sách hoặc tên tác giả" />
+        <input v-model="searchText" type="search" placeholder="Nhập tên sách hoặc tên tác giả" />
     </label>
 </template>
