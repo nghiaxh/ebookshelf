@@ -67,10 +67,10 @@ const { role: staff_role, name: staff_name } = useStaffInfo();
             <RouterLink to="/pendingborrow" class="text-base hover:font-medium">Đơn mượn sách</RouterLink>
           </li>
           <li>
-            <RouterLink to="/publisher" class="text-base hover:font-medium">Nhà xuất bản</RouterLink>
+            <RouterLink to="/publishers" class="text-base hover:font-medium">Nhà xuất bản</RouterLink>
           </li>
           <li>
-            <RouterLink to="/user" class="text-base hover:font-medium">Người dùng</RouterLink>
+            <RouterLink to="/users" class="text-base hover:font-medium">Người dùng</RouterLink>
           </li>
           <li>
             <RouterLink to="/staffs" class="text-base hover:font-medium">Nhân viên</RouterLink>

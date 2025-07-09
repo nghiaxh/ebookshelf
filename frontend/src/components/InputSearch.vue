@@ -1,6 +1,4 @@
-<script setup> 
-import { defineModel } from "vue";
-
+<script setup>
 const searchText = defineModel();
 
 </script>
@@ -13,6 +11,6 @@ const searchText = defineModel();
                 <path d="m21 21-4.3-4.3"></path>
             </g>
         </svg>
-        <input v-model="searchText" type="search" placeholder="Nhập tên sách hoặc tên tác giả" />
+        <input v-model=" searchText " type="search" placeholder="Nhập từ khóa để tìm kiếm" />
     </label>
 </template>
