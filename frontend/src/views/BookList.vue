@@ -18,11 +18,14 @@ const { searchText, searchFilteredBooks } = useBookList();
 
     <Header></Header>
 
-    <div class="flex-grow mx-8 my-8">
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-2">
+    <div class="flex-grow mx-16 my-8">
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8">
         <!-- filter books -->
         <div class="grid grid-cols-1 gap-4 place-items-center">
-          <InputSearch v-model=" searchText "></InputSearch>
+          
+          <div class="tooltip tooltip-right" data-tip="Tìm kiếm theo tựa sách, mã sách, tác giả, năm xuất bản, thể loại, đơn giá">
+            <InputSearch v-model=" searchText "></InputSearch>
+          </div>
 
           <template v-if=" staff_role === 'staff' ">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -32,12 +35,23 @@ const { searchText, searchFilteredBooks } = useBookList();
             </div>
           </template>
         </div>
-        <!-- list books -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 my-4">
-          <BookCard v-for=" book in searchFilteredBooks " :key=" book.book_id " :book=" book "></BookCard>
-        </div>
 
+        <!-- list books -->
+
+        <template v-if=" searchFilteredBooks.length > 0">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <BookCard v-for=" book in searchFilteredBooks " :key=" book.book_id " :book=" book "></BookCard>
+          </div>
+        </template>
+        
+        <template v-else>
+          <div class="grid grid-cols-1 text-center">
+            <h1 class="text-5xl font-bold">Oops</h1>
+            <p class="py-6">Lỗi không thể tìm thấy sách</p>
+          </div>
+        </template>
       </div>
+    
     </div>
 
     <Footer></Footer>
