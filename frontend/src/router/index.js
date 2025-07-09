@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import Home from "../views/Home.vue";
+
 import UserLogin from "../views/UserLogin.vue";
 import UserRegister from "../views/UserRegister.vue";
-import BookList from "../views/BookList.vue";
 
 import StaffList from "../views/StaffList.vue";
 import StaffEdit from "../views/StaffProfileEdit.vue";
@@ -11,9 +11,11 @@ import StaffAdd from "../views/StaffAdd.vue";
 import StaffLogin from "../views/StaffLogin.vue";
 import StaffProfile from "../views/StaffProfile.vue";
 
+import BookList from "../views/BookList.vue";
 import BookAdd from "../views/BookAdd.vue";
 import BookEdit from "../views/BookEdit.vue";
 
+import UserList from "../views/UserList.vue";
 import UserProfile from "../views/UserProfile.vue";
 import UserProfileEdit from "../views/UserProfileEdit.vue";
 
@@ -23,7 +25,7 @@ import BorrowEdit from "../views/BorrowEdit.vue";
 import PendingBorrow from "../views/PendingBorrow.vue";
 import CheckingBorrow from "../views/CheckingBorrow.vue";
 
-import PublisherProfile from "../views/PublisherProfile.vue";
+import PublisherList from "../views/PublisherList.vue";
 import PublisherAdd from "../views/PublisherAdd.vue";
 import PublisherEdit from "../views/PublisherEdit.vue";
 
@@ -68,6 +70,11 @@ const routes = [
     component: BookList
   },
   // TODO testing routes
+  {
+    path: "/users",
+    name: "userlist",
+    component: UserList
+  },
   {
     path: "/book/add",
     name: "book.add",
@@ -115,9 +122,9 @@ const routes = [
     component: StaffEdit,
   },
   {
-    path: "/publisher",
-    name: "publisher",
-    component: PublisherProfile
+    path: "/publishers",
+    name: "publishers",
+    component: PublisherList
   },
   {
     path: "/publisher/add",
