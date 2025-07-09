@@ -1,11 +1,11 @@
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, defineModel } from 'vue';
 import BookService from '../services/book.service';
 
 const bookService = new BookService();
 
 export function useBookList() {
     const books = ref([]);
-    const searchText = ref('');
+    const searchText = ref("");
 
     const fetchBooks = async () => {
         try {
@@ -24,7 +24,7 @@ export function useBookList() {
         const keyword = searchText.value.toLowerCase();
 
         return books.value.filter(book => {
-            const searchableText = [book.title, book.book_id, book.author, book.published_year, book.price, book.quantity, book.genre]
+            const searchableText = [book.title, book.book_id, book.author, book.published_year, book.price, book.genre]
                 .filter(Boolean)
                 .join(' ')
                 .toLowerCase();
@@ -49,7 +49,6 @@ export function useBookList() {
     onMounted(fetchBooks);
 
     return {
-        books,
         searchText,
         searchFilteredBooks,
         fetchBooks,
