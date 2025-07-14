@@ -1,3 +1,3 @@
-export default function authenticate() {
+export function isAuthenticated() {
   return !!localStorage.getItem("authenticateToken");
 }
