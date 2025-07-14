@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { isAuthenticated } from "../services/auth.service";
 
 import Home from "../views/Home.vue";
 
@@ -57,6 +58,9 @@ const routes = [
     path: "/userprofile",
     name: "userprofile",
     component: UserProfile,
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: "/userprofile/edit/:id",
@@ -67,7 +71,10 @@ const routes = [
   {
     path: "/books",
     name: "booklist",
-    component: BookList
+    component: BookList,
+    meta: {
+      requiresAuth: true
+    },
   },
   // TODO testing routes
   {
@@ -110,6 +117,9 @@ const routes = [
     path: "/staffprofile",
     name: "staff.profile",
     component: StaffProfile,
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: "/staff/add",
@@ -157,6 +167,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !isAuthenticated()) {
+    next("/user/login");
+  } else {
+    next();
+  }
 });
 
 export default router;
