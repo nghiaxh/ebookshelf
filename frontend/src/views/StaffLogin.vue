@@ -42,7 +42,7 @@ const handleStaffLogin = async () => {
         <div
             class="backdrop-brightness-50 backdrop-blur-xs grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8 place-items-center h-screen">
             <form @submit.prevent class="mb-24">
-                <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
+                <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base shadow">
                     <!-- User login -->
                     <h1 class="font-bold text-2xl text-center mb-4">Đăng Nhập Nhân Viên</h1>
 

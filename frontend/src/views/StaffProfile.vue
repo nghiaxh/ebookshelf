@@ -71,7 +71,7 @@ const {
                             <dd class="text-gray-700 sm:col-span-2">{{ staff_email }}</dd>
                         </div>
                         <div class="grid grid-cols-1 gap-1 p-3 lg:grid-cols-3 sm:gap-4">
-                            <RouterLink to="/userprofile/edit" class="btn btn-neutral hover:scale-[1.01]">Chỉnh sửa
+                            <RouterLink to="/staffprofile/edit" class="btn btn-neutral hover:scale-[1.01]">Chỉnh sửa
                                 thông tin
                             </RouterLink>
                             <!-- TODO show modal view popup later-->

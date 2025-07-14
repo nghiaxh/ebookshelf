@@ -7,7 +7,7 @@ import Footer from '../components/Footer.vue';
   <div class="flex min-h-screen flex-col">
     <Header></Header>
     <div class="flex justify-center items-center flex-grow">
-      <form @submit.prevent class="mb-24">
+      <form @submit.prevent>
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
           <legend class="fieldset-legend text-xl">Chỉnh sửa thông tin cá nhân</legend>
           <label class="label">Họ đệm</label>

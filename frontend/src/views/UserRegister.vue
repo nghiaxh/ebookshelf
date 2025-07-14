@@ -29,9 +29,7 @@ const handleUserRegister = async () => {
       phone: phone.value,
     };
 
-    
-    const response = await userService.register(data);
-
+    await userService.register(data);
     // ? Debug code
     // console.log(data);
     // console.log(response.data);
@@ -51,8 +49,8 @@ const handleUserRegister = async () => {
   <div class="bg-cover bg-[url(/images/t2_khu_vuc_tu_hoc_2.jpg)]">
     <div class="backdrop-brightness-50 backdrop-blur-xs flex justify-center items-center h-screen">
       <form @submit.prevent=" handleUserRegister ">
-        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
-          <h1 class="font-bold text-2xl text-center mb-4">Đăng Ký</h1>
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base shadow">
+          <h1 class="font-bold text-2xl text-center">Đăng Ký</h1>
           <label class="label" for="name">Họ và tên</label>
           <input v-model=" name " type="text" class="input" id="name" placeholder="Nhập họ và tên" />
           <label class="label" for="username">Tên đăng nhập</label>

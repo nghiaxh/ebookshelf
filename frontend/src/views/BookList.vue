@@ -14,7 +14,7 @@ const { searchText, searchFilteredBooks } = useBookList();
 
 <template>
 
-  <div class="flex flex-col min-h-screen">
+  <div class="flex flex-col min-h-screen overflow-hidden">
 
     <Header></Header>
 
@@ -23,8 +23,8 @@ const { searchText, searchFilteredBooks } = useBookList();
         <!-- filter books -->
         <div class="grid grid-cols-1 gap-4 place-items-center">
           
-          <div class="tooltip tooltip-right" data-tip="Tìm kiếm theo tựa sách, mã sách, tác giả, năm xuất bản, thể loại, đơn giá">
-            <InputSearch v-model=" searchText "></InputSearch>
+          <div class="tooltip" data-tip="Tìm kiếm theo tựa sách, mã sách, tác giả, năm xuất bản, thể loại, đơn giá">
+            <InputSearch class="w-full" v-model=" searchText "></InputSearch>
           </div>
 
           <template v-if=" staff_role === 'staff' ">
@@ -39,7 +39,7 @@ const { searchText, searchFilteredBooks } = useBookList();
         <!-- list books -->
 
         <template v-if=" searchFilteredBooks.length > 0">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
             <BookCard v-for=" book in searchFilteredBooks " :key=" book.book_id " :book=" book "></BookCard>
           </div>
         </template>

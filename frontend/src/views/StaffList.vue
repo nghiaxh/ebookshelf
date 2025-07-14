@@ -12,7 +12,7 @@ const { role: staff_role } = useStaffInfo();
 <template>
   <div class="flex flex-col min-h-screen">
     <Header></Header>
-    <div class="flex-grow gap-8 grid place-items-center grid-cols-1 grid-rows-3">
+    <div class="flex-grow flex-wrap mx-16 my-8">
       <div class="grid grid-cols-1 gap-4 place-items-center">
 
         <!-- TODO create composable useStaffList -->
@@ -25,42 +25,11 @@ const { role: staff_role } = useStaffInfo();
           </div>
         </template>
       </div>
-      <div class="">
-        <table class="table">
-          <!-- head -->
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- row 1 -->
-            <tr class="bg-base-200">
-              <th>1</th>
-              <td>Cy Ganderton</td>
-              <td>Quality Control Specialist</td>
-              <td>Blue</td>
-            </tr>
-            <!-- row 2 -->
-            <tr>
-              <th>2</th>
-              <td>Hart Hagerty</td>
-              <td>Desktop Support Technician</td>
-              <td>Purple</td>
-            </tr>
-            <!-- row 3 -->
-            <tr>
-              <th>3</th>
-              <td>Brice Swyre</td>
-              <td>Tax Accountant</td>
-              <td>Red</td>
-            </tr>
-          </tbody>
-        </table>
+
+      <div class="grid place-items-center">
+        Staff list
       </div>
+
     </div>
     <Footer></Footer>
   </div>

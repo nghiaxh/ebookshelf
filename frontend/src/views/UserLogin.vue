@@ -14,7 +14,7 @@ const handleUserLogin = async () => {
   try {
     const response = await userService.login(username.value, password.value);
 
-    console.log(response.data);
+    // console.log(response.data);
 
     if (response?.data?.token) {
       localStorage.setItem("authenticateToken", response.data.token);
@@ -42,7 +42,7 @@ const handleUserLogin = async () => {
     <div
       class="backdrop-brightness-50 backdrop-blur-xs grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8 place-items-center h-screen">
       <form @submit.prevent>
-        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base shadow-xl">
           <!-- User login -->
           <h1 class="font-bold text-2xl text-center mb-4">Đăng Nhập</h1>
           <label class="label" for="username">Tên đăng nhập</label>
