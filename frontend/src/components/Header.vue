@@ -109,10 +109,4 @@ const { role: staff_role, name: staff_name } = useStaffInfo();
       </template>
     </div>
   </div>
-
-  <!-- banner -->
-  <div class="border-b border-gray-200 bg-base-300 py-1 text-gray-900">
-    <p class="text-center font-medium">Deadline còn khoảng 1 tháng 😢</p>
-  </div>
-
 </template>

@@ -1,7 +1,7 @@
 <script setup>
-import { useRouter } from 'vue-router';
+import { useStaffInfo } from '../composables/useStaffInfo';
 
-const router = useRouter();
+const { role: staff_role } = useStaffInfo();
 
 const props = defineProps({
   book: {
@@ -18,16 +18,13 @@ const handleBorrowBook = () => {
   }
 };
 
-const IMAGE_URL = "http://localhost:3000/uploads/books/";
-
 </script>
 
 <template>
   <div class="flex flex-wrap flex-col shadow rounded-lg overflow-hidden hover:shadow-xl hover:scale-[1.01] transition">
 
-    <img alt="Book cover"
-      :src=" book.image ? `${ IMAGE_URL }${ book.image }` : 'https://placehold.co/400x400/black/white?text=Book+cover' "
-      class="shadow-md h-96 object-cover" />
+    <img alt="Book cover" :src=" `https://placehold.co/400x400/black/white?text=${ book.title }` "
+      class="shadow-md h-64 object-cover" />
 
     <div class="flow-root">
       <dl class="divide-y divide-gray-200 rounded border border-gray-200 text-sm">
@@ -72,9 +69,23 @@ const IMAGE_URL = "http://localhost:3000/uploads/books/";
 
           <dd class="text-gray-800 sm:col-span-2">{{ book.description }}</dd>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-1 tooltip" data-tip="Ấn vào đây để mượn sách">
-          <button @click=" handleBorrowBook " class="btn btn-neutral">Mượn sách</button>
-        </div>
+
+        <template v-if=" staff_role === 'staff' ">
+          <div class="grid grid-cols-1 xl:grid-cols-2">
+            <button @click=" handleEditBook "
+              class="btn btn-ghost text-base hover:underline hover:btn-success hover:text-white">Chỉnh sửa</button>
+            <button @click=" handleDeleteBook "
+              class="btn btn-ghost text-base hover:underline hover:btn-error hover:text-white">Xóa</button>
+          </div>
+        </template>
+
+        <template v-else>
+          <div class="grid grid-cols-1 tooltip" data-tip="Ấn vào đây để mượn sách">
+            <button @click=" handleBorrowBook "
+              class="btn btn-ghost text-base hover:underline hover:btn-info hover:text-white font-black">Mượn
+              sách</button>
+          </div>
+        </template>
       </dl>
     </div>
 
