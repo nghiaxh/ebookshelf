@@ -1,8 +1,8 @@
-import FileApiClient from "./file.service";
+import ApiClient from "./api.service";
 
 class BookService {
   constructor(baseUrl = "/api/book") {
-    this.api = FileApiClient(baseUrl);
+    this.api = ApiClient(baseUrl);
   }
 
   async getAllBooks() {
