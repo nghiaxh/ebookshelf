@@ -1,24 +1,8 @@
 import Book from "../models/book.model.js";
-import multer from "multer";
-import path from "path";
 import { customAlphabet } from "nanoid";
 
 class BookService {
-    static imageStorage = multer.diskStorage({
-        destination: "./uploads/books",
-        filename: (req, file, callback) => {
-            callback(null, `${Date.now()}${path.extname(file.originalname)}`);
-        }
-    });
-
-    static uploadImage = multer({
-        storage: BookService.imageStorage,
-        limits: {
-            files: 1,
-        }
-    });
-
-    async create(payload, image_url) {
+    async create(payload) {
         const customId = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 6);
         const book = new Book({
             book_id: `ISBN-${customId()}`,
@@ -28,9 +12,6 @@ class BookService {
             published_year: payload.published_year,
             publisher_id: payload.publisher_id,
             author: payload.author,
-            genre: payload.genre,
-            description: payload.description,
-            image: image_url,
         });
         return await book.save();
     }

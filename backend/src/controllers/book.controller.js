@@ -9,8 +9,7 @@ export async function create(req, res, next) {
     }
 
     try {
-        const image_url = req?.file ? `/uploads/books/${req.file.filename}` : null;
-        const document = await bookService.create(req.body, image_url);
+        const document = await bookService.create(req.body);
         return res.status(201).json(document);
     } catch (error) {
         return next(new ApiError(500, "Error while creating book"));
@@ -55,11 +54,7 @@ export async function update(req, res, next) {
     }
 
     try {
-        const image_url = req.file
-            ? `/uploads/books/${req.file.filename}` : req.body.image || null;
-        const updateData = { ...req.body, image: image_url };
-
-        const document = await bookService.update(req.params.id, updateData);
+        const document = await bookService.update(req.params.id, req.body);
 
         if (!document) {
             return next(new ApiError(404, "Book not found"));

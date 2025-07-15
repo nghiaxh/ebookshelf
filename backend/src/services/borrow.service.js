@@ -60,22 +60,6 @@ class BorrowService {
         const result = await Borrow.deleteMany({});
         return result.deletedCount;
     }
-
-    // async findByBook(book_id) {
-    //     return await this.find({ book_id });
-    // }
-
-    // async findByStatus(status) {
-    //     return await this.find({ status });
-    // }
-
-    // async findBorrowedBooks() {
-    //     return await this.find({ status: "borrowed" });
-    // }
-
-    // async findReturnedBooks() {
-    //     return await this.find({ status: "returned" });
-    // }
 }
 
 export default BorrowService;

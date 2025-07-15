@@ -20,9 +20,6 @@ const borrowSchema = mongoose.Schema({
     return_date: {
         type: Date
     },
-    // quantity: {
-    //   type: Number,
-    // },
     status: {
         type: String,
         enum: ["borrowed", "returned"],

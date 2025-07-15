@@ -20,9 +20,6 @@ const staffSchema = mongoose.Schema({
     phone: {
         type: String,
     },
-    email: {
-        type: String,
-    },
     role: {
         type: String,
         default: "staff",

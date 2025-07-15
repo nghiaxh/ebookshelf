@@ -23,16 +23,6 @@ const bookSchema = mongoose.Schema({
     author: {
         type: String,
     },
-    genre: {
-        type: String,
-    },
-    description: {
-        type: String,
-    },
-    image: {
-        type: String,
-        default: "",
-    }
 },
     {
         timestamps: true,
