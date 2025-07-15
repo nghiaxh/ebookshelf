@@ -1,63 +1,32 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { isAuthenticated } from "../services/auth.service";
 
-import Home from "../views/Home.vue";
-
-import UserLogin from "../views/UserLogin.vue";
-import UserRegister from "../views/UserRegister.vue";
-
-import StaffList from "../views/StaffList.vue";
-import StaffEdit from "../views/StaffProfileEdit.vue";
-import StaffAdd from "../views/StaffAdd.vue";
-import StaffLogin from "../views/StaffLogin.vue";
-import StaffProfile from "../views/StaffProfile.vue";
-
-import BookList from "../views/BookList.vue";
-import BookAdd from "../views/BookAdd.vue";
-import BookEdit from "../views/BookEdit.vue";
-
-import UserList from "../views/UserList.vue";
-import UserProfile from "../views/UserProfile.vue";
-import UserProfileEdit from "../views/UserProfileEdit.vue";
-
-import Borrow from "../views/Borrow.vue";
-import BorrowAdd from "../views/BorrowAdd.vue";
-import BorrowEdit from "../views/BorrowEdit.vue";
-import PendingBorrow from "../views/PendingBorrow.vue";
-import CheckingBorrow from "../views/CheckingBorrow.vue";
-
-import PublisherList from "../views/PublisherList.vue";
-import PublisherAdd from "../views/PublisherAdd.vue";
-import PublisherEdit from "../views/PublisherEdit.vue";
-
-import NotFound from "../views/NotFound.vue";
-
 const routes = [
   // * working routes
   {
     path: "/",
     name: "home",
-    component: Home
+    component: () => import("../views/Home.vue")
   },
   {
     path: "/user/login",
     name: "user.login",
-    component: UserLogin
+    component: () => import("../views/UserLogin.vue")
   },
   {
     path: "/staff/login",
     name: "staff.login",
-    component: StaffLogin
+    component: () => import("../views/StaffLogin.vue")
   },
   {
     path: "/user/register",
     name: "user.register",
-    component: UserRegister
+    component: () => import("../views/UserRegister.vue")
   },
   {
     path: "/userprofile",
     name: "userprofile",
-    component: UserProfile,
+    component: () => import("../views/UserProfile.vue"),
     meta: {
       requiresAuth: true
     },
@@ -65,13 +34,16 @@ const routes = [
   {
     path: "/userprofile/edit/:id",
     name: "userprofile.edit",
-    component: UserProfileEdit,
+    component: () => import("../views/UserProfileEdit.vue"),
+    meta: {
+      requiresAuth: true
+    },
     props: true
   },
   {
     path: "/books",
-    name: "booklist",
-    component: BookList,
+    name: "book.list",
+    component: () => import("../views/BookList.vue"),
     meta: {
       requiresAuth: true
     },
@@ -79,44 +51,54 @@ const routes = [
   // TODO testing routes
   {
     path: "/users",
-    name: "userlist",
-    component: UserList
+    name: "user.list",
+    component: () => import("../views/UserList.vue")
   },
   {
     path: "/book/add",
     name: "book.add",
-    component: BookAdd
+    component: () => import("../views/BookAdd.vue"),
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: "/book/edit/:id",
     name: "book.edit",
-    component: BookEdit,
+    component: () => import("../views/BookEdit.vue"),
     props: true
   },
   {
-    path: "/borrow",
-    name: "borrow",
-    component: Borrow
+    path: "/borrows",
+    name: "borrow.list",
+    component: () => import("../views/BorrowList.vue"),
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: "/borrow/add",
     name: "borrow.add",
-    component: BorrowAdd
+    component: () => import("../views/BorrowAdd.vue"),
+    meta: {
+      requiresAuth: true
+    },
   },
   {
-    path: "/borrow/edit",
+    path: "/borrow/edit/:id",
     name: "borrow.edit",
-    component: BorrowEdit
+    component: () => (import("../views/BorrowEdit.vue")),
+    props: true
   },
   {
     path: "/staffs",
     name: "staff.list",
-    component: StaffList
+    component: () => import("../views/StaffList.vue")
   },
   {
     path: "/staffprofile",
     name: "staff.profile",
-    component: StaffProfile,
+    component: () => import("../views/StaffProfile.vue"),
     meta: {
       requiresAuth: true
     },
@@ -124,43 +106,56 @@ const routes = [
   {
     path: "/staff/add",
     name: "staff.add",
-    component: StaffAdd
+    component: () => import("../views/StaffAdd.vue"),
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: "/staff/edit/:id",
     name: "staff.edit",
-    component: StaffEdit,
+    component: () => import("../views/StaffEdit.vue"),
+    props: true
   },
   {
     path: "/publishers",
-    name: "publishers",
-    component: PublisherList
+    name: "publisher.list",
+    component: () => import("../views/PublisherList.vue"),
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: "/publisher/add",
     name: "publisher.add",
-    component: PublisherAdd
+    component: () => import("../views/PublisherAdd.vue"),
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: "/publisher/edit/:id",
     name: "publisher.edit",
-    component: PublisherEdit,
+    component: () => import("../views/PublisherEdit.vue"),
     props: true
   },
   {
-    path: "/pendingborrow",
-    name: "pendingborrow",
-    component: PendingBorrow
+    path: "/borrowpending",
+    name: "borrow.pending",
+    component: () => import("../views/BorrowPending.vue"),
+    meta: {
+      requiresAuth: true
+    },
   },
   {
-    path: "/checkingborrow",
-    name: "checkingborrow",
-    component: CheckingBorrow
+    path: "/borrowcheck",
+    name: "borrow.check",
+    component: () => import("../views/BorrowCheck.vue")
   },
   {
     path: '/:pathMatch(.*)*',
     name: "notfound",
-    component: NotFound
+    component: () => import("../views/NotFound.vue")
   },
 ];
 
