@@ -52,7 +52,10 @@ const routes = [
   {
     path: "/users",
     name: "user.list",
-    component: () => import("../views/UserList.vue")
+    component: () => import("../views/UserList.vue"),
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: "/book/add",
@@ -66,6 +69,9 @@ const routes = [
     path: "/book/edit/:id",
     name: "book.edit",
     component: () => import("../views/BookEdit.vue"),
+    meta: {
+      requiresAuth: true
+    },
     props: true
   },
   {
@@ -93,7 +99,10 @@ const routes = [
   {
     path: "/staffs",
     name: "staff.list",
-    component: () => import("../views/StaffList.vue")
+    component: () => import("../views/StaffList.vue"),
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: "/staffprofile",
@@ -115,6 +124,9 @@ const routes = [
     path: "/staff/edit/:id",
     name: "staff.edit",
     component: () => import("../views/StaffEdit.vue"),
+    meta: {
+      requiresAuth: true
+    },
     props: true
   },
   {
@@ -137,6 +149,9 @@ const routes = [
     path: "/publisher/edit/:id",
     name: "publisher.edit",
     component: () => import("../views/PublisherEdit.vue"),
+    meta: {
+      requiresAuth: true
+    },
     props: true
   },
   {
@@ -150,7 +165,10 @@ const routes = [
   {
     path: "/borrowcheck",
     name: "borrow.check",
-    component: () => import("../views/BorrowCheck.vue")
+    component: () => import("../views/BorrowCheck.vue"),
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: '/:pathMatch(.*)*',
