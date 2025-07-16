@@ -1,23 +1,18 @@
 import Staff from "../models/staff.model.js";
 import bcrypt from "bcrypt";
-import { customAlphabet } from "nanoid";
 
 class StaffService {
     async create(payload) {
-        const customId = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 6);
-        const customBirthday = (payload.birthday).toISOString().splice(0, 10);
-
+        const customBirthday = (payload.birthday).toISOString().slice(0, 10);
         const staff = new Staff({
-            staff_id: `SID-${customId()}`,
             name: payload.name || "",
             username: payload.username,
             password: payload.password,
             role: payload.role || "staff",
             birthday: customBirthday || "",
-            gender: payload.gender,
+            gender: payload.gender || "",
             address: payload.address || "",
             phone: payload.phone || "",
-            email: payload.email || "",
         });
 
         staff.password = await bcrypt.hash(staff.password, 12);
@@ -28,8 +23,8 @@ class StaffService {
         return await Staff.find(filter);
     }
 
-    async findById(staff_id) {
-        return await Staff.findById(staff_id);
+    async findById(id) {
+        return await Staff.findById(id);
     }
 
     async findByName(name) {
@@ -42,10 +37,10 @@ class StaffService {
         return await Staff.findOne({ username });
     }
 
-    async update(staff_id, payload) {
-        const existingStaff = await Staff.findById(staff_id);
+    async update(id, payload) {
+        const existingStaff = await Staff.findById(id);
         if (!existingStaff) {
-            throw new Error("Staff not found");
+            throw new Error(`Staff with ID ${id} not found`);
         }
 
         if (payload.password) {
@@ -55,14 +50,14 @@ class StaffService {
         }
 
         const result = await Staff.findByIdAndUpdate(
-            staff_id, { $set: payload }, { new: true, runValidators: true }
+            id, { $set: payload }, { new: true, runValidators: true }
         );
 
         return result;
     }
 
-    async deleteOne(staff_id) {
-        const result = await Staff.findByIdAndDelete(staff_id);
+    async delete(id) {
+        const result = await Staff.findByIdAndDelete(id);
         return result;
     }
 

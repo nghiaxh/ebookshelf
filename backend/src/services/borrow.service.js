@@ -3,15 +3,21 @@ import Borrow from "../models/borrow.model.js";
 class BorrowService {
 
     async create(payload) {
-        const borrow = new Borrow({
-            user_id: payload.user_id,
-            book_id: payload.book_id,
-            staff_id: payload.staff_id,
-            borrow_date: payload.borrow_date || new Date(),
-            return_date: payload.return_date || null,
-            status: payload.status || "borrowed"
-        });
-        return await borrow.save();
+        try {
+            const borrow = new Borrow({
+                user_id: payload.user_id ? new ObjectId(payload.user_id) : null,
+                book_id: payload.book_id ? new ObjectId(payload.book_id) : null,
+                staff_id: payload.staff_id ? new ObjectId(payload.staff_id) : null,
+                borrow_date: payload.borrow_date || new Date(),
+                return_date: payload.return_date || null,
+                status: payload.status || "borrowed"
+            });
+
+            return await borrow.save();
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
     }
 
     async find(filter) {
@@ -20,6 +26,10 @@ class BorrowService {
 
     async findById(id) {
         return await Borrow.findById(id);
+    }
+
+    async findByUserId(user_id) {
+        return await Borrow.find({ user_id: user_id });
     }
 
     async update(id, payload) {

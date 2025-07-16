@@ -1,13 +1,9 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
-import { customAlphabet } from "nanoid";
 
 class UserService {
     async create(payload) {
-        const customId = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 6);
-
         const user = new User({
-            user_id: `UID-${customId()}`,
             username: payload.username,
             name: payload.name,
             password: payload.password,
@@ -16,9 +12,8 @@ class UserService {
             gender: payload.gender,
             address: payload.address,
             phone: payload.phone,
-            email: payload.email,
         });
-
+        
         user.password = await bcrypt.hash(user.password, 12);
         return await user.save();
     }
@@ -27,8 +22,8 @@ class UserService {
         return await User.find(filter);
     }
 
-    async findById(user_id) {
-        return await User.findById(user_id);
+    async findById(id) {
+        return await User.findById(id);
     }
 
     async findByName(name) {
@@ -41,7 +36,7 @@ class UserService {
         return await User.findOne({ username });
     }
 
-    async update(user_id, payload) {
+    async update(id, payload) {
         if (payload.password) {
             payload.password = await bcrypt.hash(payload.password, 12);
         } else {
@@ -49,7 +44,7 @@ class UserService {
         }
 
         const result = await User.findByIdAndUpdate(
-            user_id, { $set: payload }, { new: true, runValidators: true }
+            id, { $set: payload }, { new: true, runValidators: true }
         );
 
         if (!result) {
@@ -59,8 +54,12 @@ class UserService {
         return result;
     }
 
-    async deleteOne(user_id) {
-        const result = await User.findOneAndDelete({ user_id: user_id });
+    async delete(id) {
+        const result = await User.findByIdAndDelete(id);
+
+        if (!result) {
+            throw new Error(`User with ID ${id} not found`);
+        }
         return result;
     }
 
