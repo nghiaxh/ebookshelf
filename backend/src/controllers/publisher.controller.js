@@ -8,7 +8,7 @@ export async function create(req, res, next) {
         return next(new ApiError(400, "Publisher name cannot be empty"));
     }
     try {
-         await publisherService.create(req.body);
+        await publisherService.create(req.body);
         return res.status(201).json({ message: "Publisher created successfully" });
     } catch (error) {
         return next(new ApiError(500, "Error creating the publisher"));

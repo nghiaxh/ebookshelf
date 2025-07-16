@@ -64,12 +64,6 @@ const handleBorrowBook = () => {
           <dd class="text-gray-800 sm:col-span-2">{{ book.quantity }}</dd>
         </div>
 
-        <div class="grid grid-cols-1 p-1.5 sm:grid-cols-3">
-          <dt class="font-bold text-gray-900">Mô tả</dt>
-
-          <dd class="text-gray-800 sm:col-span-2">{{ book.description }}</dd>
-        </div>
-
         <template v-if=" staff_role === 'staff' ">
           <div class="grid grid-cols-1 xl:grid-cols-2">
             <button @click=" handleEditBook "
