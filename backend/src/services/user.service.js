@@ -5,7 +5,8 @@ class UserService {
     async create(payload) {
         const user = new User({
             username: payload.username,
-            name: payload.name,
+            first_name: payload.first_name,
+            last_name: payload.last_name,
             password: payload.password,
             role: payload.role || "user",
             birthday: payload.birthday,

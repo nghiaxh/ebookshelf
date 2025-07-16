@@ -11,7 +11,7 @@ class BookService {
                 publisher_id: payload.publisher_id,
                 author: payload.author,
             });
-            
+
             return await book.save();
         } catch (error) {
             console.log(error);
@@ -25,6 +25,12 @@ class BookService {
 
     async findById(id) {
         return await Book.findById(id);
+    }
+
+    async findByName(name) {
+        return await Book.find({
+            name: { $regex: name, $options: "i" }
+        });
     }
 
     async update(id, payload) {
