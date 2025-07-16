@@ -1,7 +1,9 @@
 <script setup>
-import { useStaffInfo } from '../composables/useStaffInfo';
+import { useRouter } from "vue-router";
+import { computed } from 'vue';
 
-const { role: staff_role } = useStaffInfo();
+const role = computed(() => localStorage.getItem("role"));
+const router = useRouter();
 
 const props = defineProps({
   book: {
@@ -10,12 +12,8 @@ const props = defineProps({
   }
 });
 
-// TODO create borrow book function
-const handleBorrowBook = () => {
-
-  if (confirm("Xác nhận mượn quyển sách")) {
-    return;
-  }
+const goToBorrowBook = (book_id) => {
+  router.push({ name: "borrow.add", params: { id: book_id } });
 };
 
 </script>
@@ -64,19 +62,17 @@ const handleBorrowBook = () => {
           <dd class="text-gray-800 sm:col-span-2">{{ book.quantity }}</dd>
         </div>
 
-        <template v-if=" staff_role === 'staff' ">
-          <div class="grid grid-cols-1 xl:grid-cols-2">
-            <button @click=" handleEditBook "
+        <template v-if=" role === 'staff' ">
+          <div class="grid grid-cols-1">
+            <button @click=" goToEditBook( book._id )"
               class="btn btn-ghost text-base hover:underline hover:btn-success hover:text-white">Chỉnh sửa</button>
-            <button @click=" handleDeleteBook "
-              class="btn btn-ghost text-base hover:underline hover:btn-error hover:text-white">Xóa</button>
           </div>
         </template>
 
         <template v-else>
           <div class="grid grid-cols-1 tooltip" data-tip="Ấn vào đây để mượn sách">
-            <button @click=" handleBorrowBook "
-              class="btn btn-ghost text-base hover:underline hover:btn-info hover:text-white font-black">Mượn
+            <button @click=" goToBorrowBook( book._id )"
+              class="btn btn-ghost text-base hover:underline hover:btn-info hover:text-white font-bold">Mượn
               sách</button>
           </div>
         </template>
