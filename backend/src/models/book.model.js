@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
 const bookSchema = mongoose.Schema({
-    book_id: {
-        type: String,
-        unique: true,
-    },
     title: {
         type: String,
     },

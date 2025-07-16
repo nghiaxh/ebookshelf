@@ -1,33 +1,25 @@
 import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema({
-    user_id: {
-        type: String,
-        unique: true,
-    },
     name: {
         type: String,
     },
     username: {
         type: String,
     },
-
+    password: {
+        type: String,
+    },
     birthday: {
         type: Date,
     },
-
     gender: {
         type: Boolean,
     },
-
     address: {
         type: String,
     },
-
     phone: {
-        type: String,
-    },
-    password: {
         type: String,
     },
     role: {

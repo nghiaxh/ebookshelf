@@ -2,15 +2,15 @@ import mongoose from "mongoose";
 
 const borrowSchema = mongoose.Schema({
     user_id: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
         ref: "User",
     },
     staff_id: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
         ref: "Staff",
     },
     book_id: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
         ref: "Book",
     },
     borrow_date: {
