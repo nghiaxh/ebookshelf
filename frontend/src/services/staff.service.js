@@ -9,7 +9,7 @@ class StaffService {
     return (await this.api.get("/")).data;
   }
 
-  async getStaffById(id) {
+  async getStaff(id) {
     return (await this.api.get(`/${id}`)).data;
   }
 
