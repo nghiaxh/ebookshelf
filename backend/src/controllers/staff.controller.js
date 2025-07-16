@@ -70,7 +70,7 @@ export async function update(req, res, next) {
 
 export async function deleteOne(req, res, next) {
     try {
-        const document = await staffService.deleteOne(req.params.id);
+        const document = await staffService.delete(req.params.id);
         if (!document) {
             return next(new ApiError(404, "Staff record not found"));
         }
@@ -102,29 +102,25 @@ export async function login(req, res, next) {
             return next(new ApiError(404, "Staff not found"));
         }
 
-        const passwordIsValid = await bcrypt.compare(req.body.password, staff.password);
+        const passwordIsMatch = await bcrypt.compare(req.body.password, staff.password);
 
-        if (!passwordIsValid) {
+        if (!passwordIsMatch) {
             return next(new ApiError(401, "Invalid password"));
         }
 
         const token = jwt.sign(
             { id: staff._id, username: staff.username },
             process.env.JWT_SECRET,
-            { expiresIn: 3600 }
+            { expiresIn: "1h" }
         );
 
         return res.status(200).send({
             token,
             staff: {
-                staff_id: staff.staff_id,
                 name: staff.name,
                 username: staff.username,
-                gender: staff.gender,
-                birthday: staff.birthday,
                 address: staff.address,
                 phone: staff.phone,
-                email: staff.email,
                 role: staff.role
             }
         });

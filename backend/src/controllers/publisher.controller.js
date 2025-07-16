@@ -8,8 +8,8 @@ export async function create(req, res, next) {
         return next(new ApiError(400, "Publisher name cannot be empty"));
     }
     try {
-        await publisherService.create(req.body);
-        return res.status(201).json({ message: "Publisher created successfully" });
+        const document = await publisherService.create(req.body);
+        return res.json({ message: "Publisher created successfully" }, document);
     } catch (error) {
         return next(new ApiError(500, "Error creating the publisher"));
     }
@@ -34,13 +34,13 @@ export async function findAll(req, res, next) {
     try {
         const { name } = req.query;
         if (name) {
-            documents = await publisherService.find({ name: { $regex: new RegExp(name), $options: "i" } });
+            documents = await publisherService.findByName(name);
         } else {
             documents = await publisherService.find({});
         }
     } catch (error) {
         return next(
-            new ApiError(500, "An error occurred while retrieving the list of publishers")
+            new ApiError(500, "An error occurred while retrieving list of publishers")
         );
     }
     return res.send(documents);
@@ -66,7 +66,7 @@ export async function update(req, res, next) {
 
 export async function deleteOne(req, res, next) {
     try {
-        const document = await publisherService.deleteOne(req.params.id);
+        const document = await publisherService.delete(req.params.id);
         if (!document) {
             return next(new ApiError(404, "Publisher not found"));
         }
@@ -80,7 +80,7 @@ export async function deleteOne(req, res, next) {
 
 export async function deleteAll(req, res, next) {
     try {
-        const deleteResult = await publisherService.deleteAll({});
+        const deleteResult = await publisherService.deleteAll();
         return res.send({
             message: `${deleteResult.deletedCount} publishers were deleted successfully`,
         });

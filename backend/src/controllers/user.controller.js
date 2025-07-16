@@ -75,7 +75,7 @@ export async function update(req, res, next) {
 
 export async function deleteOne(req, res, next) {
     try {
-        const document = await userService.deleteOne(req.params.id);
+        const document = await userService.delete(req.params.id);
         if (!document) {
             return next(new ApiError(404, "User record not found"));
         }
@@ -121,19 +121,18 @@ export async function login(req, res, next) {
         return res.status(200).send({
             token,
             user: {
-                user_id: user.user_id,
-                name: user.name,
+                first_name: user.first_name,
+                last_name: user.last_name,
                 username: user.username,
                 birthday: user.birthday,
                 gender: user.gender,
                 address: user.address,
                 phone: user.phone,
-                email: user.email,
                 role: user.role,
             }
         });
     } catch (error) {
-        return next(new ApiError(500, "Error during login"));
+        return next(new ApiError(500, "An error occurred while login"));
     }
 }
 

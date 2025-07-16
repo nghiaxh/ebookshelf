@@ -13,6 +13,12 @@ class PublisherService {
         return await Publisher.find(filter);
     }
 
+    async findByName(name) {
+        return await User.find({
+            name: { $regex: new RegExp(name, "i") },
+        });
+    }
+
     async findById(id) {
         return await Publisher.findById(id);
     }

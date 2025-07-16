@@ -10,7 +10,7 @@ export async function create(req, res, next) {
 
     try {
         const document = await borrowService.create(req.body);
-        return res.status(201).json(document);
+        return res.status(201).json({ message: "Book borrowing record created successfully" }, document);
     } catch (error) {
         return next(new ApiError(500, "An error occurred while creating the book borrowing record"));
     }
@@ -53,30 +53,10 @@ export async function update(req, res, next) {
             return next(new ApiError(404, "Book borrowing record not found"));
         }
 
-        return res.json({
-            message: "Book borrowing record updated successfully", document
-        });
+        return res.json({ message: "Book borrowing record updated successfully" }, document);
     } catch (error) {
         return next(new ApiError(500, `Error while updating book borrowing record with id ${req.params.id}`)
         );
-    }
-}
-
-export async function checkReturned(req, res, next) {
-    try {
-        const returnDate = req.body.return_date || new Date();
-
-        const document = await borrowService.checkReturned(req.params.id, returnDate);
-
-        if (!document) {
-            return next(new ApiError(404, "Book borrowing record not found"));
-        }
-
-        return res.json({
-            message: "Book borrowing record returned successfully", document
-        });
-    } catch (error) {
-        return next(new ApiError(500, `An error occured while checking returned book with id ${req.params.id}`));
     }
 }
 
@@ -108,5 +88,5 @@ export async function deleteAll(req, res, next) {
 }
 
 export default {
-    create, findAll, findOne, update, checkReturned, deleteOne, deleteAll,
+    create, findAll, findOne, update, deleteOne, deleteAll,
 };

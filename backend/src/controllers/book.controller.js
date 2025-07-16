@@ -10,7 +10,7 @@ export async function create(req, res, next) {
 
     try {
         const document = await bookService.create(req.body);
-        return res.status(201).json(document);
+        return res.status(201).json({ message: "Book created successfully" }, document);
     } catch (error) {
         return next(new ApiError(500, "Error while creating book"));
     }
@@ -43,13 +43,13 @@ export async function findOne(req, res, next) {
         return res.json(document);
     } catch (error) {
         return next(
-            new ApiError(500, `Error retrieving book with id ${req.params.id}`)
+            new ApiError(500, `Error while retrieving book with id ${req.params.id}`)
         );
     }
 };
 
 export async function update(req, res, next) {
-    if (Object.keys(req.body).length === 0 && !req.file) {
+    if (Object.keys(req.body).length === 0) {
         return next(new ApiError(400, "Data to update cannot be empty"));
     }
 
@@ -60,10 +60,10 @@ export async function update(req, res, next) {
             return next(new ApiError(404, "Book not found"));
         }
 
-        return res.send({ message: "Book updated successfully", document });
+        return res.send({ message: "Book updated successfully" }, document);
     } catch (error) {
         return next(
-            new ApiError(500, `Error updating book with id ${req.params.id}`)
+            new ApiError(500, `Error while updating book with id ${req.params.id}`)
         );
     }
 };
