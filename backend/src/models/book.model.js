@@ -14,7 +14,8 @@ const bookSchema = mongoose.Schema({
         type: Number,
     },
     publisher_id: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
+        ref: "Publisher",
     },
     author: {
         type: String,
