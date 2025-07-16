@@ -21,6 +21,7 @@ export async function create(req, res, next) {
 
         return res.status(201).json({ message: "Staff record created successfully" });
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "Error creating the staff record"));
     }
 }
@@ -35,6 +36,7 @@ export async function findAll(req, res, next) {
             documents = await staffService.find({});
         }
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "An error occurred while retrieving the list of staff records"));
     }
     return res.json(documents);
@@ -48,6 +50,7 @@ export async function findOne(req, res, next) {
         }
         return res.json(document);
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, `Error retrieving staff record with id ${req.params.id}`));
     }
 }
@@ -64,6 +67,7 @@ export async function update(req, res, next) {
         }
         return res.json({ message: "Staff record updated successfully", document });
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, `Error updating staff record with id ${req.params.id}`));
     }
 }
@@ -76,6 +80,7 @@ export async function deleteOne(req, res, next) {
         }
         return res.send({ message: "Staff record deleted successfully" });
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, `Could not delete staff record with id ${req.params.id}`));
     }
 }
@@ -87,6 +92,7 @@ export async function deleteAll(req, res, next) {
             message: `${deleteCount} staff records were deleted successfully`,
         });
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "An error occurred while deleting all staff records"));
     }
 }
@@ -125,6 +131,7 @@ export async function login(req, res, next) {
             }
         });
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "Error during login"));
     }
 }

@@ -11,6 +11,7 @@ export async function create(req, res, next) {
         const document = await publisherService.create(req.body);
         return res.json({ message: "Publisher created successfully" }, document);
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "Error creating the publisher"));
     }
 }
@@ -23,6 +24,7 @@ export async function findOne(req, res, next) {
         }
         return res.send(document);
     } catch (error) {
+        console.log(error);
         return next(
             new ApiError(500, `Error retrieving publisher with id ${req.params.id}`)
         );
@@ -39,6 +41,7 @@ export async function findAll(req, res, next) {
             documents = await publisherService.find({});
         }
     } catch (error) {
+        console.log(error);
         return next(
             new ApiError(500, "An error occurred while retrieving list of publishers")
         );
@@ -58,6 +61,7 @@ export async function update(req, res, next) {
         }
         return res.send({ message: "Publisher updated successfully", document });
     } catch (error) {
+        console.log(error);
         return next(
             new ApiError(500, `Error updating publisher with id ${req.params.id}`)
         );
@@ -72,6 +76,7 @@ export async function deleteOne(req, res, next) {
         }
         return res.send({ message: "Publisher deleted successfully" });
     } catch (error) {
+        console.log(error);
         return next(
             new ApiError(500, `Could not delete publisher with id ${req.params.id}`)
         );
@@ -85,6 +90,7 @@ export async function deleteAll(req, res, next) {
             message: `${deleteResult.deletedCount} publishers were deleted successfully`,
         });
     } catch (error) {
+        console.log(error);
         return next(
             new ApiError(500, "An error occurred while deleting all publishers")
         );

@@ -12,6 +12,7 @@ export async function create(req, res, next) {
         const document = await bookService.create(req.body);
         return res.status(201).json({ message: "Book created successfully" }, document);
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "Error while creating book"));
     }
 }
@@ -27,6 +28,7 @@ export async function findAll(req, res, next) {
             documents = await bookService.find({});
         }
     } catch (error) {
+        console.log(error);
         return next(
             new ApiError(500, "An error occurred while retrieving the list of books")
         );
@@ -42,6 +44,7 @@ export async function findOne(req, res, next) {
         }
         return res.json(document);
     } catch (error) {
+        console.log(error);
         return next(
             new ApiError(500, `Error while retrieving book with id ${req.params.id}`)
         );
@@ -62,6 +65,7 @@ export async function update(req, res, next) {
 
         return res.send({ message: "Book updated successfully" }, document);
     } catch (error) {
+        console.log(error);
         return next(
             new ApiError(500, `Error while updating book with id ${req.params.id}`)
         );
@@ -76,6 +80,7 @@ export async function deleteOne(req, res, next) {
         }
         return res.json({ message: "Book deleted successfully" });
     } catch (error) {
+        console.log(error);
         return next(
             new ApiError(500, `Could not delete book with id ${req.params.id}`)
         );
@@ -89,6 +94,7 @@ export async function deleteAll(req, res, next) {
             message: `${deleteCount} books were deleted successfully`
         });
     } catch (error) {
+        console.log(error);
         return next(
             new ApiError(500, "An error occurred while deleting all books")
         );

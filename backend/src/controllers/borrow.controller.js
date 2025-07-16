@@ -12,6 +12,7 @@ export async function create(req, res, next) {
         const document = await borrowService.create(req.body);
         return res.status(201).json({ message: "Book borrowing record created successfully" }, document);
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "An error occurred while creating the book borrowing record"));
     }
 }
@@ -21,6 +22,7 @@ export async function findAll(req, res, next) {
         const documents = await borrowService.find({});
         return res.json(documents);
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "An error occurred while retrieving the list of book borrowing records"));
     }
 }
@@ -35,6 +37,7 @@ export async function findOne(req, res, next) {
 
         return res.json(document);
     } catch (error) {
+        console.log(error);
         return next(
             new ApiError(500, `Error while retrieving book borrowing record with id ${req.params.id}`)
         );
@@ -55,6 +58,7 @@ export async function update(req, res, next) {
 
         return res.json({ message: "Book borrowing record updated successfully" }, document);
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, `Error while updating book borrowing record with id ${req.params.id}`)
         );
     }
@@ -71,6 +75,7 @@ export async function deleteOne(req, res, next) {
 
         return res.send({ message: "Book borrowing record deleted successfully" });
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, `Could not delete book borrowing record with id ${req.params.id}`));
     }
 }
@@ -83,6 +88,7 @@ export async function deleteAll(req, res, next) {
             message: `${deletedCount} records were deleted successfully`
         });
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "An error occurred while deleting all book borrowing records"));
     }
 }

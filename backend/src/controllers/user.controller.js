@@ -21,6 +21,7 @@ export async function create(req, res, next) {
 
         return res.status(201).json({ message: "User record created successfully" });
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "Error while creating user record"));
     }
 }
@@ -35,6 +36,7 @@ export async function findAll(req, res, next) {
             documents = await userService.find({});
         }
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "An error occurred while retrieving the list of user records"));
     }
     return res.json(documents);
@@ -48,6 +50,7 @@ export async function findOne(req, res, next) {
         }
         return res.json(document);
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, `Error retrieving user record with id ${req.params.id}`));
     }
 }
@@ -69,6 +72,7 @@ export async function update(req, res, next) {
         }
         return res.json({ message: "User record updated successfully" });
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, `Error updating user record with id ${req.params.id}`));
     }
 }
@@ -81,6 +85,7 @@ export async function deleteOne(req, res, next) {
         }
         return res.send({ message: "User record deleted successfully" });
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, `Could not delete user record with id ${req.params.id}`));
     }
 }
@@ -92,6 +97,7 @@ export async function deleteAll(req, res, next) {
             message: `${deleteCount} user records were deleted successfully`,
         });
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "An error occurred while deleting all user records"));
     }
 }
@@ -132,6 +138,7 @@ export async function login(req, res, next) {
             }
         });
     } catch (error) {
+        console.log(error);
         return next(new ApiError(500, "An error occurred while login"));
     }
 }
