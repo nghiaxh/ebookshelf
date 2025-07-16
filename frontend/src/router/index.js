@@ -83,9 +83,10 @@ const routes = [
     },
   },
   {
-    path: "/borrow/add",
+    path: "/borrow/add/:id",
     name: "borrow.add",
     component: () => import("../views/BorrowAdd.vue"),
+    props: true,
     meta: {
       requiresAuth: true
     },
