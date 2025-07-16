@@ -56,7 +56,7 @@ onMounted(async () => {
               <template v-if=" user.gender ">
                 <dd class="text-gray-700 sm:col-span-2">Nam</dd>
               </template>
-              <template v-if=" !user.gender ">
+              <template v-else-if=" !user.gender ">
                 <dd class=" text-gray-700 sm:col-span-2">Nữ</dd>
               </template>
               <template v-else>
