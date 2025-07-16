@@ -18,14 +18,8 @@ const handleStaffLogin = async () => {
 
         if (response?.data?.token) {
             localStorage.setItem("authenticateToken", response.data.token);
-            localStorage.setItem("staff_id", response.data.staff.staff_id);
             localStorage.setItem("username", response.data.staff.username);
-            localStorage.setItem("name", response.data.staff.name);
-            localStorage.setItem("birthday", response.data.staff.birthday);
-            localStorage.setItem("email", response.data.staff.email);
-            localStorage.setItem("phone", response.data.staff.phone);
-            localStorage.setItem("gender", response.data.staff.gender);
-            localStorage.setItem("address", response.data.staff.address);
+            localStorage.setItem("id", response.data.staff.id);
             localStorage.setItem("role", "staff");
             router.push("/books");
         }

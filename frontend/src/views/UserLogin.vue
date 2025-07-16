@@ -18,14 +18,8 @@ const handleUserLogin = async () => {
 
     if (response?.data?.token) {
       localStorage.setItem("authenticateToken", response.data.token);
-      localStorage.setItem("name", response.data.user.name);
-      localStorage.setItem("birthday", response.data.user.birthday);
-      localStorage.setItem("email", response.data.user.email);
-      localStorage.setItem("phone", response.data.user.phone);
-      localStorage.setItem("gender", response.data.user.gender);
-      localStorage.setItem("address", response.data.user.address);
       localStorage.setItem("username", response.data.user.username);
-      localStorage.setItem("user_id", response.data.user.user_id);
+      localStorage.setItem("id", response.data.user.id);
       localStorage.setItem("role", "user");
       router.push("/");
     }
@@ -41,7 +35,7 @@ const handleUserLogin = async () => {
   <div class="bg-cover bg-[url(/images/t2_de_sach_sau_khi_doc.jpg)]">
     <div
       class="backdrop-brightness-50 backdrop-blur-xs grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8 place-items-center h-screen">
-      <form @submit.prevent>
+      <form @submit.prevent="handleUserLogin">
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base shadow-xl">
           <!-- User login -->
           <h1 class="font-bold text-2xl text-center mb-4">Đăng Nhập</h1>
@@ -51,7 +45,7 @@ const handleUserLogin = async () => {
           <label class="label" for="password">Mật khẩu</label>
           <input v-model=" password " id="password" type="password" minlength="3" maxlength="18" class="input" required
             placeholder="Nhập mật khẩu" />
-          <button @click=" handleUserLogin " type="submit"
+          <button type="submit"
             class="btn btn-neutral mt-4 text-base hover:scale-[1.01]">Đăng
             Nhập</button>
           <span class="mt-8">Bạn chưa có tài khoản? <strong class="hover:underline">
