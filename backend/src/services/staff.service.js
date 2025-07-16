@@ -3,18 +3,21 @@ import bcrypt from "bcrypt";
 
 class StaffService {
     async create(payload) {
-        const customBirthday = (payload.birthday).toISOString().slice(0, 10);
         const staff = new Staff({
-            name: payload.name || "",
+            name: payload.name || undefined,
             username: payload.username,
             password: payload.password,
             role: payload.role || "staff",
-            birthday: customBirthday || "",
-            gender: payload.gender || "",
-            address: payload.address || "",
-            phone: payload.phone || "",
+            birthday: payload.birthday || undefined,
+            gender: payload.gender || undefined,
+            address: payload.address || undefined,
+            phone: payload.phone || undefined,
         });
-
+        Object.keys(staff).forEach(key => {
+            if (staff[key] === undefined) {
+                delete staff[key];
+            }
+        });
         staff.password = await bcrypt.hash(staff.password, 12);
         return await staff.save();
     }

@@ -12,7 +12,11 @@ class BorrowService {
                 return_date: payload.return_date || null,
                 status: payload.status || "borrowed"
             });
-
+            Object.keys(borrow).forEach(key => {
+                if (borrow[key] === undefined) {
+                    delete borrow[key];
+                }
+            });
             return await borrow.save();
         } catch (error) {
             console.log(error);

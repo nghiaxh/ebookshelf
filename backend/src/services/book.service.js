@@ -11,7 +11,11 @@ class BookService {
                 publisher_id: payload.publisher_id,
                 author: payload.author,
             });
-
+            Object.keys(book).forEach(key => {
+                if (book[key] === undefined) {
+                    delete book[key];
+                }
+            });
             return await book.save();
         } catch (error) {
             console.log(error);

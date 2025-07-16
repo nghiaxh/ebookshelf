@@ -5,16 +5,20 @@ class UserService {
     async create(payload) {
         const user = new User({
             username: payload.username,
-            first_name: payload.first_name,
-            last_name: payload.last_name,
+            first_name: payload.first_name || undefined,
+            last_name: payload.last_name || undefined,
             password: payload.password,
             role: payload.role || "user",
-            birthday: payload.birthday,
-            gender: payload.gender,
-            address: payload.address,
-            phone: payload.phone,
+            birthday: payload.birthday || undefined,
+            gender: payload.gender || undefined,
+            address: payload.address || undefined,
+            phone: payload.phone || undefined,
         });
-        
+        Object.keys(user).forEach(key => {
+            if (user[key] === undefined) {
+                delete user[key];
+            }
+        });
         user.password = await bcrypt.hash(user.password, 12);
         return await user.save();
     }
