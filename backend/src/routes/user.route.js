@@ -13,7 +13,7 @@ router.route("/")
     .delete(auth, UserController.deleteAll);
 
 router.route("/:id")
-    .post(auth, UserController.update)
+    .put(auth, UserController.update)
     .get(auth, UserController.findOne)
     .delete(auth, UserController.deleteOne);
 
