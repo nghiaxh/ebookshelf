@@ -123,10 +123,8 @@ export async function login(req, res, next) {
         return res.status(200).send({
             token,
             staff: {
-                name: staff.name,
+                id: staff._id,
                 username: staff.username,
-                address: staff.address,
-                phone: staff.phone,
                 role: staff.role
             }
         });

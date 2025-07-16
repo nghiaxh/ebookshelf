@@ -127,13 +127,8 @@ export async function login(req, res, next) {
         return res.status(200).send({
             token,
             user: {
-                first_name: user.first_name,
-                last_name: user.last_name,
+                id: user._id,
                 username: user.username,
-                birthday: user.birthday,
-                gender: user.gender,
-                address: user.address,
-                phone: user.phone,
                 role: user.role,
             }
         });
