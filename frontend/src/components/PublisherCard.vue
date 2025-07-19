@@ -18,7 +18,7 @@ const goToEditPublisher = (publisher_id) => {
 
 <template>
     <div
-        class="flex flex-wrap flex-col shadow rounded-lg overflow-hidden hover:shadow-xl hover:scale-[1.01] transition">
+        class="flex flex-wrap flex-col shadow rounded-lg overflow-hidden hover:shadow-lg hover:scale-[1.001] transition">
         <div class="flow-root">
             <dl class="divide-y divide-gray-200 rounded border border-gray-200 text-sm">
                 <div class="grid grid-cols-2 p-1.5">
