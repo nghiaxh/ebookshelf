@@ -5,7 +5,7 @@ class PublisherService {
     this.api = ApiClient(baseUrl);
   }
 
-  async getAllPublisher() {
+  async getAllPublishers() {
     return (await this.api.get("/")).data;
   }
 
@@ -25,7 +25,7 @@ class PublisherService {
     return (await this.api.delete(`/${id}`)).data;
   }
 
-  async deleteAllPublisher() {
+  async deleteAllPublishers() {
     return (await this.api.delete("/")).data;
   }
 }

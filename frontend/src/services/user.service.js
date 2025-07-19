@@ -5,7 +5,7 @@ class UserService {
     this.api = ApiClient(baseUrl);
   }
 
-  async getAllUser() {
+  async getAllUsers() {
     return (await this.api.get("/")).data;
   }
 
@@ -21,9 +21,9 @@ class UserService {
     return (await this.api.delete(`/${id}`)).data;
   }
 
-  // async deleteAllUser() {
-  //   return (await this.api.delete("/")).data;
-  // }
+  async deleteAllUsers() {
+    return (await this.api.delete("/")).data;
+  }
 
   async register(data) {
     try {

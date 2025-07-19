@@ -5,7 +5,7 @@ class BorrowService {
     this.api = ApiClient(baseUrl);
   }
 
-  async getAllBorrow() {
+  async getAllBorrows() {
     return (await this.api.get("/")).data;
   }
 
@@ -25,7 +25,7 @@ class BorrowService {
     return (await this.api.delete(`/${id}`)).data;
   }
 
-  async deleteAllBorrow() {
+  async deleteAllBorrows() {
     return (await this.api.delete("/")).data;
   }
 }

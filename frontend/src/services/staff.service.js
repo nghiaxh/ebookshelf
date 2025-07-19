@@ -5,7 +5,7 @@ class StaffService {
     this.api = ApiClient(baseUrl);
   }
 
-  async getAllStaff() {
+  async getAllStaffs() {
     return (await this.api.get("/")).data;
   }
 
@@ -25,7 +25,7 @@ class StaffService {
     return (await this.api.delete(`/${id}`)).data;
   }
 
-  async deleteAllStaff() {
+  async deleteAllStaffs() {
     return (await this.api.delete("/")).data;
   }
 

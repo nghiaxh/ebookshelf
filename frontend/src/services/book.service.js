@@ -31,7 +31,7 @@ class BookService {
     return (await this.api.delete(`/${id}`)).data;
   }
 
-  async deleteAllBook() {
+  async deleteAllBooks() {
     return (await this.api.delete("/")).data;
   }
 }
