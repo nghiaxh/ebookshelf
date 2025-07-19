@@ -4,17 +4,15 @@ import bcrypt from "bcrypt";
 class StaffService {
     async create(payload) {
         const staff = new Staff({
-            name: payload.name || undefined,
+            name: payload.name || "",
             username: payload.username,
             password: payload.password,
             role: payload.role || "staff",
-            birthday: payload.birthday || undefined,
-            gender: payload.gender || undefined,
-            address: payload.address || undefined,
-            phone: payload.phone || undefined,
+            address: payload.address || "",
+            phone: payload.phone || "",
         });
         Object.keys(staff).forEach(key => {
-            if (staff[key] === undefined) {
+            if (staff[key] === undefined || staff[key] === null || staff[key] === "") {
                 delete staff[key];
             }
         });
@@ -57,7 +55,7 @@ class StaffService {
                 delete payload[key];
             }
         });
-        
+
         const result = await Staff.findByIdAndUpdate(
             id, { $set: payload }, { new: true, runValidators: true }
         );

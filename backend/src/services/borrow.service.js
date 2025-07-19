@@ -1,13 +1,11 @@
 import Borrow from "../models/borrow.model.js";
-
 class BorrowService {
 
     async create(payload) {
         try {
             const borrow = new Borrow({
-                user_id: payload.user_id ? new ObjectId(payload.user_id) : null,
-                book_id: payload.book_id ? new ObjectId(payload.book_id) : null,
-                staff_id: payload.staff_id ? new ObjectId(payload.staff_id) : null,
+                user_id: payload.user_id,
+                book_id: payload.book_id,
                 borrow_date: payload.borrow_date || new Date(),
                 return_date: payload.return_date || null,
                 status: payload.status || "pending"

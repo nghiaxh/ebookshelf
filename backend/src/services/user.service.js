@@ -15,7 +15,7 @@ class UserService {
             phone: payload.phone || undefined,
         });
         Object.keys(user).forEach(key => {
-            if (user[key] === undefined) {
+            if (user[key] === undefined || user[key] === null || user[key] === "") {
                 delete user[key];
             }
         });
