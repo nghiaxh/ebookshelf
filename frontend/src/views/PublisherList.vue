@@ -44,7 +44,22 @@ const goToAddPublisher = () => {
     router.push({ name: "publisher.add" });
 };
 
-onMounted(fetchPublishers);
+const handleDeleteAllPublishers = async () => {
+    try {
+        if (confirm("Xác nhận xóa tất cả nhà xuất bản?")) {
+            await publisherService.deleteAllPublishers();
+            alert("Xóa tất cả nhà xuất bản thành công");
+            fetchPublishers();
+        }
+    } catch (error) {
+        console.log(error);
+        alert("Đã xảy ra lỗi khi xóa tất cả nhà xuất bản");
+    }
+};
+
+onMounted(async () => {
+    fetchPublishers();
+});
 </script>
 
 <template>
@@ -60,13 +75,14 @@ onMounted(fetchPublishers);
                 <template v-if=" role === 'staff' ">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
                         <button class="btn btn-neutral" @click=" goToAddPublisher ">Thêm nhà xuất bản</button>
-                        <button class="btn btn-neutral">Xóa tất nhà xuất bản</button>
+                        <button class="btn btn-neutral" @click=" handleDeleteAllPublishers ">Xóa tất nhà xuất
+                            bản</button>
                     </div>
                 </template>
             </div>
 
             <template v-if=" searchFilteredPublishers.length > 0 ">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 mt-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-8 mt-8">
                     <PublisherCard v-for=" publisher in searchFilteredPublishers " :key=" publisher._id "
                         :publisher=" publisher "></PublisherCard>
                 </div>

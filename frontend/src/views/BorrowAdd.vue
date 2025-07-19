@@ -2,13 +2,14 @@
 import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 import { ref, computed, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import BookService from '../services/book.service';
 import BorrowService from '../services/borrow.service';
 
 const bookService = new BookService();
 const borrowService = new BorrowService();
 const route = useRoute();
+const router = useRouter();
 
 const user_id = computed(() => localStorage.getItem("id"));
 const book_id = route.params.id;
@@ -27,6 +28,7 @@ const handleCreateBorrow = async () => {
     };
     await borrowService.createBorrow(data);
     alert("Tạo đơn mượn sách thành công");
+    router.push("/books");
   } catch (error) {
     console.log(error);
     alert("Đã xảy ra lỗi khi tạo đơn mượn sách");

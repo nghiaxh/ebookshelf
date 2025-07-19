@@ -2,16 +2,24 @@
 import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import BookService from '../services/book.service';
 import PublisherService from '../services/publisher.service';
 
 const bookService = new BookService();
 const publisherService = new PublisherService();
 const route = useRoute();
+const router = useRouter();
 const book_id = route.params.id;
 const book = ref({});
 const publishers = ref([]);
+
+const book_title = ref("");
+const book_author = ref("");
+const book_price = ref(undefined);
+const book_published_year = ref(undefined);
+const book_quantity = ref(undefined);
+const book_publisher_id = ref("");
 
 const fetchPublishers = async () => {
     try {
@@ -22,6 +30,25 @@ const fetchPublishers = async () => {
     }
 };
 
+const handleUpdateBook = async (book_id) => {
+    try {
+        const data = {
+            title: book_title.value,
+            author: book_author.value,
+            price: book_price.value,
+            published_year: book_published_year.value,
+            publisher_id: book_publisher_id.value,
+            quantity: book_quantity.value
+        };
+        await bookService.updateBook(book_id, data);
+
+        alert("Cập nhật sách thành công");
+        router.push("/books");
+    } catch (error) {
+        console.log(error);
+        alert("Đã xảy ra lỗi khi Cập nhật sách");
+    }
+};
 
 const fetchCurrentBook = async () => {
     try {
@@ -46,27 +73,34 @@ onMounted(async () => {
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
                     <legend class="fieldset-legend text-xl">Cập nhật sách</legend>
                     <label class="label">Tựa sách</label>
-                    <input type="text" class="input" placeholder="Nhập tựa sách" />
+                    <input v-model=" book_title " type="text" class="input" placeholder="Nhập tựa sách" />
 
                     <label class="label">Tác giả</label>
-                    <input type="text" class="input" placeholder="Nhập tác giả" />
+                    <input v-model=" book_author " type="text" class="input" placeholder="Nhập tác giả" />
 
                     <label class="label">Nhà xuất bản</label>
-                    <select class="select">
-                        <option v-for=" publisher in publishers " :key=" publisher._id " :value=" publisher.name ">
+                    <select v-model=" book_publisher_id " class="select">
+                        <option disabled value="">Chọn nhà xuất bản</option>
+                        <option v-for=" publisher in publishers " :key=" publisher._id " :value=" publisher._id ">
                             {{ publisher.name }}
                         </option>
                     </select>
 
+                    <label class="label">Năm xuất bản</label>
+                    <input v-model=" book_published_year " type="number" class="input" placeholder="Nhập năm xuất bản" />
+
                     <label class="label">Đơn giá</label>
-                    <input type="number" class="input" placeholder="Nhập đơn giá" />
+                    <input v-model=" book_price " type="number" class="input" placeholder="Nhập đơn giá" />
 
                     <label class="label">Số lượng</label>
-                    <input type="number" class="input" placeholder="Nhập số lượng" />
+                    <input v-model=" book_quantity " type="number" class="input" placeholder="Nhập số lượng" />
 
                     <div class="grid grid-cols-2 gap-2">
-                        <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Cập nhật</button>
-                        <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Xóa</button>
+                        <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
+                            @click=" handleUpdateBook( book_id )">Cập
+                            nhật</button>
+                        <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
+                            @click=" handleDeleteBook( book_id )">Xóa</button>
                     </div>
 
                     <span class="mt-4">

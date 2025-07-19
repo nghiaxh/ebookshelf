@@ -16,15 +16,9 @@ const last_name = ref("");
 const username = ref("");
 const password = ref("");
 const address = ref("");
-const birthday = ref("");
+const birthday = ref(undefined);
 const gender = ref(undefined);
 const phone = ref("");
-
-const cancelUserProfileEdit = () => {
-  if (confirm("Cập nhật chưa được lưu, xác nhận thoát?")) {
-    router.push("/users");
-  }
-};
 
 const handleUserProfileEdit = async (user_id) => {
   try {
@@ -48,13 +42,25 @@ const handleUserProfileEdit = async (user_id) => {
     console.log(error);
   }
 };
+
+const handleUserProfileDelete = async (user_id) => {
+  try {
+    if (confirm("Xác nhận xóa người dùng?")) {
+      await userService.deleteUser(user_id);
+      alert("Xóa người dùng thành công");
+      router.push("/users");
+    }
+  } catch (error) {
+    alert("Đã xảy ra lỗi khi xóa người dùng");
+  }
+};
 </script>
 
 <template>
   <div class="flex min-h-screen flex-col">
     <Header></Header>
     <div class="flex justify-center items-center flex-grow">
-      <form @submit.prevent=" handleUserProfileEdit( user_id )">
+      <form @submit.prevent>
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base shadow">
           <legend class="fieldset-legend text-xl">Cập nhật người dùng</legend>
           <label class="label" for="last_name">Họ lót</label>
@@ -85,11 +91,17 @@ const handleUserProfileEdit = async (user_id) => {
 
           <label class="label" for="password">Mật khẩu</label>
           <input v-model=" password " type="password" class="input" id="password" placeholder="Nhập mật khẩu" />
-          <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-2">
-            <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Lưu thay đổi</button>
-            <button @click=" cancelUserProfileEdit "
-              class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thoát</button>
+          <div class="grid grid-cols-2 gap-2">
+            <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
+              @click=" handleUserProfileEdit( user_id )">Lưu thay đổi</button>
+            <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
+              @click=" handleUserProfileDelete( user_id )">Xóa</button>
           </div>
+          <span class="mt-4">
+            <strong class="hover:underline">
+              <RouterLink to="/users" class="text-base">Quay lại</RouterLink>
+            </strong>
+          </span>
         </fieldset>
       </form>
     </div>

@@ -6,9 +6,10 @@ import UserCard from '../components/UserCard.vue';
 
 import UserService from '../services/user.service';
 import { ref, computed, onMounted } from "vue";
+import { useRouter } from 'vue-router';
 
 const userService = new UserService();
-
+const router = useRouter();
 const users = ref([]);
 const searchText = ref("");
 const role = computed(() => localStorage.getItem("role"));
@@ -39,7 +40,26 @@ const searchFilteredUsers = computed(() => {
     });
 });
 
-onMounted(fetchUsers);
+const goToAddUser = () => {
+    router.push({ name: "user.add" });
+};
+
+const handleDeleteAllUsers = async () => {
+    try {
+        if (confirm("Xác nhận xóa tất cả người dùng?")) {
+            await userService.deleteAllUsers();
+            alert("Xóa tất cả người dùng thành công");
+            fetchUsers();
+        }
+    } catch (error) {
+        console.log(error);
+        alert("Đã xảy ra lỗi khi xóa tất cả người dùng");
+    }
+};
+
+onMounted(async () => {
+    fetchUsers();
+});
 </script>
 
 <template>
@@ -51,13 +71,13 @@ onMounted(fetchUsers);
                 <InputSearch v-model=" searchText "></InputSearch>
                 <template v-if=" role === 'staff' ">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
-                        <button class="btn btn-neutral">Thêm người dùng</button>
-                        <button class="btn btn-neutral">Xóa tất người dùng</button>
+                        <button class="btn btn-neutral" @click=" goToAddUser ">Thêm người dùng</button>
+                        <button class="btn btn-neutral" @click=" handleDeleteAllUsers ">Xóa tất người dùng</button>
                     </div>
                 </template>
             </div>
             <template v-if=" searchFilteredUsers.length > 0 ">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
                     <UserCard v-for=" user in searchFilteredUsers " :key=" user._id " :user=" user "></UserCard>
                 </div>
             </template>

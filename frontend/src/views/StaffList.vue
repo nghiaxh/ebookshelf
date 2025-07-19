@@ -44,7 +44,22 @@ const goToAddStaff = () => {
   router.push({ name: "staff.add" });
 };
 
-onMounted(fetchStaffs);
+const handleDeleteAllStaffs = async () => {
+  try {
+    if (confirm("Xác nhận xóa tất cả nhân viên?")) {
+      await staffService.deleteAllStaffs();
+      alert("Xóa tất cả nhân viên thành công");
+      fetchStaffs();
+    }
+  } catch (error) {
+    console.log(error);
+    alert("Đã xảy ra lỗi khi xóa tất cả nhân viên");
+  }
+};
+
+onMounted(async () => {
+  fetchStaffs();
+});
 </script>
 
 <template>
@@ -57,12 +72,12 @@ onMounted(fetchStaffs);
         <template v-if=" role === 'staff' ">
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
             <button class="btn btn-neutral" @click=" goToAddStaff ">Thêm nhân viên</button>
-            <button class="btn btn-neutral">Xóa tất cả nhân viên</button>
+            <button class="btn btn-neutral" @click=" handleDeleteAllStaffs ">Xóa tất cả nhân viên</button>
           </div>
         </template>
       </div>
       <template v-if=" searchFilteredStaff.length > 0 ">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
           <StaffCard v-for=" staff in searchFilteredStaff " :key=" staff._id " :staff=" staff "></StaffCard>
         </div>
       </template>

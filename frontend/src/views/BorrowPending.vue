@@ -7,9 +7,11 @@ import BorrowCard from "../components/BorrowCard.vue";
 import { useRouter } from "vue-router";
 import { ref, computed, onMounted } from 'vue';
 import BorrowService from "../services/borrow.service";
+import BookService from "../services/book.service";
 
 const router = useRouter();
 const borrowService = new BorrowService();
+const bookService = new BookService();
 const role = computed(() => localStorage.getItem("role"));
 
 const borrows = ref([]);
@@ -41,7 +43,27 @@ const searchFilteredBorrows = computed(() => {
     });
 });
 
-onMounted(fetchBorrows);
+const handleApproveAllBooks = async () => {
+    try {
+        const pendingBooks = borrows.value.filter(borrow => borrow.status === "pending");
+        for (const borrow of pendingBooks) {
+            const book_data = await bookService.getBook(borrow.book_id);
+            if (book_data.quantity > 0) {
+                await borrowService.updateBorrow(borrow._id, { status: "approved" });
+                await bookService.updateBook(borrow.book_id, { quantity: book_data.quantity - 1 });
+            }
+        }
+        alert("Đã duyệt tất cả các đơn mượn đang chờ duyệt");
+        fetchBorrows();
+    } catch (error) {
+        console.log(error);
+        alert("Đã có lỗi trong quá trình duyệt tất cả các đơn mượn");
+    }
+};
+
+onMounted(async () => {
+    fetchBorrows();
+});
 </script>
 
 <template>
@@ -61,7 +83,7 @@ onMounted(fetchBorrows);
 
                     <template v-if=" role === 'staff' ">
                         <div class="grid grid-cols-1 gap-4">
-                            <button class="btn btn-neutral">Duyệt tất cả sách</button>
+                            <button class="btn btn-neutral" @click=" handleApproveAllBooks ">Duyệt tất cả sách</button>
                         </div>
                     </template>
                 </div>
@@ -70,7 +92,7 @@ onMounted(fetchBorrows);
 
                 <template v-if=" searchFilteredBorrows.length > 0 ">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
-                        <BorrowCard v-for=" borrow in searchFilteredBorrows " :key=" borrow._id " :borrow=" borrow ">
+                        <BorrowCard v-for=" borrow in searchFilteredBorrows " :key=" borrow._id " :borrow=" borrow " @fetchBorrows="fetchBorrows">
                         </BorrowCard>
                     </div>
                 </template>

@@ -41,7 +41,9 @@ const searchFilteredBorrows = computed(() => {
     });
 });
 
-onMounted(fetchBorrows);
+onMounted(async () => {
+    fetchBorrows();
+});
 </script>
 
 <template>
@@ -50,7 +52,9 @@ onMounted(fetchBorrows);
         <div class="flex-grow mx-16 my-8">
             <div class="grid grid-cols-1 gap-4 place-items-center">
                 <!-- TODO create composable useUserList -->
-                <InputSearch></InputSearch>
+                <div class="tooltip" data-tip="Tìm kiếm đơn mượn sách theo ngày mượn, ngày trả">
+                    <InputSearch v-model=" searchText "></InputSearch>
+                </div>
                 <template v-if=" role === 'staff' ">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
                         <button class="btn btn-neutral">Thêm người dùng</button>
@@ -58,12 +62,13 @@ onMounted(fetchBorrows);
                     </div>
                 </template>
                 <template v-else>
-                    <div class="mt-8"></div>
+                    <div class="mt-4"></div>
                 </template>
             </div>
             <template v-if=" searchFilteredBorrows.length > 0 ">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
-                    <BorrowCard v-for=" borrow in searchFilteredBorrows " :key=" borrow._id " :borrow=" borrow ">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
+                    <BorrowCard v-for=" borrow in searchFilteredBorrows " :key=" borrow._id " :borrow=" borrow "
+                        @fetchBorrows=" fetchBorrows ">
                     </BorrowCard>
                 </div>
             </template>
