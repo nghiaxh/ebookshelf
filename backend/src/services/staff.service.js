@@ -52,6 +52,12 @@ class StaffService {
             delete payload.password;
         }
 
+        Object.keys(payload).forEach(key => {
+            if (payload[key] === undefined || payload[key] === "" || payload[key] === null) {
+                delete payload[key];
+            }
+        });
+        
         const result = await Staff.findByIdAndUpdate(
             id, { $set: payload }, { new: true, runValidators: true }
         );

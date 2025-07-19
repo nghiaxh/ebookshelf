@@ -10,7 +10,7 @@ class BorrowService {
                 staff_id: payload.staff_id ? new ObjectId(payload.staff_id) : null,
                 borrow_date: payload.borrow_date || new Date(),
                 return_date: payload.return_date || null,
-                status: payload.status || "borrowed"
+                status: payload.status || "pending"
             });
             Object.keys(borrow).forEach(key => {
                 if (borrow[key] === undefined) {
@@ -37,6 +37,12 @@ class BorrowService {
     }
 
     async update(id, payload) {
+        Object.keys(payload).forEach(key => {
+            if (payload[key] === undefined || payload[key] === "" || payload[key] === null) {
+                delete payload[key];
+            }
+        });
+
         const result = await Borrow.findByIdAndUpdate(
             id,
             { $set: payload },

@@ -48,6 +48,12 @@ class UserService {
             delete payload.password;
         }
 
+        Object.keys(payload).forEach(key => {
+            if (payload[key] === undefined || payload[key] === "" || payload[key] === null) {
+                delete payload[key];
+            }
+        });
+
         const result = await User.findByIdAndUpdate(
             id, { $set: payload }, { new: true, runValidators: true }
         );

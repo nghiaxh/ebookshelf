@@ -24,6 +24,12 @@ class PublisherService {
     }
 
     async update(id, payload) {
+        Object.keys(payload).forEach(key => {
+            if (payload[key] === undefined || payload[key] === "" || payload[key] === null) {
+                delete payload[key];
+            }
+        });
+
         const result = await Publisher.findByIdAndUpdate(
             id, { $set: payload }, { new: true, runValidators: true }
         );
