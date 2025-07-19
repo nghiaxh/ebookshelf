@@ -22,8 +22,8 @@ const borrowSchema = mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["borrowed", "returned"],
-        default: "borrowed",
+        enum: ["pending", "approved", "returned"],
+        default: "pending",
     },
 },
     {
