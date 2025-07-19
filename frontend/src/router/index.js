@@ -32,6 +32,14 @@ const routes = [
     },
   },
   {
+    path: "/user/add",
+    name: "user.add",
+    component: () => import("../views/UserAdd.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/userprofile/edit/:id",
     name: "userprofile.edit",
     component: () => import("../views/UserProfileEdit.vue"),
@@ -115,8 +123,8 @@ const routes = [
   },
   {
     path: "/staff/edit/:id",
-    name: "staff.edit",
-    component: () => import("../views/StaffEdit.vue"),
+    name: "staffprofile.edit",
+    component: () => import("../views/StaffProfileEdit.vue"),
     meta: {
       requiresAuth: true
     },
