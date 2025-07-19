@@ -75,14 +75,6 @@ const routes = [
     props: true
   },
   {
-    path: "/borrows",
-    name: "borrow.list",
-    component: () => import("../views/BorrowList.vue"),
-    meta: {
-      requiresAuth: true
-    },
-  },
-  {
     path: "/borrow/add/:id",
     name: "borrow.add",
     component: () => import("../views/BorrowAdd.vue"),
