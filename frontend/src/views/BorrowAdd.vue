@@ -1,15 +1,37 @@
 <script setup>
 import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import BookService from '../services/book.service';
+import BorrowService from '../services/borrow.service';
 
 const bookService = new BookService();
+const borrowService = new BorrowService();
 const route = useRoute();
 
+const user_id = computed(() => localStorage.getItem("id"));
 const book_id = route.params.id;
 const book = ref({});
+
+const book_return_date = ref(undefined);
+const book_quantity = ref(1);
+
+const handleCreateBorrow = async () => {
+  try {
+    const data = {
+      user_id: user_id.value,
+      book_id: book_id,
+      return_date: book_return_date.value,
+      quantity: book_quantity.value
+    };
+    await borrowService.createBorrow(data);
+    alert("Tạo đơn mượn sách thành công");
+  } catch (error) {
+    console.log(error);
+    alert("Đã xảy ra lỗi khi tạo đơn mượn sách");
+  }
+};
 
 onMounted(async () => {
   try {
@@ -25,18 +47,18 @@ onMounted(async () => {
   <div class="flex flex-col min-h-screen">
     <Header></Header>
     <div class="flex flex-grow justify-center items-center">
-      <form @submit.prevent class="mb-24">
+      <form @submit.prevent=" handleCreateBorrow()" class="mb-24">
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
           <legend class="fieldset-legend text-xl">Thêm phiếu mượn</legend>
 
-          <label class="label">Tên sách</label>
-          <input type="text" class="input" readonly :value="book.title" />
-
+          <label class="label">Tựa sách</label>
+          <input type="text" class="input" readonly :value=" book.title " />
+          <!-- TODO form validation -->
           <label class="label">Ngày trả</label>
-          <input type="date" class="input" />
+          <input v-model=" book_return_date " type="date" class="input" />
 
           <label class="label">Số lượng</label>
-          <input type="number" class="input" readonly value="1" />
+          <input v-model=" book_quantity " type="number" class="input" readonly value="1" />
 
           <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thêm phiếu mượn</button>
 

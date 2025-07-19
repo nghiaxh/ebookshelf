@@ -3,61 +3,80 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 import InputSearch from '../components/InputSearch.vue';
 
-import { useStaffInfo } from '../composables/useStaffInfo';
+import PublisherService from "../services/publisher.service";
+import PublisherCard from '../components/PublisherCard.vue';
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
 
-const { role: staff_role } = useStaffInfo();
+const publisherService = new PublisherService();
+const router = useRouter();
+const publishers = ref([]);
+const searchText = ref("");
+const role = computed(() => localStorage.getItem("role"));
 
+const fetchPublishers = async () => {
+    try {
+        const response = await publisherService.getAllPublishers();
+        // debug code later
+        // console.log(response);
+        publishers.value = response;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const searchFilteredPublishers = computed(() => {
+    if (!searchText.value) return publishers.value;
+
+    const keyword = searchText.value.toLowerCase();
+
+    return publishers.value.filter(publisher => {
+        const searchableText = [publisher.name, publisher.address]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+
+        return searchableText.includes(keyword);
+    });
+});
+
+const goToAddPublisher = () => {
+    router.push({ name: "publisher.add" });
+};
+
+onMounted(fetchPublishers);
 </script>
 
 <template>
     <div class="flex flex-col min-h-screen">
         <Header></Header>
-        <section class="flex-grow mx-8 my-8">
+        <section class="flex-grow mx-16 my-8">
 
             <div class="grid grid-cols-1 gap-4 place-items-center">
 
                 <!-- TODO create composable usePublisherList -->
-                <InputSearch></InputSearch>
+                <InputSearch v-model=" searchText "></InputSearch>
 
-                <template v-if=" staff_role === 'staff' ">
+                <template v-if=" role === 'staff' ">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                        <button class="btn btn-neutral">Thêm nhà xuất bản</button>
+                        <button class="btn btn-neutral" @click=" goToAddPublisher ">Thêm nhà xuất bản</button>
                         <button class="btn btn-neutral">Xóa tất nhà xuất bản</button>
                     </div>
                 </template>
             </div>
 
-            <div class="lg:grid lg:place-items-center grid-rows-1">
-                <div
-                    class="max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 md:grid md:grid-cols-1 md:items-center md:gap-4 lg:px-8 lg:py-32">
-                    <div class="flow-root">
-                        <dl
-                            class="-my-3 divide-y divide-gray-200 rounded border border-gray-200 text-sm *:even:bg-gray-50">
-                            <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
-                                <dt class="font-bold text-black text-xl">Thông tin nhà xuất bản</dt>
-                            </div>
-                            <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
-                                <dt class="font-medium text-gray-900">Tên nhà xuất bản</dt>
-                                <dd class="text-gray-700 sm:col-span-2">Kim Đồng</dd>
-                            </div>
-                            <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
-                                <dt class="font-medium text-gray-900">Địa chỉ</dt>
-                                <dd class="text-gray-700 sm:col-span-2">248 Cống Quỳnh, Quận 1, TP.HCM</dd>
-                            </div>
-                            <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
-                                <dt class="font-medium text-gray-900">Số điện thoại</dt>
-                                <dd class="text-gray-700 sm:col-span-2">028.3838.3838</dd>
-                            </div>
-                            <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
-                                <RouterLink to="/publisher/edit" class="btn btn-neutral hover:scale-[1.01]">Chỉnh sửa
-                                    thông
-                                    tin</RouterLink>
-                                <Modal />
-                            </div>
-                        </dl>
-                    </div>
+            <template v-if=" searchFilteredPublishers.length > 0 ">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 mt-8">
+                    <PublisherCard v-for=" publisher in searchFilteredPublishers " :key=" publisher._id "
+                        :publisher=" publisher "></PublisherCard>
                 </div>
-            </div>
+            </template>
+            <template v-else>
+                <div class="grid grid-cols-1 text-center mt-8">
+                    <h1 class="text-5xl font-bold">Oops</h1>
+                    <p class="py-6">Lỗi không thể tìm thấy người dùng</p>
+                </div>
+            </template>
         </section>
         <Footer></Footer>
     </div>

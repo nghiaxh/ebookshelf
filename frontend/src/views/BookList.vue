@@ -4,9 +4,11 @@ import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 import InputSearch from "../components/InputSearch.vue";
 
+import { useRouter } from "vue-router";
 import { ref, computed, onMounted } from 'vue';
 import BookService from '../services/book.service';
 
+const router = useRouter();
 const bookService = new BookService();
 const role = computed(() => localStorage.getItem("role"));
 
@@ -39,6 +41,10 @@ const searchFilteredBooks = computed(() => {
   });
 });
 
+const goToAddBook = () => {
+  router.push({ name: "book.add" });
+};
+
 onMounted(fetchBooks);
 </script>
 
@@ -58,9 +64,8 @@ onMounted(fetchBooks);
           </div>
 
           <template v-if=" role === 'staff' ">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <button class="btn btn-neutral">Thêm sách</button>
-              <button class="btn btn-neutral">Thêm nhà xuất bản</button>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <button class="btn btn-neutral" @click=" goToAddBook ">Thêm sách</button>
               <button class="btn btn-neutral">Xóa tất cả sách</button>
             </div>
           </template>
@@ -69,7 +74,7 @@ onMounted(fetchBooks);
         <!-- list books -->
 
         <template v-if=" searchFilteredBooks.length > 0 ">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
             <BookCard v-for=" book in searchFilteredBooks " :key=" book._id " :book=" book "></BookCard>
           </div>
         </template>

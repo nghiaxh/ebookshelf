@@ -2,30 +2,71 @@
 import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 import InputSearch from '../components/InputSearch.vue';
+import UserCard from '../components/UserCard.vue';
 
-import { useStaffInfo } from '../composables/useStaffInfo';
+import UserService from '../services/user.service';
+import { ref, computed, onMounted } from "vue";
 
-const { role: staff_role } = useStaffInfo();
+const userService = new UserService();
 
+const users = ref([]);
+const searchText = ref("");
+const role = computed(() => localStorage.getItem("role"));
+
+const fetchUsers = async () => {
+    try {
+        const response = await userService.getAllUsers();
+        // debug code later
+        // console.log(response);
+        users.value = response;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const searchFilteredUsers = computed(() => {
+    if (!searchText.value) return users.value;
+
+    const keyword = searchText.value.toLowerCase();
+
+    return users.value.filter(user => {
+        const searchableText = [user.first_name, user.last_name, user.birthday, user.gender, user.address, user.phone]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+
+        return searchableText.includes(keyword);
+    });
+});
+
+onMounted(fetchUsers);
 </script>
 
 <template>
     <div class="flex flex-col min-h-screen overflow-hidden">
         <Header></Header>
-        <div class="flex-grow flex-wrap mx-16 my-8">
+        <div class="flex-grow mx-16 my-8">
             <div class="grid grid-cols-1 gap-4 place-items-center">
                 <!-- TODO create composable useUserList -->
-                <InputSearch></InputSearch>
-                <template v-if=" staff_role === 'staff' ">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                <InputSearch v-model=" searchText "></InputSearch>
+                <template v-if=" role === 'staff' ">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
                         <button class="btn btn-neutral">Thêm người dùng</button>
                         <button class="btn btn-neutral">Xóa tất người dùng</button>
                     </div>
                 </template>
             </div>
-            <div class="grid place-items-center">
-                User list
-            </div>
+            <template v-if=" searchFilteredUsers.length > 0 ">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+                    <UserCard v-for=" user in searchFilteredUsers " :key=" user._id " :user=" user "></UserCard>
+                </div>
+            </template>
+            <template v-else>
+                <div class="grid grid-cols-1 text-center">
+                    <h1 class="text-5xl font-bold">Oops</h1>
+                    <p class="py-6">Lỗi không thể tìm thấy người dùng</p>
+                </div>
+            </template>
         </div>
         <Footer></Footer>
     </div>
