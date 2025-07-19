@@ -16,6 +16,10 @@ const goToBorrowBook = (book_id) => {
   router.push({ name: "borrow.add", params: { id: book_id } });
 };
 
+const goToEditBook = (book_id) => {
+  router.push({ name: "book.edit", params: { id: book_id } });
+};
+
 </script>
 
 <template>
@@ -26,37 +30,37 @@ const goToBorrowBook = (book_id) => {
 
     <div class="flow-root">
       <dl class="divide-y divide-gray-200 rounded border border-gray-200 text-sm">
-        <div class="grid grid-cols-1 p-1.5 sm:grid-cols-3">
+        <div class="grid grid-cols-2 p-2">
           <dt class="font-bold text-gray-900">Tựa sách</dt>
 
           <dd class="text-gray-800 sm:col-span-2">{{ book.title }}</dd>
         </div>
 
-        <div class="grid grid-cols-1 p-1.5 sm:grid-cols-3">
+        <div class="grid grid-cols-2 p-2">
           <dt class="font-bold text-gray-900">Tác giả</dt>
 
           <dd class="text-gray-800 sm:col-span-2">{{ book.author }}</dd>
         </div>
 
-        <div class="grid grid-cols-1 p-1.5 sm:grid-cols-3">
+        <div class="grid grid-cols-2 p-2">
           <dt class="font-bold text-gray-900">Năm xuất bản</dt>
 
           <dd class="text-gray-800 sm:col-span-2">{{ book.published_year }}</dd>
         </div>
 
-        <div class="grid grid-cols-1 p-1.5 sm:grid-cols-3">
+        <div class="grid grid-cols-2 p-2">
           <dt class="font-bold text-gray-900">Thể loại</dt>
 
-          <dd class="text-gray-800 sm:col-span-2">{{ book.genre }}</dd>
+          <dd class="text-gray-800 sm:col-span-2">{{ book.publisher_id }}</dd>
         </div>
 
-        <div class="grid grid-cols-1 p-1.5 sm:grid-cols-3">
+        <div class="grid grid-cols-2 p-2">
           <dt class="font-bold text-gray-900">Đơn giá</dt>
 
           <dd class="text-gray-800 sm:col-span-2">{{ book.price }}</dd>
         </div>
 
-        <div class="grid grid-cols-1 p-1.5 sm:grid-cols-3">
+        <div class="grid grid-cols-2 p-2">
           <dt class="font-bold text-gray-900">Số lượng</dt>
 
           <dd class="text-gray-800 sm:col-span-2">{{ book.quantity }}</dd>
