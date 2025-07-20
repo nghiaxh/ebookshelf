@@ -44,10 +44,10 @@ const searchFilteredBorrows = computed(() => {
     });
 });
 
-const handleApproveAllBooks = async () => {
+const handleApproveAllBorrows = async () => {
     try {
-        const pendingBooks = borrows.value.filter(borrow => borrow.status === "pending");
-        for (const borrow of pendingBooks) {
+        const pendingBorrows = borrows.value.filter(borrow => borrow.status === "pending");
+        for (const borrow of pendingBorrows) {
             const book_data = await bookService.getBook(borrow.book_id);
             if (book_data.quantity > 0) {
                 await borrowService.updateBorrow(borrow._id, { status: "approved" });
@@ -59,6 +59,19 @@ const handleApproveAllBooks = async () => {
     } catch (error) {
         console.log(error);
         push.error("Đã có lỗi trong quá trình duyệt tất cả các đơn mượn");
+    }
+};
+
+const handleDeleteAllBorrows = async () => {
+    try {
+        if (confirm("Xác nhận xóa tất cả các đơn mượn sách")) {
+            await borrowService.deleteAllBorrows();
+            push.info("Đã xóa tất cả các đơn mượn sách");
+            fetchBorrows();
+        }
+    } catch (error) {
+        console.log(error);
+        push.error("Đã có lỗi xảy ra khi xóa tất cả các đơn mượn");
     }
 };
 
@@ -83,9 +96,11 @@ onMounted(async () => {
                     </div>
 
                     <template v-if=" role === 'staff' ">
-                        <div class="grid grid-cols-1 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <button class="btn btn-neutral hover:btn-success hover:text-white hover:scale-[1.01]"
-                                @click=" handleApproveAllBooks ">Duyệt tất cả sách</button>
+                                @click=" handleApproveAllBorrows ">Duyệt tất cả đơn mượn</button>
+                            <button class="btn btn-neutral hover:btn-error hover:text-white hover:scale-[1.01]"
+                                @click=" handleDeleteAllBorrows ">Xóa tất cả đơn mượn</button>
                         </div>
                     </template>
                 </div>

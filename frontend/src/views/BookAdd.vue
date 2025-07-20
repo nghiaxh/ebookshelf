@@ -7,17 +7,31 @@ import BookService from "../services/book.service";
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import { push } from 'notivue';
+import { useForm, useField } from "vee-validate";
+import { bookSchema } from '../validations/bookValidation';
 
 const bookService = new BookService();
 const publisherService = new PublisherService();
 const router = useRouter();
 
-const book_title = ref("");
-const book_author = ref("");
-const book_price = ref(undefined);
-const book_published_year = ref(undefined);
-const book_quantity = ref(undefined);
-const book_publisher_id = ref("");
+const { handleSubmit, meta } = useForm({
+  validationSchema: bookSchema,
+  initialValues: {
+    title: "",
+    author: "",
+    price: undefined,
+    published_year: undefined,
+    quantity: undefined,
+    publisher_id: "",
+  }
+});
+
+const { value: title, errorMessage: titleError } = useField("title");
+const { value: author, errorMessage: authorError } = useField("author");
+const { value: price, errorMessage: priceError } = useField("price");
+const { value: published_year, errorMessage: published_yearError } = useField("published_year");
+const { value: publisher_id, errorMessage: publisher_idError } = useField("publisher_id");
+const { value: quantity, errorMessage: quantityError } = useField("quantity");
 
 const publishers = ref([]);
 
@@ -33,12 +47,12 @@ const fetchPublishers = async () => {
 const handleCreateBook = async () => {
   try {
     const data = {
-      title: book_title.value,
-      author: book_author.value,
-      price: book_price.value,
-      published_year: book_published_year.value,
-      publisher_id: book_publisher_id.value,
-      quantity: book_quantity.value
+      title: title.value,
+      author: author.value,
+      price: price.value,
+      published_year: published_year.value,
+      publisher_id: publisher_id.value,
+      quantity: quantity.value
     };
     await bookService.createBook(data);
 
@@ -63,28 +77,34 @@ onMounted(async () => {
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
           <legend class="fieldset-legend text-xl">Thêm mới sách</legend>
           <label class="label">Tựa sách</label>
-          <input v-model=" book_title " type="text" class="input" placeholder="Nhập tựa sách" />
+          <input v-model=" title " type="text" class="input" placeholder="Nhập tựa sách" />
+          <span class="text-sm text-red-600">{{ titleError }}</span>
 
           <label class="label">Tác giả</label>
-          <input v-model=" book_author " type="text" class="input" placeholder="Nhập tác giả" />
+          <input v-model=" author " type="text" class="input" placeholder="Nhập tác giả" />
+          <span class="text-sm text-red-600">{{ authorError }}</span>
 
           <label class="label">Nhà xuất bản</label>
-          <select v-model=" book_publisher_id " class="select" placeholder="O">
+          <select v-model=" publisher_id " class="select">
             <option disabled value="">Chọn nhà xuất bản</option>
             <option v-for=" publisher in publishers " :key=" publisher._id " :value=" publisher._id ">
               {{ publisher.name }}
             </option>
           </select>
+          <span class="text-sm text-red-600">{{ publisher_idError }}</span>
 
           <label class="label">Năm xuất bản</label>
-          <input v-model=" book_published_year " type="number" class="input" placeholder="Nhập năm xuất bản" />
+          <input v-model=" published_year " type="number" class="input" placeholder="Nhập năm xuất bản" />
+          <span class="text-sm text-red-600">{{ published_yearError }}</span>
 
           <label class="label">Đơn giá</label>
-          <input v-model=" book_price " type="number" class="input" placeholder="Nhập đơn giá" />
+          <input v-model=" price " type="number" class="input" placeholder="Nhập đơn giá" />
+          <span class="text-sm text-red-600">{{ priceError }}</span>
 
           <label class="label">Số lượng</label>
-          <input v-model=" book_quantity " type="number" class="input" placeholder="Nhập số lượng" />
+          <input v-model=" quantity " type="number" class="input" placeholder="Nhập số lượng" />
 
+          <span class="text-sm text-red-600">{{ quantityError }}</span>
           <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thêm sách</button>
 
           <span class="mt-4">
