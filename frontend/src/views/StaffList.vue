@@ -7,6 +7,7 @@ import StaffCard from '../components/StaffCard.vue';
 import { ref, computed, onMounted } from "vue";
 import StaffService from '../services/staff.service';
 import { useRouter } from 'vue-router';
+import { push } from 'notivue';
 
 const staffService = new StaffService();
 const router = useRouter();
@@ -22,6 +23,7 @@ const fetchStaffs = async () => {
     staffs.value = response;
   } catch (error) {
     console.error(error);
+    push.error("Đã có lỗi xảy ra khi hiện thị danh sách nhân viên");
   }
 };
 
@@ -48,12 +50,12 @@ const handleDeleteAllStaffs = async () => {
   try {
     if (confirm("Xác nhận xóa tất cả nhân viên?")) {
       await staffService.deleteAllStaffs();
-      alert("Xóa tất cả nhân viên thành công");
+      push.info("Xóa tất cả nhân viên thành công");
       fetchStaffs();
     }
   } catch (error) {
     console.log(error);
-    alert("Đã xảy ra lỗi khi xóa tất cả nhân viên");
+    push.error("Đã xảy ra lỗi khi xóa tất cả nhân viên");
   }
 };
 
@@ -71,8 +73,10 @@ onMounted(async () => {
         <InputSearch v-model=" searchText "></InputSearch>
         <template v-if=" role === 'staff' ">
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
-            <button class="btn btn-neutral" @click=" goToAddStaff ">Thêm nhân viên</button>
-            <button class="btn btn-neutral" @click=" handleDeleteAllStaffs ">Xóa tất cả nhân viên</button>
+            <button class="btn btn-neutral hover:btn-info hover:text-white hover:scale-[1.01]"
+              @click=" goToAddStaff ">Thêm nhân viên</button>
+            <button class="btn btn-neutral hover:btn-error hover:text-white hover:scale-[1.01]"
+              @click=" handleDeleteAllStaffs ">Xóa tất cả nhân viên</button>
           </div>
         </template>
       </div>
@@ -83,7 +87,6 @@ onMounted(async () => {
       </template>
       <template v-else>
         <div class="grid grid-cols-1 text-center">
-          <h1 class="text-5xl font-bold">Oops</h1>
           <p class="py-6">Lỗi không thể tìm thấy người dùng</p>
         </div>
       </template>

@@ -8,6 +8,7 @@ import { useRouter } from "vue-router";
 import { ref, computed, onMounted } from 'vue';
 import BorrowService from "../services/borrow.service";
 import BookService from "../services/book.service";
+import { push } from "notivue";
 
 const router = useRouter();
 const borrowService = new BorrowService();
@@ -53,11 +54,11 @@ const handleApproveAllBooks = async () => {
                 await bookService.updateBook(borrow.book_id, { quantity: book_data.quantity - 1 });
             }
         }
-        alert("Đã duyệt tất cả các đơn mượn đang chờ duyệt");
+        push.success("Đã duyệt tất cả các đơn mượn đang chờ duyệt");
         fetchBorrows();
     } catch (error) {
         console.log(error);
-        alert("Đã có lỗi trong quá trình duyệt tất cả các đơn mượn");
+        push.error("Đã có lỗi trong quá trình duyệt tất cả các đơn mượn");
     }
 };
 
@@ -83,7 +84,8 @@ onMounted(async () => {
 
                     <template v-if=" role === 'staff' ">
                         <div class="grid grid-cols-1 gap-4">
-                            <button class="btn btn-neutral" @click=" handleApproveAllBooks ">Duyệt tất cả sách</button>
+                            <button class="btn btn-neutral hover:btn-success hover:text-white hover:scale-[1.01]"
+                                @click=" handleApproveAllBooks ">Duyệt tất cả sách</button>
                         </div>
                     </template>
                 </div>
@@ -92,14 +94,15 @@ onMounted(async () => {
 
                 <template v-if=" searchFilteredBorrows.length > 0 ">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
-                        <BorrowCard v-for=" borrow in searchFilteredBorrows " :key=" borrow._id " :borrow=" borrow " @fetchBorrows="fetchBorrows">
+                        <BorrowCard v-for=" borrow in searchFilteredBorrows " :key=" borrow._id " :borrow=" borrow "
+                            @fetchBorrows=" fetchBorrows ">
                         </BorrowCard>
                     </div>
                 </template>
 
                 <template v-else>
                     <div class="grid grid-cols-1 text-center">
-                        <h1 class="text-5xl font-bold">Oops</h1>
+
                         <p class="py-6">Lỗi không thể tìm đơn mượn sách cần duyệt</p>
                     </div>
                 </template>

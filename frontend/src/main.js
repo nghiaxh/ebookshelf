@@ -1,8 +1,23 @@
 import { createApp } from 'vue';
-import './assets/style.css';
 import App from './App.vue';
 import router from './router';
+import './assets/style.css';
+
+import { createNotivue } from 'notivue';
+import 'notivue/notification.css';
+import 'notivue/animations.css';
+import 'notivue/notification-progress.css';
 
 const app = createApp(App);
+const notivue = createNotivue({
+    position: "top-right",
+    notifications: {
+        global: {
+            duration: 3000
+        }
+    }
+});
+
+app.use(notivue);
 app.use(router);
 app.mount('#app');

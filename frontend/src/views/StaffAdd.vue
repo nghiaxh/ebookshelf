@@ -5,6 +5,7 @@ import Footer from '../components/Footer.vue';
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import StaffService from '../services/staff.service';
+import { push } from 'notivue';
 
 const router = useRouter();
 const staffService = new StaffService();
@@ -25,11 +26,11 @@ const handleCreateStaff = async () => {
     };
     await staffService.createStaff(data);
     
-    alert("Thêm nhân viên thành công");
+    push.success("Thêm nhân viên thành công");
     router.push("/staffs");
   } catch (error) {
     console.log(error);
-    alert("Đã xảy ra lỗi khi thêm nhân viên");
+    push.error("Đã xảy ra lỗi khi thêm nhân viên");
   }
 }
 

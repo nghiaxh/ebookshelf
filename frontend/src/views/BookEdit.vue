@@ -5,6 +5,7 @@ import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import BookService from '../services/book.service';
 import PublisherService from '../services/publisher.service';
+import { push } from 'notivue';
 
 const bookService = new BookService();
 const publisherService = new PublisherService();
@@ -42,11 +43,11 @@ const handleUpdateBook = async (book_id) => {
         };
         await bookService.updateBook(book_id, data);
 
-        alert("Cập nhật sách thành công");
+        push.success("Cập nhật sách thành công");
         router.push("/books");
     } catch (error) {
         console.log(error);
-        alert("Đã xảy ra lỗi khi Cập nhật sách");
+        push.error("Đã xảy ra lỗi khi Cập nhật sách");
     }
 };
 

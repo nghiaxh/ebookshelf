@@ -5,6 +5,7 @@ import Footer from '../components/Footer.vue';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import PublisherService from "../services/publisher.service";
+import { push } from 'notivue';
 
 const router = useRouter();
 const publisherService = new PublisherService();
@@ -19,12 +20,12 @@ const handleCreatePublisher = async () => {
             address: address.value
         };
         await publisherService.createPublisher(data);
-        alert("Thêm nhà xuất bản thành công");
+        push.success("Thêm nhà xuất bản thành công");
 
         router.push("/publishers");
     } catch (error) {
         console.log(error);
-        alert("Đã có lỗi xảy ra khi tạo nhà xuất bản");
+        push.error("Đã có lỗi xảy ra khi tạo nhà xuất bản");
     }
 };
 </script>

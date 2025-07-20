@@ -5,6 +5,7 @@ import Footer from '../components/Footer.vue';
 import { useRouter, useRoute } from 'vue-router';
 import { ref } from "vue";
 import PublisherService from '../services/publisher.service';
+import { push } from 'notivue';
 
 const publisherService = new PublisherService();
 const router = useRouter();
@@ -23,22 +24,23 @@ const handlePublisherProfileEdit = async (publisher_id) => {
 
         await publisherService.updatePublisher(publisher_id, data);
 
-        alert("Cập nhật thông tin nhà xuất bản thành công");
+        push.success("Cập nhật thông tin nhà xuất bản thành công");
         router.push("/publishers");
     } catch (error) {
-        alert("Đã xảy ra lỗi khi cập nhật thông tin nhà xuất bản");
         console.log(error);
+        push.error("Đã xảy ra lỗi khi cập nhật thông tin nhà xuất bản");
     }
 };
 
 const handlePublisherProfileDelete = async (publisher_id) => {
     try {
-        await publisherService.deletePublisher(publisher_id);
-
-        alert("Xóa nhà xuất bản thành công");
-        router.push("/publishers");
+        if (confirm("Xác nhận xóa nhà xuất bản?")) {
+            await publisherService.deletePublisher(publisher_id);
+            push.success("Xóa nhà xuất bản thành công");
+            router.push("/publishers");
+        }
     } catch (error) {
-        alert("Đã xảy ra lỗi khi xóa nhà xuất bản");
+        push.error("Đã xảy ra lỗi khi xóa nhà xuất bản");
         console.log(error);
     }
 };

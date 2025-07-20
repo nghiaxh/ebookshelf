@@ -9,6 +9,7 @@
           <p class="mb-8 text-2xl">
             Kết nối dễ dàng với kho tàng kiến thức.
           </p>
+          <RouterLink to="/books" class="shadow font-bold btn btn-lg hover:underline hover:shadow-md">Truy cập</RouterLink>
         </div>
       </div>
     </div>

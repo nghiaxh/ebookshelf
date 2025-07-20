@@ -1,4 +1,5 @@
 import { useRouter } from 'vue-router';
+import { push } from 'notivue';
 
 export function useAuth() {
     const router = useRouter();
@@ -6,6 +7,7 @@ export function useAuth() {
     const logOut = () => {
         if (confirm("Xác nhận đăng xuất?")) {
             localStorage.clear();
+            push.info("Đăng xuất thành công");
             router.push('/');
         }
     };

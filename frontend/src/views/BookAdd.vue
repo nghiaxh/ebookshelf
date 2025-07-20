@@ -6,6 +6,7 @@ import PublisherService from '../services/publisher.service';
 import BookService from "../services/book.service";
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
+import { push } from 'notivue';
 
 const bookService = new BookService();
 const publisherService = new PublisherService();
@@ -40,12 +41,12 @@ const handleCreateBook = async () => {
       quantity: book_quantity.value
     };
     await bookService.createBook(data);
-    
-    alert("Thêm sách thành công");
+
+    push.success("Thêm sách thành công");
     router.push("/books");
   } catch (error) {
     console.log(error);
-    alert("Đã xảy ra lỗi khi thêm sách");
+    push.error("Đã xảy ra lỗi khi thêm sách");
   }
 };
 

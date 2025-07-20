@@ -7,6 +7,7 @@ import InputSearch from "../components/InputSearch.vue";
 import { useRouter } from "vue-router";
 import { ref, computed, onMounted } from 'vue';
 import BookService from '../services/book.service';
+import { push } from "notivue";
 
 const router = useRouter();
 const bookService = new BookService();
@@ -23,6 +24,7 @@ const fetchBooks = async () => {
     books.value = response;
   } catch (error) {
     console.error(error);
+    push.error("Đã có lỗi xảy ra khi hiện thị danh mục sách");
   }
 };
 
@@ -49,12 +51,12 @@ const handleDeleteAllBooks = async () => {
   try {
     if (confirm("Xác nhận xóa tất cả sách?")) {
       await bookService.deleteAllBooks();
-      alert("Xóa tất cả sách thành công");
+      push.success("Xóa tất cả sách thành công");
       fetchBooks();
     }
   } catch (error) {
     console.log(error);
-    alert("Đã xảy ra lỗi khi xóa tất cả sách");
+    push.error("Đã xảy ra lỗi khi xóa tất cả sách");
   }
 };
 
@@ -80,7 +82,7 @@ onMounted(async () => {
 
           <template v-if=" role === 'staff' ">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <button class="btn btn-neutral hover:btn-success hover:text-white hover:scale-[1.01]"
+              <button class="btn btn-neutral hover:btn-info hover:text-white hover:scale-[1.01]"
                 @click=" goToAddBook ">Thêm sách</button>
               <button class="btn btn-neutral hover:btn-error hover:text-white hover:scale-[1.01]"
                 @click=" handleDeleteAllBooks ">Xóa tất cả
@@ -99,7 +101,6 @@ onMounted(async () => {
 
         <template v-else>
           <div class="grid grid-cols-1 text-center">
-            <h1 class="text-5xl font-bold">Oops</h1>
             <p class="py-6">Lỗi không thể tìm thấy sách</p>
           </div>
         </template>

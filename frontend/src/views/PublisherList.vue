@@ -7,6 +7,7 @@ import PublisherService from "../services/publisher.service";
 import PublisherCard from '../components/PublisherCard.vue';
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { push } from 'notivue';
 
 const publisherService = new PublisherService();
 const router = useRouter();
@@ -48,12 +49,12 @@ const handleDeleteAllPublishers = async () => {
     try {
         if (confirm("Xác nhận xóa tất cả nhà xuất bản?")) {
             await publisherService.deleteAllPublishers();
-            alert("Xóa tất cả nhà xuất bản thành công");
+            push.success("Xóa tất cả nhà xuất bản thành công");
             fetchPublishers();
         }
     } catch (error) {
         console.log(error);
-        alert("Đã xảy ra lỗi khi xóa tất cả nhà xuất bản");
+        push.error("Đã xảy ra lỗi khi xóa tất cả nhà xuất bản");
     }
 };
 
@@ -74,8 +75,10 @@ onMounted(async () => {
 
                 <template v-if=" role === 'staff' ">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                        <button class="btn btn-neutral" @click=" goToAddPublisher ">Thêm nhà xuất bản</button>
-                        <button class="btn btn-neutral" @click=" handleDeleteAllPublishers ">Xóa tất nhà xuất
+                        <button class="btn btn-neutral hover:btn-info hover:text-white hover:scale-[1.01]"
+                            @click=" goToAddPublisher ">Thêm nhà xuất bản</button>
+                        <button class="btn btn-neutral hover:btn-error hover:text-white hover:scale-[1.01]"
+                            @click=" handleDeleteAllPublishers ">Xóa tất cả nhà xuất
                             bản</button>
                     </div>
                 </template>
@@ -89,7 +92,7 @@ onMounted(async () => {
             </template>
             <template v-else>
                 <div class="grid grid-cols-1 text-center mt-8">
-                    <h1 class="text-5xl font-bold">Oops</h1>
+
                     <p class="py-6">Lỗi không thể tìm thấy người dùng</p>
                 </div>
             </template>
