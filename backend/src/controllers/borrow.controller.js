@@ -4,8 +4,8 @@ import ApiError from "../api-error.js";
 const borrowService = new BorrowService();
 
 export async function create(req, res, next) {
-    if (!req.body?.user_id || !req.body?.book_id) {
-        return next(new ApiError(400, "User and book information is missing"));
+    if (!req.body?.user_id || !req.body?.book_id || !req.body?.return_date) {
+        return next(new ApiError(400, "User, book information or return date is missing"));
     }
 
     try {

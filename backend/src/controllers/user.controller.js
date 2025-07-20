@@ -14,7 +14,7 @@ export async function create(req, res, next) {
     try {
         const existingUser = await userService.findByUsername(req.body.username);
         if (existingUser) {
-            return next(new ApiError(400, "Username already exists"));
+            return next(new ApiError(409, "Username already exists"));
         }
 
         await userService.create(req.body);
