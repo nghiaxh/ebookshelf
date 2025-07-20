@@ -95,7 +95,10 @@ const routes = [
     path: "/borrow/edit/:id",
     name: "borrow.edit",
     component: () => (import("../views/BorrowEdit.vue")),
-    props: true
+    props: true,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/staffs",
