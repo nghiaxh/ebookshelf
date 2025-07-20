@@ -4,6 +4,7 @@ import { ref, computed, onMounted, defineEmits } from 'vue';
 import BorrowService from "../services/borrow.service";
 import UserService from "../services/user.service";
 import BookService from "../services/book.service";
+import { push } from "notivue";
 
 const role = computed(() => localStorage.getItem("role"));
 const router = useRouter();
@@ -28,12 +29,14 @@ const book_quantity = ref(undefined);
 const handleApproveBook = async (borrow_id) => {
     try {
         await borrowService.updateBorrow(borrow_id, { status: "approved" });
-        await bookService.updateBook(props.borrow.book_id, { quantity: book_quantity.value - 1 });
-        alert("Duyệt sách thành công");
+        if (book_quantity <= 0) {
+            push.error("Số lượng sách đã hết");
+        } else { await bookService.updateBook(props.borrow.book_id, { quantity: book_quantity.value - 1 }); }
+        push.success("Duyệt sách thành công");
         emit("fetchBorrows");
     } catch (error) {
         console.log(error);
-        alert("Đã xảy ra lỗi khi duyệt sách");
+        push.error("Đã xảy ra lỗi khi duyệt sách");
     }
 };
 
@@ -41,11 +44,11 @@ const handleReturnBook = async (borrow_id) => {
     try {
         await bookService.updateBook(props.borrow.book_id, { quantity: book_quantity.value + 1 });
         await borrowService.deleteBorrow(borrow_id);
-        alert("Trả sách thành công");
+        push.success("Trả sách thành công");
         emit("fetchBorrows");
     } catch (error) {
         console.log(error);
-        alert("Đã xảy ra lỗi khi trả sách");
+        push.error("Đã xảy ra lỗi khi trả sách");
     }
 };
 
@@ -59,6 +62,7 @@ onMounted(async () => {
         book_quantity.value = book_data.quantity;
     } catch (error) {
         console.log(error);
+        push.error("Đã xảy ra lỗi khi truy cập dữ liệu sách");
     }
 });
 </script>
@@ -67,12 +71,16 @@ onMounted(async () => {
     <div
         class="flex flex-wrap flex-col shadow rounded-lg overflow-hidden hover:shadow-lg hover:scale-[1.001] transition">
         <div class="flow-root">
+
+            <!-- <img alt="Book cover" :src=" `https://picsum.photos/seed/${ borrow.book_id }/800` "
+                class="shadow-md object-cover" /> -->
+
             <dl class="divide-y divide-gray-200 rounded border border-gray-200 text-sm">
                 <div class="grid grid-cols-2 p-2">
                     <dt class="font-bold text-gray-900">Người mượn</dt>
 
                     <dd class="text-gray-800 sm:col-span-2">{{ `${ last_name } ${ first_name }` || "Không xác định"
-                        }}</dd>
+                    }}</dd>
                 </div>
 
                 <div class="grid grid-cols-2 p-2">

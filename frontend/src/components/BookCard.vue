@@ -37,7 +37,7 @@ onMounted(async () => {
 <template>
   <div class="flex flex-wrap flex-col shadow rounded-lg overflow-hidden hover:shadow-lg hover:scale-[1.001] transition">
 
-    <img alt="Book cover" :src=" `https://picsum.photos/seed/${ book._id }/800` " class="shadow-md h-64 object-cover" />
+    <!-- <img alt="Book cover" :src=" `https://picsum.photos/seed/${ book._id }/800` " class="shadow-md object-cover" /> -->
 
     <div class="flow-root">
       <dl class="divide-y divide-gray-200 rounded border border-gray-200 text-sm">
@@ -80,17 +80,17 @@ onMounted(async () => {
         <div class="grid grid-cols-2 p-2">
           <dt class="font-bold text-gray-900">Số lượng</dt>
 
-          <template v-if=" book.quantity >= 50 ">
-            <dd class="text-emerald-600 font-bold sm:col-span-2">{{ book.quantity }}</dd>
-          </template>
-          <template v-else-if=" book.quantity >= 25 ">
-            <dd class="text-amber-600 font-bold sm:col-span-2">{{ book.quantity }}</dd>
+          <template v-if=" book.quantity >= 30 ">
+            <dd class="text-emerald-600 font-bold sm:col-span-2">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
           </template>
           <template v-else-if=" book.quantity >= 10 ">
-            <dd class="text-red-600 font-bold sm:col-span-2">{{ book.quantity }}</dd>
+            <dd class="text-amber-600 font-bold sm:col-span-2">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
+          </template>
+          <template v-else-if=" book.quantity >= 0 ">
+            <dd class="text-red-600 font-bold sm:col-span-2">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
           </template>
           <template v-else>
-            <dd class="text-gray-800 font-bold sm:col-span-2">{{ book.quantity || "Không xác định" }}</dd>
+            <dd class="text-stone-600 font-bold sm:col-span-2">Không xác định</dd>
           </template>
         </div>
 
