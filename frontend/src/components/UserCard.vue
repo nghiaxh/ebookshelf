@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="grid grid-cols-2 p-2">
-                    <dt class="font-bold text-gray-900">Tác giả</dt>
+                    <dt class="font-bold text-gray-900">Tên</dt>
 
                     <dd class="text-gray-800 sm:col-span-2">{{ user.first_name || "Không xác định" }}</dd>
                 </div>

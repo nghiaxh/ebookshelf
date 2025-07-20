@@ -80,10 +80,10 @@ onMounted(async () => {
         <div class="grid grid-cols-2 p-2">
           <dt class="font-bold text-gray-900">Số lượng</dt>
 
-          <template v-if=" book.quantity >= 30 ">
+          <template v-if=" book.quantity >= 50 ">
             <dd class="text-emerald-600 font-bold sm:col-span-2">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
           </template>
-          <template v-else-if=" book.quantity >= 10 ">
+          <template v-else-if=" book.quantity >= 25 ">
             <dd class="text-amber-600 font-bold sm:col-span-2">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
           </template>
           <template v-else-if=" book.quantity >= 0 ">

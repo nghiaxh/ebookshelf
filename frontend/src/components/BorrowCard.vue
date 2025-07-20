@@ -52,6 +52,10 @@ const handleReturnBook = async (borrow_id) => {
     }
 };
 
+const goToEditBorrow = async (borrow_id) => {
+    router.push({ name: "borrow.edit", params: { id: borrow_id } });
+};
+
 onMounted(async () => {
     try {
         const book_data = await bookService.getBook(props.borrow.book_id);
@@ -79,8 +83,7 @@ onMounted(async () => {
                 <div class="grid grid-cols-2 p-2">
                     <dt class="font-bold text-gray-900">Người mượn</dt>
 
-                    <dd class="text-gray-800 sm:col-span-2">{{ `${ last_name } ${ first_name }` || "Không xác định"
-                    }}</dd>
+                    <dd class="text-gray-800 sm:col-span-2">{{ ( last_name && first_name ) ? `${ last_name } ${ first_name }` : "Không xác định" }}</dd>
                 </div>
 
                 <div class="grid grid-cols-2 p-2">
@@ -132,6 +135,11 @@ onMounted(async () => {
                                 sách</button>
                         </div>
                     </template>
+                    <div class="grid grid-cols-1">
+                        <button @click=" goToEditBorrow( borrow._id )"
+                            class="btn btn-ghost text-base hover:underline hover:btn-info hover:text-white">Chỉnh
+                            sửa</button>
+                    </div>
                 </template>
                 <template v-if=" role === 'user' ">
                     <template v-if=" borrow.status === 'pending' ">
