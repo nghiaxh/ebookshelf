@@ -2,10 +2,13 @@
 import { useRouter } from "vue-router";
 import { ref, computed, onMounted } from 'vue';
 import PublisherService from "../services/publisher.service";
+import BookService from "../services/book.service";
+import { push } from "notivue";
 
 const role = computed(() => localStorage.getItem("role"));
 const router = useRouter();
 const publisherService = new PublisherService();
+const bookService = new BookService();
 
 const props = defineProps({
   book: {
@@ -14,10 +17,16 @@ const props = defineProps({
   }
 });
 
-const publisher_name = ref("");
+// const publisher_name = ref("");
+const book_data = ({});
 
 const goToBorrowBook = (book_id) => {
-  router.push({ name: "borrow.add", params: { id: book_id } });
+  if (book_data.value.quantity <= 0) {
+    push.error("Không thể mượn sách do sách đã hết");
+  }
+  else {
+    router.push({ name: "borrow.add", params: { id: book_id } });
+  }
 };
 
 const goToEditBook = (book_id) => {
@@ -26,8 +35,7 @@ const goToEditBook = (book_id) => {
 
 onMounted(async () => {
   try {
-    const data = await publisherService.getPublisherById(props.book.publisher_id);
-    publisher_name.value = data.name || "Không xác định";
+    book_data.value = await bookService.getBook(props.book._id);
   } catch (error) {
     console.log(error);
   }
@@ -37,7 +45,7 @@ onMounted(async () => {
 <template>
   <div class="flex flex-wrap flex-col shadow rounded-lg overflow-hidden hover:shadow-lg hover:scale-[1.001] transition">
 
-    <!-- <img alt="Book cover" :src=" `https://picsum.photos/seed/${ book._id }/800` " class="shadow-md object-cover" /> -->
+    <img alt="Book cover" :src=" `https://picsum.photos/seed/${ book._id }/1800` " class="shadow-md object-cover" />
 
     <div class="flow-root">
       <dl class="divide-y divide-gray-200 rounded border border-gray-200 text-sm">
@@ -59,16 +67,10 @@ onMounted(async () => {
           <dd class="text-gray-800 sm:col-span-2">{{ book.published_year || "Không xác định" }}</dd>
         </div>
 
-        <!-- <div class="grid grid-cols-2 p-2">
-          <dt class="font-bold text-gray-900">Mã nhà xuất bản</dt>
-
-          <dd class="text-gray-800 sm:col-span-2">{{ book.publisher_id || "Không xác định" }}</dd>
-        </div> -->
-
         <div class="grid grid-cols-2 p-2">
           <dt class="font-bold text-gray-900">Tên nhà xuất bản</dt>
 
-          <dd class="text-gray-800 sm:col-span-2">{{ publisher_name || "Không xác định" }}</dd>
+          <dd class="text-gray-800 sm:col-span-2">{{ book.publisher_id?.name || "Không xác định" }}</dd>
         </div>
 
         <div class="grid grid-cols-2 p-2">
@@ -86,11 +88,11 @@ onMounted(async () => {
           <template v-else-if=" book.quantity >= 25 ">
             <dd class="text-amber-600 font-bold sm:col-span-2">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
           </template>
-          <template v-else-if=" book.quantity >= 0 ">
+          <template v-else-if=" book.quantity > 0 ">
             <dd class="text-red-600 font-bold sm:col-span-2">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
           </template>
           <template v-else>
-            <dd class="text-stone-600 font-bold sm:col-span-2">Không xác định</dd>
+            <dd class="text-stone-600 font-bold sm:col-span-2">Đã hết sách</dd>
           </template>
         </div>
 
