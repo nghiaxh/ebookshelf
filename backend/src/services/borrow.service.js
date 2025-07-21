@@ -23,11 +23,29 @@ class BorrowService {
     }
 
     async find(filter) {
-        return await Borrow.find(filter);
+        return await Borrow.find(filter)
+            .populate("user_id")
+            .populate("staff_id")
+            .populate({
+                path: "book_id",
+                populate: {
+                    path: "publisher_id",
+                    model: "Publisher"
+                }
+            });
     }
 
     async findById(id) {
-        return await Borrow.findById(id);
+        return await Borrow.findById(id)
+            .populate("user_id")
+            .populate("staff_id")
+            .populate({
+                path: "book_id",
+                populate: {
+                    path: "publisher_id",
+                    model: "Publisher"
+                }
+            });
     }
 
     async findByUserId(user_id) {

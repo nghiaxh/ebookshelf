@@ -24,11 +24,11 @@ class BookService {
     }
 
     async find(filter) {
-        return await Book.find(filter);
+        return await Book.find(filter).populate("publisher_id");
     }
 
     async findById(id) {
-        return await Book.findById(id);
+        return await Book.findOne({ _id: id }).populate("publisher_id");
     }
 
     async findByName(name) {
@@ -43,7 +43,7 @@ class BookService {
                 delete payload[key];
             }
         });
-        
+
         const result = await Book.findByIdAndUpdate(
             id, { $set: payload }, { new: true, runValidators: true }
         );
