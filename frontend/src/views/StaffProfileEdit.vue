@@ -6,17 +6,18 @@ import { useRoute } from "vue-router";
 import { ref } from "vue";
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
-import { staffSchema } from '../validations/staffValidation';
+import { staffSchema } from '../validations/staff.validation';
 import StaffService from '../services/staff.service';
 
-const router = useRouter();
 const route = useRoute();
+const router = useRouter();
 const staffService = new StaffService();
+const staff_id = route.params.id;
+
 const { handleSubmit, meta } = useForm({
   validationSchema: staffSchema
 });
 
-const staff_id = route.params.id;
 
 const { value: name, errorMessage: nameError } = useField("name");
 const { value: username, errorMessage: usernameError } = useField("username");
@@ -25,10 +26,10 @@ const { value: address, errorMessage: addressError } = useField("address");
 const { value: phone, errorMessage: phoneError } = useField("phone");
 
 const handleStaffProfileEdit = async (staff_id) => {
-  // if (!meta.value.valid) {
-  //   push.error("Vui lòng điền đầy đủ thông tin");
-
-  // }
+  if (!meta.value.valid) {
+    push.error("Vui lòng điền đầy đủ thông tin");
+    return;
+  }
   try {
     const data = {
       name: name.value,
@@ -90,9 +91,9 @@ const handleStaffProfileDelete = async (staff_id) => {
 
           <div class="grid grid-cols-2 gap-2">
             <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
-              @click=" handleStaffProfileEdit( staff_id )">Lưu thay đổi</button>
+              @click="handleStaffProfileEdit( staff_id )">Lưu thay đổi</button>
             <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
-              @click=" handleStaffProfileDelete( staff_id )">Xóa</button>
+              @click="handleStaffProfileDelete( staff_id )">Xóa</button>
           </div>
           <span class="mt-4">
             <strong class="hover:underline">

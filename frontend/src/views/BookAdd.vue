@@ -8,14 +8,15 @@ import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
-import { bookSchema } from '../validations/bookValidation';
+import { bookSchema } from '../validations/book.validation';
 
 const bookService = new BookService();
 const publisherService = new PublisherService();
 const router = useRouter();
 
-const { handleSubmit, meta } = useForm({
+const handleSubmit = useForm({
   validationSchema: bookSchema,
+  mode: "onChange",
   initialValues: {
     title: "",
     author: "",
@@ -60,7 +61,12 @@ const handleCreateBook = async () => {
     router.push("/books");
   } catch (error) {
     console.log(error);
-    push.error("Đã xảy ra lỗi khi thêm sách");
+    if (error.response.status === 400) {
+      push.error("Vui lòng điền thông tin");
+      return;
+    } else {
+      push.error("Đã xảy ra lỗi khi thêm sách");
+    }
   }
 };
 
@@ -105,7 +111,7 @@ onMounted(async () => {
           <input v-model=" quantity " type="number" class="input" placeholder="Nhập số lượng" />
 
           <span class="text-sm text-red-600">{{ quantityError }}</span>
-          <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thêm sách</button>
+          <button type="submit" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thêm sách</button>
 
           <span class="mt-4">
             <strong class="hover:underline">

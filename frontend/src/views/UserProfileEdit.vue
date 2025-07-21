@@ -3,17 +3,19 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 import { useRouter } from 'vue-router';
 import { useRoute } from "vue-router";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { push } from 'notivue';
-import { userSchema } from '../validations/publisherValidation';
+import { userSchema } from '../validations/publisher.validation';
 import UserService from '../services/user.service';
 import { useForm, useField } from "vee-validate";
 
 const userService = new UserService();
 const router = useRouter();
 const route = useRoute();
+
 const { handleSubmit } = useForm({
-  validationSchema: userSchema
+  validationSchema: userSchema,
+  mode: "onChange",
 });
 
 const user_id = route.params.id;
@@ -67,6 +69,14 @@ const handleUserProfileDelete = async (user_id) => {
     push.error("Đã xảy ra lỗi khi xóa người dùng");
   }
 };
+
+onMounted(async () => {
+  try {
+
+  } catch (error) {
+    console.log(error);
+  }
+});
 </script>
 
 <template>
@@ -84,11 +94,11 @@ const handleUserProfileDelete = async (user_id) => {
           <input v-model=" first_name " type="text" class="input" id="first_name" placeholder="Nhập tên" />
           <span class="text-sm text-red-600">{{ last_nameError }}</span>
 
-          
+
           <label class="label" for="birthday">Ngày sinh</label>
           <input v-model=" birthday " type="date" id="birthday" class="input" />
           <span class="text-sm text-red-600">{{ birthdayError }}</span>
-          
+
           <label class="label">Giới tính</label>
           <div class="flex gap-8">
             <div><input v-model=" gender " :value=" true " type="radio" name="radio-1" class="radio mr-1" />
@@ -111,7 +121,7 @@ const handleUserProfileDelete = async (user_id) => {
           <label class="label" for="username">Tên đăng nhập</label>
           <input v-model=" username " type="text" class="input" id="username" placeholder="Nhập tên đăng nhập" />
           <span class="text-sm text-red-600">{{ usernameError }}</span>
-          
+
           <label class="label" for="password">Mật khẩu</label>
           <input v-model=" password " type="password" class="input" id="password" placeholder="Nhập mật khẩu" />
           <span class="text-sm text-red-600">{{ phoneError }}</span>

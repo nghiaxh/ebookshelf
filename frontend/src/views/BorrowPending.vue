@@ -48,13 +48,12 @@ const handleApproveAllBorrows = async () => {
     try {
         const pendingBorrows = borrows.value.filter(borrow => borrow.status === "pending");
         for (const borrow of pendingBorrows) {
-            const book_data = await bookService.getBook(borrow.book_id);
-            if (book_data.quantity > 0) {
+            if (borrow.book_id?.quantity > 0) {
                 await borrowService.updateBorrow(borrow._id, { status: "approved" });
-                await bookService.updateBook(borrow.book_id, { quantity: book_data.quantity - 1 });
+                await bookService.updateBook(borrow.book_id, { quantity: borrow.book_id?.quantity - 1 });
             }
         }
-        push.success("Đã duyệt tất cả các đơn mượn đang chờ duyệt");
+        push.success("Đã duyệt tất cả các đơn mượn chưa được duyệt");
         fetchBorrows();
     } catch (error) {
         console.log(error);
@@ -65,6 +64,10 @@ const handleApproveAllBorrows = async () => {
 const handleDeleteAllBorrows = async () => {
     try {
         if (confirm("Xác nhận xóa tất cả các đơn mượn sách")) {
+            const pendingBorrows = borrows.value.filter(borrow => borrow.status === "pending");
+            for (const borrow in pendingBorrows) {
+                await borrowService.updateBorrow(borrow._id, { quantity: borrow.book_id?.quantity + 1 });
+            }
             await borrowService.deleteAllBorrows();
             push.info("Đã xóa tất cả các đơn mượn sách");
             fetchBorrows();
@@ -117,8 +120,7 @@ onMounted(async () => {
 
                 <template v-else>
                     <div class="grid grid-cols-1 text-center">
-
-                        <p class="py-6">Lỗi không thể tìm đơn mượn sách cần duyệt</p>
+                        <p class="py-6 font-bold">Hiện tại không có đơn mượn sách cần duyệt</p>
                     </div>
                 </template>
             </div>

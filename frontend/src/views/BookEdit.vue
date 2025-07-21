@@ -4,18 +4,28 @@ import Footer from '../components/Footer.vue';
 
 import PublisherService from '../services/publisher.service';
 import BookService from "../services/book.service";
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
-import { bookSchema } from '../validations/bookValidation';
+import { bookSchema } from '../validations/book.validation';
 
 const bookService = new BookService();
 const publisherService = new PublisherService();
 const router = useRouter();
-const route = useRoute();
 
-const book_id = route.params.id;
+const { handleSubmit, meta } = useForm({
+    validationSchema: bookSchema,
+    mode: "onChange",
+    initialValues: {
+        title: "",
+        author: "",
+        price: undefined,
+        published_year: undefined,
+        quantity: undefined,
+        publisher_id: "",
+    }
+});
 
 const { value: title, errorMessage: titleError } = useField("title");
 const { value: author, errorMessage: authorError } = useField("author");
@@ -23,18 +33,6 @@ const { value: price, errorMessage: priceError } = useField("price");
 const { value: published_year, errorMessage: published_yearError } = useField("published_year");
 const { value: publisher_id, errorMessage: publisher_idError } = useField("publisher_id");
 const { value: quantity, errorMessage: quantityError } = useField("quantity");
-
-const { handleSubmit, meta } = useForm({
-    validationSchema: bookSchema,
-    initialValues: {
-        title: title.value,
-        author: author.value,
-        price: price.value,
-        published_year: published_year.value,
-        quantity: quantity.value,
-        publisher_id: publisher_id.value,
-    }
-});
 
 const publishers = ref([]);
 
@@ -47,7 +45,12 @@ const fetchPublishers = async () => {
     }
 };
 
+
 const handleUpdateBook = async (book_id) => {
+    if (!meta.value.valid) {
+        push.warning("Vui lòng điền đầy đủ thông tin");
+        return;
+    }
     try {
         const data = {
             title: title.value,
@@ -67,21 +70,8 @@ const handleUpdateBook = async (book_id) => {
     }
 };
 
-
-
 onMounted(async () => {
     fetchPublishers();
-    try {
-        const book_data = await bookService.getBook(book_id);
-        title.value = book_data.title;
-        author.value = book_data.author;
-        price.value = book_data.price;
-        published_year.value = book_data.published_year;
-        publisher_id.value = book_data.publisher_id;
-        quantity.value = book_data.quantity;
-    } catch (error) {
-        console.log(error);
-    }
 });
 </script>
 
@@ -89,7 +79,7 @@ onMounted(async () => {
     <div class="flex flex-col min-h-screen">
         <Header></Header>
         <div class="flex flex-grow justify-center items-center">
-            <form @submit.prevent>
+            <form @submit.prevent="handleUpdateBook( book_id )">
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
                     <legend class="fieldset-legend text-xl">Cập nhật sách</legend>
                     <label class="label">Tựa sách</label>
@@ -123,8 +113,8 @@ onMounted(async () => {
                     <span class="text-sm text-red-600">{{ quantityError }}</span>
 
                     <div class="grid grid-cols-2 gap-2">
-                        <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
-                            @click=" handleUpdateBook( book_id )">Cập nhật</button>
+                        <button type="submit" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Cập
+                            nhật</button>
                         <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
                             @click=" handleDeleteBook( book_id )">Xóa</button>
                     </div>

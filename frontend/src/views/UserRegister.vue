@@ -3,7 +3,7 @@ import { ref } from "vue";
 import UserService from "../services/user.service";
 import { useRouter } from "vue-router";
 import { useForm, useField } from "vee-validate";
-import { userSchema } from "../validations/userValidation";
+import { userSchema } from "../validations/user.validation";
 import { push } from "notivue";
 
 const userService = new UserService();
@@ -47,7 +47,7 @@ const handleUserRegister = async () => {
     if (error.response.status === 400) {
       push.error("Vui lòng điền đầy đủ thông tin");
     } else if (error.response.status === 409) {
-      push.error("Tên đăng nhập đã tồn tại")
+      push.error("Tên đăng nhập đã tồn tại");
     }
     else {
       push.error("Đăng ký thất bại, vui lòng thử lại");

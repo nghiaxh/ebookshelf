@@ -8,7 +8,7 @@ import BorrowService from '../services/borrow.service';
 import PublisherService from '../services/publisher.service';
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
-import { borrowSchema } from '../validations/borrowValidation';
+import { borrowSchema } from '../validations/borrow.validation';
 
 const bookService = new BookService();
 const borrowService = new BorrowService();
@@ -19,8 +19,7 @@ const router = useRouter();
 
 const user_id = computed(() => localStorage.getItem("id"));
 const borrow_id = route.params.id;
-const book = ref({});
-const publisher_name = ref("");
+const borrow = ref({});
 
 const quantity = ref(1);
 const { handleSubmit, meta } = useForm({
@@ -32,15 +31,14 @@ const { value: return_date, errorMessage: return_dateError } = useField("return_
 const handleUpdateBorrow = async (borrow_id) => {
     // debug code
     // console.log(return_date.value);
-
     if (!meta.value.valid) {
         push.error('Vui lòng kiểm tra lại thông tin');
         return;
     }
     try {
         const data = {
-            user_id: user_id.value,
-            book_id: borrow_id,
+            user_id: borrow.user_id?._id,
+            book_id: borrow.book_id?._id,
             return_date: return_date.value,
             quantity: quantity.value
         };
@@ -68,12 +66,16 @@ const handleDeleteBorrow = async (borrow_id) => {
 onMounted(async () => {
     try {
         const borrow_data = await borrowService.getBorrowById(borrow_id);
-        const book_data = await bookService.getBook(borrow_data.book_id);
-        book.value = book_data;
-        const publisher_data = await publisherService.getPublisherById(book_data.publisher_id);
-        publisher_name.value = publisher_data.name;
+        borrow.value = borrow_data;
+
+        console.log("Full borrow data:", borrow_data);
+        console.log("Book data:", borrow_data.book_id);
+        console.log("Publisher data:", borrow_data.book_id?.publisher_id);
+        console.log("Publisher name:", borrow_data.book_id.publisher_id?.name);
+
     } catch (error) {
         console.log(error);
+        push.error("Đã có lỗi xảy ra khi try cập thông tin đơn mượn sách");
     }
 });
 </script>
@@ -87,19 +89,19 @@ onMounted(async () => {
                     <legend class="fieldset-legend text-xl">Cập nhật đơn mượn sách</legend>
 
                     <label class="label">Tựa sách</label>
-                    <input type="text" class="input" readonly :value=" book.title " />
+                    <input type="text" class="input" readonly :value=" borrow.book_id?.title " />
 
                     <label class="label">Tác giả</label>
-                    <input type="text" class="input" readonly :value=" book.author ">
+                    <input type="text" class="input" readonly :value=" borrow.book_id?.author ">
 
                     <label class="label">Đơn giá</label>
-                    <input type="number" class="input" readonly :value=" book.price ">
+                    <input type="number" class="input" readonly :value=" borrow.book_id?.price ">
 
                     <label class="label">Năm xuất bản</label>
-                    <input type="text" class="input" readonly :value=" book.published_year ">
+                    <input type="text" class="input" readonly :value=" borrow.book_id?.published_year ">
 
                     <label class="label">Tên nhà xuất bản</label>
-                    <input type="text" class="input" readonly :value=" publisher_name ">
+                    <input type="text" class="input" readonly :value=" borrow.book_id?.publisher_id?.name ">
 
                     <label class="label">Số lượng</label>
                     <input v-model=" quantity " type="number" class="input" readonly value="1" />

@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import StaffService from '../services/staff.service';
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
-import { staffSchema } from '../validations/staffValidation';
+import { staffSchema } from '../validations/staff.validation';
 
 const staffService = new StaffService();
 const { handleSubmit } = useForm({

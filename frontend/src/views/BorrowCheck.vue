@@ -74,7 +74,7 @@ onMounted(async () => {
             </template>
             <template v-else>
                 <div class="grid grid-cols-1 text-center">
-                    <p class="py-6">Lỗi không thể tìm thấy đơn mượn sách</p>
+                    <p class="py-6 font-bold">Hiện tại chưa có đơn mượn sách</p>
                 </div>
             </template>
         </div>

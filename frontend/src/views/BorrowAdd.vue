@@ -8,7 +8,7 @@ import BorrowService from '../services/borrow.service';
 import PublisherService from '../services/publisher.service';
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
-import { borrowSchema } from '../validations/borrowValidation';
+import { borrowSchema } from '../validations/borrow.validation';
 
 const bookService = new BookService();
 const borrowService = new BorrowService();
@@ -19,8 +19,8 @@ const router = useRouter();
 
 const user_id = computed(() => localStorage.getItem("id"));
 const book_id = route.params.id;
-const book = ref({});
-const publisher_name = ref("");
+const book = ref([]);
+// const publisher_name = ref("");
 
 const quantity = ref(1);
 const { handleSubmit, meta } = useForm({
@@ -44,11 +44,14 @@ const handleCreateBorrow = async () => {
       return_date: return_date.value,
       quantity: quantity.value
     };
+
     await borrowService.createBorrow(data);
     push.success("Tạo đơn mượn sách thành công");
     router.push("/books");
+
   } catch (error) {
     console.log(error);
+    push.error("Không thể mượn sách do số lượng sách đã hết");
   }
 };
 
@@ -57,8 +60,8 @@ onMounted(async () => {
   try {
     const book_data = await bookService.getBook(book_id);
     book.value = book_data;
-    const publisher_data = await publisherService.getPublisherById(book_data.publisher_id);
-    publisher_name.value = publisher_data.name;
+    // const publisher_data = await publisherService.getPublisherById(book_data.publisher_id);
+    // publisher_name.value = publisher_data.name;
   } catch (error) {
     console.log(error);
   }
@@ -71,7 +74,7 @@ onMounted(async () => {
     <div class="flex flex-grow justify-center items-center">
       <form @submit.prevent=" handleCreateBorrow ">
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
-          <legend class="fieldset-legend text-xl">Thêm phiếu mượn</legend>
+          <legend class="fieldset-legend text-xl">Thêm đơn mượn sách</legend>
 
           <label class="label">Tựa sách</label>
           <input type="text" class="input" readonly :value=" book.title " />
@@ -86,7 +89,7 @@ onMounted(async () => {
           <input type="text" class="input" readonly :value=" book.published_year ">
 
           <label class="label">Tên nhà xuất bản</label>
-          <input type="text" class="input" readonly :value=" publisher_name ">
+          <input type="text" class="input" readonly :value=" book.publisher_id?.name ">
 
           <label class="label">Số lượng</label>
           <input v-model=" quantity " type="number" class="input" readonly value="1" />

@@ -5,7 +5,7 @@ import { ref } from "vue";
 import UserService from "../services/user.service";
 import { useRouter } from "vue-router";
 import { useForm, useField } from "vee-validate";
-import { userSchema } from "../validations/userValidation";
+import { userSchema } from "../validations/user.validation";
 import { push } from "notivue";
 
 const userService = new UserService();
