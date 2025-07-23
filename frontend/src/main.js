@@ -11,6 +11,7 @@ import 'notivue/notification-progress.css';
 const app = createApp(App);
 const notivue = createNotivue({
     position: "top-right",
+    limit: 5,
     notifications: {
         global: {
             duration: 3000
