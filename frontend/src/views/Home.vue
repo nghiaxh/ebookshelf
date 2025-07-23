@@ -5,12 +5,22 @@
       <div class=" hero-overlay backdrop-brightness-60 backdrop-blur-xs"></div>
       <div class="hero-content text-neutral-content text-center">
         <div class="max-w-md">
-          <h1 class="mb-8 text-5xl font-bold">CTU Ebookshelf <br>Kệ sách điện tử</h1>
-          <p class="mb-8 text-2xl">
+          <h1 class="text-5xl font-bold">CTU Ebookshelf <br /> Kệ sách điện tử</h1>
+          <p class="text-2xl my-8">
             Kết nối dễ dàng với kho tàng kiến thức.
           </p>
-          <RouterLink to="/books" class="shadow font-bold btn btn-lg hover:underline hover:shadow-md">Truy cập
+
+          <section class="text-center mb-8">
+            <blockquote class="text-sm italic text-neutral-300">
+              “Một cuốn sách hay là một người bạn suốt đời.” <br />
+              <span class="text-xs text-neutral-400">– Ngạn ngữ phương Đông</span>
+            </blockquote>
+          </section>
+
+          <RouterLink to="/books" class="shadow font-bold text-base btn btn-lg hover:scale-[1.01] hover:shadow-md">Truy
+            cập
           </RouterLink>
+
         </div>
       </div>
     </div>
