@@ -23,29 +23,29 @@ const goToEditStaff = (staff_id) => {
                 <div class="grid grid-cols-2 p-2">
                     <dt class="font-bold text-gray-900">Họ và Tên</dt>
 
-                    <dd class="text-gray-800 sm:col-span-2">{{ staff.name || "Không xác định" }}</dd>
+                    <dd class="text-gray-800 sm:col-span-2 truncate">{{ staff.name || "Không xác định" }}</dd>
                 </div>
 
                 <div class="grid grid-cols-2 p-2">
                     <dt class="font-bold text-gray-900">Tên đăng nhập</dt>
 
-                    <dd class="text-gray-800 sm:col-span-2">{{ staff.username || "Không xác định" }}</dd>
+                    <dd class="text-gray-800 sm:col-span-2 truncate">{{ staff.username || "Không xác định" }}</dd>
                 </div>
 
                 <div class="grid grid-cols-2 p-2">
                     <dt class="font-bold text-gray-900">Địa chỉ</dt>
 
-                    <dd class="text-gray-800 sm:col-span-2">{{ staff.address || "Không xác định" }}</dd>
+                    <dd class="text-gray-800 sm:col-span-2 truncate">{{ staff.address || "Không xác định" }}</dd>
                 </div>
 
                 <div class="grid grid-cols-2 p-2">
                     <dt class="font-bold text-gray-900">Số điện thoại</dt>
 
-                    <dd class="text-gray-800 sm:col-span-2">{{ staff.phone || "Không xác định" }}</dd>
+                    <dd class="text-gray-800 sm:col-span-2 truncate">{{ staff.phone || "Không xác định" }}</dd>
                 </div>
                 <div class="grid grid-cols-1">
                     <button @click=" goToEditStaff( staff._id )"
-                        class="btn btn-ghost text-base hover:underline hover:btn-success hover:text-white">Chỉnh
+                        class="btn btn-ghost text-base hover:underline hover:btn-info hover:text-white">Chỉnh
                         sửa</button>
                 </div>
             </dl>

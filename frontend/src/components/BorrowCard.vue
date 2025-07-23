@@ -19,6 +19,8 @@ const props = defineProps({
     }
 });
 
+const loading = ref(true);
+
 const handleApproveBook = async (borrow_id) => {
     try {
         if (props.borrow.book_id?.quantity <= 0) {
@@ -29,6 +31,21 @@ const handleApproveBook = async (borrow_id) => {
         await borrowService.updateBorrow(props.borrow._id, { status: "approved" });
         await bookService.updateBook(props.borrow.book_id?._id, { quantity: props.borrow.book_id?.quantity - 1 });
         push.success("Duyệt sách thành công");
+        emit("fetchBorrows");
+    } catch (error) {
+        console.log(error);
+        push.error("Đã xảy ra lỗi khi duyệt sách");
+    }
+};
+
+const handleRejectBook = async (borrow_id) => {
+    try {
+        if (props.borrow.book_id?.quantity <= 0) {
+            push.error("Duyệt sách thất bại do số lượng sách đã hết");
+            return;
+        }
+        await borrowService.updateBorrow(props.borrow._id, { status: "rejected" });
+        push.success("Từ chối duyệt sách thành công");
         emit("fetchBorrows");
     } catch (error) {
         console.log(error);
@@ -48,6 +65,17 @@ const handleReturnBook = async (borrow_id) => {
     }
 };
 
+const handleDeleteBorrow = async (borrow_id) => {
+    try {
+        await borrowService.deleteBorrow(borrow_id);
+        push.info("Xóa đơn mượn sách thành công");
+        emit("fetchBorrows");
+    } catch (error) {
+        console.log(error);
+        push.error("Đã xảy ra lỗi khi xóa đơn mượn sách");
+    }
+};
+
 const goToEditBorrow = async (borrow_id) => {
     router.push({ name: "borrow.edit", params: { id: borrow_id } });
 };
@@ -57,35 +85,41 @@ const goToEditBorrow = async (borrow_id) => {
     <div
         class="flex flex-wrap flex-col shadow rounded-lg overflow-hidden hover:shadow-lg hover:scale-[1.001] transition">
         <div class="flow-root">
+            <div class="h-64 w-full">
+                <div v-if=" loading " class="skeleton object-fit h-full w-full"></div>
+                <img alt="Book cover" loading="lazy" @load="loading = false" :class=" { 'opacity-0': loading } "
+                    :src=" `https://picsum.photos/seed/${ props.borrow.book_id?.title }/800` "
+                    class="shadow-md h-full w-full object-cover transition-all duration-300" />
+            </div>
 
-            <!-- <img alt="Book cover" :src=" `https://picsum.photos/seed/${ borrow.book_id }/800` "
-                class="shadow-md object-cover" /> -->
 
             <dl class="divide-y divide-gray-200 rounded border border-gray-200 text-sm">
                 <div class="grid grid-cols-2 p-2">
                     <dt class="font-bold text-gray-900">Người mượn</dt>
 
-                    <dd class="text-gray-800 sm:col-span-2">{{ ( borrow.user_id?.last_name && borrow.user_id?.first_name
+                    <dd class="text-gray-800 sm:col-span-2 truncate">{{ ( borrow.user_id?.last_name &&
+                        borrow.user_id?.first_name
                     ) ? `${ borrow.user_id.last_name } ${ borrow.user_id.first_name }` : "Không xác định" }}</dd>
                 </div>
 
                 <div class="grid grid-cols-2 p-2">
                     <dt class="font-bold text-gray-900">Tựa sách</dt>
 
-                    <dd class="text-gray-800 sm:col-span-2">{{ borrow.book_id?.title || "Không xác định" }}</dd>
+                    <dd class="text-gray-800 sm:col-span-2 truncate">{{ borrow.book_id?.title || "Không xác định" }}
+                    </dd>
                 </div>
 
                 <div class="grid grid-cols-2 p-2">
                     <dt class="font-bold text-gray-900">Ngày mượn</dt>
 
-                    <dd class="text-gray-800 sm:col-span-2">{{ borrow.borrow_date ? new
+                    <dd class="text-gray-800 sm:col-span-2 truncate">{{ borrow.borrow_date ? new
                         Date( borrow.borrow_date ).toLocaleDateString( "vi-VN" ) : "Không xác định" }}</dd>
                 </div>
 
                 <div class="grid grid-cols-2 p-2">
                     <dt class="font-bold text-gray-900">Ngày trả</dt>
 
-                    <dd class="text-gray-800 sm:col-span-2">{{ borrow.return_date ? new
+                    <dd class="text-gray-800 sm:col-span-2 truncate">{{ borrow.return_date ? new
                         Date( borrow.return_date ).toLocaleDateString( "vi-VN" ) : "Không xác định" }}</dd>
                 </div>
 
@@ -93,13 +127,16 @@ const goToEditBorrow = async (borrow_id) => {
                     <dt class="font-bold text-gray-900">Trạng thái</dt>
 
                     <template v-if=" borrow.status === 'pending' ">
-                        <dd class="text-amber-500 font-bold sm:col-span-2">Chờ duyệt</dd>
+                        <dd class="text-amber-500 font-bold sm:col-span-2 truncate">Chờ duyệt</dd>
                     </template>
                     <template v-else-if=" borrow.status === 'approved' ">
-                        <dd class="text-emerald-500 font-bold sm:col-span-2">Đã duyệt</dd>
+                        <dd class="text-emerald-500 font-bold sm:col-span-2 truncate">Đã duyệt</dd>
+                    </template>
+                    <template v-else-if=" borrow.status === 'rejected' ">
+                        <dd class="text-red-600 font-bold sm:col-span-2 truncate">Từ chối</dd>
                     </template>
                     <template v-else>
-                        <dd class="text-gray-500 font-bold sm:col-span-2">Không xác định</dd>
+                        <dd class="text-gray-500 font-bold sm:col-span-2 truncate">Không xác định</dd>
                     </template>
                 </div>
 
@@ -110,12 +147,24 @@ const goToEditBorrow = async (borrow_id) => {
                                 class="btn btn-ghost text-base hover:underline hover:btn-success hover:text-white">Duyệt
                                 sách</button>
                         </div>
+                        <div class="grid grid-cols-1">
+                            <button @click=" handleRejectBook( props.borrow._id )"
+                                class="btn btn-ghost text-base hover:underline hover:btn-error hover:text-white">Từ
+                                chối</button>
+                        </div>
                     </template>
+
                     <template v-else>
                         <div class="grid grid-cols-1">
                             <button disabled @click=" handleApproveBook( props.borrow._id )"
                                 class="btn btn-ghost text-base hover:underline hover:btn-success hover:text-white">Duyệt
                                 sách</button>
+                        </div>
+
+                        <div class="grid grid-cols-1">
+                            <button disabled @click=" handleRejectBook( props.borrow._id )"
+                                class="btn btn-ghost text-base hover:underline hover:btn-success hover:text-white">Từ
+                                chối</button>
                         </div>
                     </template>
                     <div class="grid grid-cols-1">
@@ -124,6 +173,7 @@ const goToEditBorrow = async (borrow_id) => {
                             sửa</button>
                     </div>
                 </template>
+
                 <template v-if=" role === 'user' ">
                     <template v-if=" borrow.status === 'pending' ">
                         <div class="grid grid-cols-1">
@@ -137,6 +187,13 @@ const goToEditBorrow = async (borrow_id) => {
                             <button @click=" handleReturnBook( props.borrow._id )"
                                 class="btn btn-ghost text-base hover:underline hover:btn-success hover:text-white">Trả
                                 sách</button>
+                        </div>
+                    </template>
+                    <template v-if=" borrow.status === 'rejected' ">
+                        <div class="grid grid-cols-1">
+                            <button @click=" handleDeleteBorrow( props.borrow._id )"
+                                class="btn btn-ghost text-base hover:underline hover:btn-success hover:text-white">Xóa
+                                đơn mượn</button>
                         </div>
                     </template>
                 </template>

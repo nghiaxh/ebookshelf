@@ -17,11 +17,11 @@ const props = defineProps({
   }
 });
 
-// const publisher_name = ref("");
-const book_data = ({});
+const loading = ref(true);
+const title = ref("");
 
 const goToBorrowBook = (book_id) => {
-  if (book_data.value.quantity <= 0) {
+  if (props.book?.quantity <= 0) {
     push.error("Không thể mượn sách do sách đã hết");
   }
   else {
@@ -33,85 +33,70 @@ const goToEditBook = (book_id) => {
   router.push({ name: "book.edit", params: { id: book_id } });
 };
 
-onMounted(async () => {
-  try {
-    book_data.value = await bookService.getBook(props.book._id);
-  } catch (error) {
-    console.log(error);
-  }
-});
 </script>
 
 <template>
-  <div class="flex flex-wrap flex-col shadow rounded-lg overflow-hidden hover:shadow-lg hover:scale-[1.001] transition">
+  <div class="flex flex-col h-full shadow rounded-lg overflow-hidden hover:shadow-lg hover:scale-[1.001] transition">
 
-    <img alt="Book cover" :src=" `https://picsum.photos/seed/${ book._id }/1800` " class="shadow-md object-cover" />
-
-    <div class="flow-root">
-      <dl class="divide-y divide-gray-200 rounded border border-gray-200 text-sm">
-        <div class="grid grid-cols-2 p-2">
-          <dt class="font-bold text-gray-900">Tựa sách</dt>
-
-          <dd class="text-gray-800 sm:col-span-2">{{ book.title || "Không xác định" }}</dd>
-        </div>
-
-        <div class="grid grid-cols-2 p-2">
-          <dt class="font-bold text-gray-900">Tác giả</dt>
-
-          <dd class="text-gray-800 sm:col-span-2">{{ book.author || "Không xác định" }}</dd>
-        </div>
-
-        <div class="grid grid-cols-2 p-2">
-          <dt class="font-bold text-gray-900">Năm xuất bản</dt>
-
-          <dd class="text-gray-800 sm:col-span-2">{{ book.published_year || "Không xác định" }}</dd>
-        </div>
-
-        <div class="grid grid-cols-2 p-2">
-          <dt class="font-bold text-gray-900">Tên nhà xuất bản</dt>
-
-          <dd class="text-gray-800 sm:col-span-2">{{ book.publisher_id?.name || "Không xác định" }}</dd>
-        </div>
-
-        <div class="grid grid-cols-2 p-2">
-          <dt class="font-bold text-gray-900">Đơn giá</dt>
-
-          <dd class="text-gray-800 sm:col-span-2">{{ `${ book.price.toLocaleString() }đ` || "Không xác định" }}</dd>
-        </div>
-
-        <div class="grid grid-cols-2 p-2">
-          <dt class="font-bold text-gray-900">Số lượng</dt>
-
-          <template v-if=" book.quantity >= 50 ">
-            <dd class="text-emerald-600 font-bold sm:col-span-2">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
-          </template>
-          <template v-else-if=" book.quantity >= 25 ">
-            <dd class="text-amber-600 font-bold sm:col-span-2">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
-          </template>
-          <template v-else-if=" book.quantity > 0 ">
-            <dd class="text-red-600 font-bold sm:col-span-2">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
-          </template>
-          <template v-else>
-            <dd class="text-stone-600 font-bold sm:col-span-2">Đã hết sách</dd>
-          </template>
-        </div>
-
-        <template v-if=" role === 'staff' ">
-          <div class="grid grid-cols-1">
-            <button @click=" goToEditBook( book._id )"
-              class="btn btn-ghost text-base hover:underline hover:btn-info hover:text-white">Chỉnh sửa</button>
-          </div>
-        </template>
-
-        <template v-else>
-          <div class="grid grid-cols-1 tooltip" data-tip="Ấn vào đây để mượn sách">
-            <button @click=" goToBorrowBook( book._id )"
-              class="btn btn-ghost text-base hover:underline hover:btn-info hover:text-white font-bold">Mượn
-              sách</button>
-          </div>
-        </template>
-      </dl>
+    <div class="h-48 w-full">
+      <div v-if=" loading " class="skeleton h-full w-full object-cover"></div>
+      <img alt="Book cover" @load="loading = false" :class=" { 'opacity-0': loading } "
+        :src=" `https://picsum.photos/seed/${ encodeURIComponent( props.book?.title ) }/800` "
+        class="shadow-md h-full w-full object-cover transition-all duration-300" />
     </div>
+
+    <dl class="divide-y divide-gray-200 rounded border border-gray-200 text-sm">
+      <div class="grid grid-cols-2 p-2">
+        <dt class="font-bold text-gray-900">Tựa sách</dt>
+        <dd class="text-gray-800 sm:col-span-2 truncate">{{ book.title || "Không xác định" }}</dd>
+      </div>
+      <div class="grid grid-cols-2 p-2">
+        <dt class="font-bold text-gray-900">Tác giả</dt>
+        <dd class="text-gray-800 sm:col-span-2 truncate">{{ book.author || "Không xác định" }}</dd>
+      </div>
+      <div class="grid grid-cols-2 p-2">
+        <dt class="font-bold text-gray-900">Năm xuất bản</dt>
+        <dd class="text-gray-800 sm:col-span-2 truncate">{{ book.published_year || "Không xác định" }}</dd>
+      </div>
+      <div class="grid grid-cols-2 p-2">
+        <dt class="font-bold text-gray-900">Tên nhà xuất bản</dt>
+        <dd class="text-gray-800 sm:col-span-2 truncate">{{ book.publisher_id?.name || "Không xác định" }}</dd>
+      </div>
+      <div class="grid grid-cols-2 p-2">
+        <dt class="font-bold text-gray-900">Đơn giá</dt>
+        <dd class="text-gray-800 sm:col-span-2 truncate">{{ `${ book.price.toLocaleString() }đ` || "Không xác định" }}
+        </dd>
+      </div>
+      <div class="grid grid-cols-2 p-2">
+        <dt class="font-bold text-gray-900">Số lượng</dt>
+        <template v-if=" book.quantity >= 45 ">
+          <dd class="text-emerald-600 font-bold sm:col-span-2 truncate">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
+        </template>
+        <template v-else-if=" book.quantity >= 30 ">
+          <dd class="text-lime-600 font-bold sm:col-span-2 truncate">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
+        </template>
+        <template v-else-if=" book.quantity >= 15 ">
+          <dd class="text-amber-600 font-bold sm:col-span-2 truncate">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
+        </template>
+        <template v-else-if=" book.quantity >= 1 ">
+          <dd class="text-red-600 font-bold sm:col-span-2 truncate">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
+        </template>
+        <template v-else>
+          <dd class="text-stone-600 font-bold sm:col-span-2 truncate">Đã hết sách</dd>
+        </template>
+      </div>
+    </dl>
+    <template v-if=" role === 'staff' ">
+      <div class="grid grid-cols-1">
+        <button @click=" goToEditBook( props.book?._id )"
+          class="btn btn-ghost text-base hover:underline hover:btn-info hover:text-white">Chỉnh sửa</button>
+      </div>
+    </template>
+    <template v-else>
+      <button @click=" goToBorrowBook( props.book?._id )"
+        class="btn btn-ghost text-base hover:underline hover:btn-info hover:text-white font-bold underline">Mượn
+        sách</button>
+    </template>
 
   </div>
 </template>

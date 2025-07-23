@@ -24,18 +24,18 @@ const goToEditPublisher = (publisher_id) => {
                 <div class="grid grid-cols-2 p-1.5">
                     <dt class="font-bold text-gray-900">Tên nhà xuất bản</dt>
 
-                    <dd class="text-gray-800 sm:col-span-2">{{ publisher.name || "Không xác định" }}</dd>
+                    <dd class="text-gray-800 sm:col-span-2 truncate">{{ publisher.name || "Không xác định" }}</dd>
                 </div>
 
                 <div class="grid grid-cols-2 p-1.5">
                     <dt class="font-bold text-gray-900">Địa chỉ</dt>
 
-                    <dd class="text-gray-800 sm:col-span-2">{{ publisher.address || "Không xác định" }}</dd>
+                    <dd class="text-gray-800 sm:col-span-2 truncate">{{ publisher.address || "Không xác định" }}</dd>
                 </div>
 
                 <div class="grid grid-cols-1">
                     <button @click=" goToEditPublisher( publisher._id )"
-                        class="btn btn-ghost text-base hover:underline hover:btn-success hover:text-white">Chỉnh
+                        class="btn btn-ghost text-base hover:underline hover:btn-info hover:text-white">Chỉnh
                         sửa</button>
                 </div>
 
