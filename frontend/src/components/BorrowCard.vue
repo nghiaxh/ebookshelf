@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter } from "vue-router";
-import { ref, computed, onMounted, defineEmits } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import BorrowService from "../services/borrow.service";
 import UserService from "../services/user.service";
 import BookService from "../services/book.service";
