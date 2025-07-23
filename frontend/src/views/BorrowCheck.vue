@@ -49,7 +49,7 @@ onMounted(async () => {
 <template>
     <div class="flex flex-col min-h-screen overflow-hidden">
         <Header></Header>
-        <div class="flex-grow mx-16 my-8">
+        <div class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
             <div class="grid grid-cols-1 gap-4 place-items-center">
                 <!-- TODO create composable useUserList -->
                 <div class="tooltip" data-tip="Tìm kiếm đơn mượn sách theo ngày mượn, ngày trả">

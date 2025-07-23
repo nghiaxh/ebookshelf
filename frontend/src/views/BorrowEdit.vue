@@ -68,11 +68,6 @@ onMounted(async () => {
         const borrow_data = await borrowService.getBorrowById(borrow_id);
         borrow.value = borrow_data;
 
-        console.log("Full borrow data:", borrow_data);
-        console.log("Book data:", borrow_data.book_id);
-        console.log("Publisher data:", borrow_data.book_id?.publisher_id);
-        console.log("Publisher name:", borrow_data.book_id.publisher_id?.name);
-
     } catch (error) {
         console.log(error);
         push.error("Đã có lỗi xảy ra khi try cập thông tin đơn mượn sách");
@@ -87,6 +82,10 @@ onMounted(async () => {
             <form @submit.prevent>
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
                     <legend class="fieldset-legend text-xl">Cập nhật đơn mượn sách</legend>
+
+                    <label class="label">Người mượn</label>
+                    <input type="text" class="input" readonly
+                        :value=" borrow.user_id?.last_name + ' ' + borrow.user_id?.first_name " />
 
                     <label class="label">Tựa sách</label>
                     <input type="text" class="input" readonly :value=" borrow.book_id?.title " />

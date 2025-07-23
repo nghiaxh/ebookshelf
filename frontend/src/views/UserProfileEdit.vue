@@ -3,9 +3,9 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 import { useRouter } from 'vue-router';
 import { useRoute } from "vue-router";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { push } from 'notivue';
-import { userSchema } from '../validations/publisher.validation';
+import { userSchema } from '../validations/user.validation';
 import UserService from '../services/user.service';
 import { useForm, useField } from "vee-validate";
 
@@ -13,23 +13,18 @@ const userService = new UserService();
 const router = useRouter();
 const route = useRoute();
 
-const { handleSubmit } = useForm({
+const { meta } = useForm({
   validationSchema: userSchema,
   mode: "onChange",
 });
 
 const user_id = route.params.id;
 
-const { value: first_name, errorMessage: first_nameError } = useField("first_name");
-const { value: last_name, errorMessage: last_nameError } = useField("last_name");
-const { value: username, errorMessage: usernameError } = useField("username");
-const { value: password, errorMessage: passwordError } = useField("password");
-const { value: birthday, errorMessage: birthdayError } = useField("birthday");
-const { value: gender, errorMessage: genderError } = useField("gender");
-const { value: address, errorMessage: addressError } = useField("address");
-const { value: phone, errorMessage: phoneError } = useField("phone");
-
 const handleUserProfileEdit = async (user_id) => {
+  if (!meta.value.valid) {
+    push.error("Vui lòng điền đầy đủ thông tin");
+    return;
+  }
   try {
     const data = {
       first_name: first_name.value,
@@ -41,16 +36,14 @@ const handleUserProfileEdit = async (user_id) => {
       gender: gender.value,
       phone: phone.value,
     };
-    await userService.updateUser(user_id, data);
 
+    await userService.updateUser(user_id, data);
     push.success("Cập nhật thông tin người dùng thành công");
     router.push("/users");
   } catch (error) {
     console.log(error);
     if (error.response.status === 400) {
       push.error("Vui lòng điền đầy đủ thông tin");
-    } else if (error.response.status === 409) {
-      push.error("Tên đăng nhập đã tồn tại");
     }
     else {
       push.error("Đã xảy ra lỗi khi cập nhật thông tin người dùng");
@@ -70,13 +63,15 @@ const handleUserProfileDelete = async (user_id) => {
   }
 };
 
-onMounted(async () => {
-  try {
+const { value: first_name, errorMessage: first_nameError } = useField("first_name");
+const { value: last_name, errorMessage: last_nameError } = useField("last_name");
+const { value: username, errorMessage: usernameError } = useField("username");
+const { value: password, errorMessage: passwordError } = useField("password");
+const { value: birthday, errorMessage: birthdayError } = useField("birthday");
+const { value: gender, errorMessage: genderError } = useField("gender");
+const { value: address, errorMessage: addressError } = useField("address");
+const { value: phone, errorMessage: phoneError } = useField("phone");
 
-  } catch (error) {
-    console.log(error);
-  }
-});
 </script>
 
 <template>
@@ -88,11 +83,11 @@ onMounted(async () => {
           <legend class="fieldset-legend text-xl">Cập nhật người dùng</legend>
           <label class="label" for="last_name">Họ lót</label>
           <input v-model=" last_name " type="text" class="input" id="last_name" placeholder="Nhập họ lót" />
-          <span class="text-sm text-red-600">{{ first_nameError }}</span>
+          <span class="text-sm text-red-600">{{ last_nameError }}</span>
 
           <label class="label" for="first_name">Tên</label>
           <input v-model=" first_name " type="text" class="input" id="first_name" placeholder="Nhập tên" />
-          <span class="text-sm text-red-600">{{ last_nameError }}</span>
+          <span class="text-sm text-red-600">{{ first_nameError }}</span>
 
 
           <label class="label" for="birthday">Ngày sinh</label>
@@ -123,8 +118,9 @@ onMounted(async () => {
           <span class="text-sm text-red-600">{{ usernameError }}</span>
 
           <label class="label" for="password">Mật khẩu</label>
-          <input v-model=" password " type="password" class="input" id="password" placeholder="Nhập mật khẩu" />
-          <span class="text-sm text-red-600">{{ phoneError }}</span>
+          <input v-model=" password " type="password" minlength="3" class="input" id="password"
+            placeholder="Nhập mật khẩu" />
+          <span class="text-sm text-red-600">{{ passwordError }}</span>
 
           <div class="grid grid-cols-2 gap-2">
             <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"

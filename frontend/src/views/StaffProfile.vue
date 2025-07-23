@@ -7,13 +7,12 @@ import StaffService from '../services/staff.service';
 
 const { logOut } = useAuth();
 const staffService = new StaffService();
+const staff_id = computed(() => localStorage.getItem("id"));
 const staff = ref({});
 
 onMounted(async () => {
     try {
-        const staff_id = computed(() => localStorage.getItem("id"));
-        const staff_data = await staffService.getStaff(staff_id.value);
-        staff.value = staff_data;
+        staff.value = await staffService.getStaff(staff_id.value);
     } catch (error) {
         console.log(error);
     }
@@ -52,8 +51,8 @@ onMounted(async () => {
                             <dd class="text-gray-700 sm:col-span-2">{{ staff.phone || "Không xác định" }}</dd>
                         </div>
 
-                        <div class="grid grid-cols-1 gap-1 p-3 lg:grid-cols-3 sm:gap-4">
-                            <button @click=" logOut " class="btn btn-neutral hover:scale-[1.01]">Đăng xuất</button>
+                        <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
+                            <button @click=" logOut " class="btn btn-neutral text-base hover:scale-[1.01]">Đăng xuất</button>
                         </div>
                     </dl>
                 </div>

@@ -58,7 +58,7 @@ const handleUserRegister = async () => {
 </script>
 
 <template>
-  <div class="bg-cover bg-[url(/images/t2_khu_vuc_tu_hoc_2.jpg)]">
+  <div class="bg-cover bg-[url(/images/t2_khu_vuc_tu_hoc_2.jpg)] transition-all duration-300">
     <div class="backdrop-brightness-50 backdrop-blur-xs flex justify-center items-center h-screen">
       <form @submit.prevent=" handleUserRegister ">
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base shadow">

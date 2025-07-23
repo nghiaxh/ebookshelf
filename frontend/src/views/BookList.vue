@@ -22,6 +22,7 @@ const fetchBooks = async () => {
     // debug code later
     // console.log(response);
     books.value = response;
+    books.value.sort(() => Math.random() - Math.random());
   } catch (error) {
     console.error(error);
     push.error("Đã có lỗi xảy ra khi hiện thị danh mục sách");
@@ -71,12 +72,12 @@ onMounted(async () => {
 
     <Header></Header>
 
-    <div class="flex-grow mx-16 my-8">
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8">
+    <div class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
+      <div class="grid grid-cols-1 gap-4 lg:gap-8">
         <!-- filter books -->
         <div class="grid grid-cols-1 gap-4 place-items-center">
 
-          <div class="tooltip" data-tip="Tìm kiếm theo tựa sách, mã sách, tác giả, năm xuất bản, thể loại, đơn giá">
+          <div class="tooltip" data-tip="Tựa sách, tác giả, năm xuất bản, đơn giá">
             <InputSearch class="w-full" v-model=" searchText "></InputSearch>
           </div>
 
@@ -85,8 +86,7 @@ onMounted(async () => {
               <button class="btn btn-neutral hover:btn-info hover:text-white hover:scale-[1.01]"
                 @click=" goToAddBook ">Thêm sách</button>
               <button class="btn btn-neutral hover:btn-error hover:text-white hover:scale-[1.01]"
-                @click=" handleDeleteAllBooks ">Xóa tất cả
-                sách</button>
+                @click=" handleDeleteAllBooks ">Xóa tất cả</button>
             </div>
           </template>
         </div>

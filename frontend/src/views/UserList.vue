@@ -66,16 +66,17 @@ onMounted(async () => {
 <template>
     <div class="flex flex-col min-h-screen overflow-hidden">
         <Header></Header>
-        <div class="flex-grow mx-16 my-8">
+        <div class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
             <div class="grid grid-cols-1 gap-4 place-items-center">
-                <!-- TODO create composable useUserList -->
-                <InputSearch v-model=" searchText "></InputSearch>
+                <div class="tooltip" data-tip="Họ lót, tên, ngày sinh, địa chỉ, số điện thoại, tên đăng nhập">
+                    <InputSearch v-model=" searchText "></InputSearch>
+                </div>
                 <template v-if=" role === 'staff' ">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
                         <button class="btn btn-neutral hover:btn-info hover:text-white hover:scale-[1.01]"
                             @click=" goToAddUser ">Thêm người dùng</button>
                         <button class="btn btn-neutral hover:btn-error hover:text-white hover:scale-[1.01]"
-                            @click=" handleDeleteAllUsers ">Xóa tất cả người dùng</button>
+                            @click=" handleDeleteAllUsers ">Xóa tất cả</button>
                     </div>
                 </template>
             </div>

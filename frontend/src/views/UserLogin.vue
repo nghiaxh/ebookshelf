@@ -35,6 +35,10 @@ const handleUserLogin = async () => {
     console.error(error);
     if (error.response.status === 400) {
       push.error("Vui lòng điền đầy đủ thông tin");
+      return;
+    } else if (error.response.status === 404) {
+      push.error("Không tìm thấy người dùng hoặc mật khẩu không khớp");
+      return;
     }
     else {
       push.error("Đăng nhập thất bại, vui lòng thử lại");
@@ -44,7 +48,7 @@ const handleUserLogin = async () => {
 </script>
 
 <template>
-  <div class="bg-cover bg-[url(/images/t2_de_sach_sau_khi_doc.jpg)]">
+  <div class="bg-cover bg-[url(/images/t2_de_sach_sau_khi_doc.jpg)] transition-all duration-300">
     <div
       class="backdrop-brightness-50 backdrop-blur-xs grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8 place-items-center h-screen">
       <form @submit.prevent=" handleUserLogin ">

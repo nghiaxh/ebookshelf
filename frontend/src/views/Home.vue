@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col min-h-screen transition-all">
     <Header></Header>
-    <div class="hero flex-grow bg-[url(/images/t2_sach_2.jpg)]">
+    <div class="hero flex-grow bg-[url(/images/t2_sach_2.jpg)] transition-all duration-300">
       <div class=" hero-overlay backdrop-brightness-60 backdrop-blur-xs"></div>
       <div class="hero-content text-neutral-content text-center">
         <div class="max-w-md">
@@ -9,7 +9,8 @@
           <p class="mb-8 text-2xl">
             Kết nối dễ dàng với kho tàng kiến thức.
           </p>
-          <RouterLink to="/books" class="shadow font-bold btn btn-lg hover:underline hover:shadow-md">Truy cập</RouterLink>
+          <RouterLink to="/books" class="shadow font-bold btn btn-lg hover:underline hover:shadow-md">Truy cập
+          </RouterLink>
         </div>
       </div>
     </div>

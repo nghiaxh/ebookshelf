@@ -34,7 +34,7 @@ const handleCreateBorrow = async () => {
   // console.log(return_date.value);
 
   if (!meta.value.valid) {
-    push.error('Vui lòng kiểm tra lại thông tin');
+    push.error('Vui lòng kiểm tra lại thông tin đơn mượn sách');
     return;
   }
   try {
@@ -48,7 +48,6 @@ const handleCreateBorrow = async () => {
     await borrowService.createBorrow(data);
     push.success("Tạo đơn mượn sách thành công");
     router.push("/books");
-
   } catch (error) {
     console.log(error);
     push.error("Không thể mượn sách do số lượng sách đã hết");

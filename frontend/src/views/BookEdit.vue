@@ -4,7 +4,7 @@ import Footer from '../components/Footer.vue';
 
 import PublisherService from '../services/publisher.service';
 import BookService from "../services/book.service";
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
@@ -13,16 +13,16 @@ import { bookSchema } from '../validations/book.validation';
 const bookService = new BookService();
 const publisherService = new PublisherService();
 const router = useRouter();
+const route = useRoute();
+const publishers = ref([]);
+const book = ref({});
 
-const { handleSubmit, meta } = useForm({
+const book_id = route.params.id;
+
+const { handleSubmit, meta, setValues } = useForm({
     validationSchema: bookSchema,
-    mode: "onChange",
+    mode: "onBlur",
     initialValues: {
-        title: "",
-        author: "",
-        price: undefined,
-        published_year: undefined,
-        quantity: undefined,
         publisher_id: "",
     }
 });
@@ -34,7 +34,21 @@ const { value: published_year, errorMessage: published_yearError } = useField("p
 const { value: publisher_id, errorMessage: publisher_idError } = useField("publisher_id");
 const { value: quantity, errorMessage: quantityError } = useField("quantity");
 
-const publishers = ref([]);
+const fetchBook = async () => {
+    try {
+        const book_data = await bookService.getBook(book_id);
+        setValues({
+            title: book_data.title,
+            author: book_data.author,
+            price: book_data.price,
+            published_year: book_data.published_year,
+            publisher_id: book_data.publisher_id?._id,
+            quantity: book_data.quantity
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 const fetchPublishers = async () => {
     try {
@@ -66,11 +80,25 @@ const handleUpdateBook = async (book_id) => {
         router.push("/books");
     } catch (error) {
         console.log(error);
-        push.error("Đã xảy ra lỗi khi Cập nhật sách");
+        push.error("Đã xảy ra lỗi khi cập nhật sách");
+    }
+};
+
+const handleDeleteBook = async (book_id) => {
+    try {
+        if (confirm("Xác nhận xóa sách?")) {
+            await bookService.deleteBook(book_id);
+            push.success("Xóa sách thành công");
+            router.push("/books");
+        }
+    } catch (error) {
+        console.log(error);
+        push.error("Đã xảy ra lỗi khi xóa sách");
     }
 };
 
 onMounted(async () => {
+    fetchBook();
     fetchPublishers();
 });
 </script>
@@ -79,7 +107,7 @@ onMounted(async () => {
     <div class="flex flex-col min-h-screen">
         <Header></Header>
         <div class="flex flex-grow justify-center items-center">
-            <form @submit.prevent="handleUpdateBook( book_id )">
+            <form @submit.prevent>
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
                     <legend class="fieldset-legend text-xl">Cập nhật sách</legend>
                     <label class="label">Tựa sách</label>
@@ -113,7 +141,8 @@ onMounted(async () => {
                     <span class="text-sm text-red-600">{{ quantityError }}</span>
 
                     <div class="grid grid-cols-2 gap-2">
-                        <button type="submit" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Cập
+                        <button @click="handleUpdateBook( book_id )"
+                            class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Cập
                             nhật</button>
                         <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
                             @click=" handleDeleteBook( book_id )">Xóa</button>

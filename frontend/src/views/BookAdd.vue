@@ -111,7 +111,7 @@ onMounted(async () => {
           <input v-model=" quantity " type="number" class="input" placeholder="Nhập số lượng" />
 
           <span class="text-sm text-red-600">{{ quantityError }}</span>
-          <button type="submit" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thêm sách</button>
+          <button type="submit" class="btn btn-neutral mt-4 hover:scale-[1.01] hover:btn-info hover:text-white text-base">Thêm sách</button>
 
           <span class="mt-4">
             <strong class="hover:underline">

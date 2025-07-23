@@ -50,7 +50,10 @@ const handleApproveAllBorrows = async () => {
         for (const borrow of pendingBorrows) {
             if (borrow.book_id?.quantity > 0) {
                 await borrowService.updateBorrow(borrow._id, { status: "approved" });
-                await bookService.updateBook(borrow.book_id, { quantity: borrow.book_id?.quantity - 1 });
+                await bookService.updateBook(borrow.book_id?._id, { quantity: borrow.book_id?.quantity - 1 });
+            } else {
+                push.error("Không thể duyệt tất cả sách do có sách đã hết");
+                return;
             }
         }
         push.success("Đã duyệt tất cả các đơn mượn chưa được duyệt");
@@ -89,21 +92,22 @@ onMounted(async () => {
 
         <Header></Header>
 
-        <div class="flex-grow mx-16 my-8">
+        <div class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8">
                 <!-- filter books -->
                 <div class="grid grid-cols-1 gap-4 place-items-center">
 
-                    <div class="tooltip" data-tip="Tìm kiếm theo ngày mượn, ngày trả, trạng thái đơn mượn">
+                    <div class="tooltip"
+                        data-tip="YYYY-MM-DD (năm-tháng-ngày), pending (chờ duyệt), approved (đã duyệt), rejected (từ chối)">
                         <InputSearch class="w-full" v-model=" searchText "></InputSearch>
                     </div>
 
                     <template v-if=" role === 'staff' ">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <button class="btn btn-neutral hover:btn-success hover:text-white hover:scale-[1.01]"
-                                @click=" handleApproveAllBorrows ">Duyệt tất cả đơn mượn</button>
+                                @click=" handleApproveAllBorrows ">Duyệt tất cả</button>
                             <button class="btn btn-neutral hover:btn-error hover:text-white hover:scale-[1.01]"
-                                @click=" handleDeleteAllBorrows ">Xóa tất cả đơn mượn</button>
+                                @click=" handleDeleteAllBorrows ">Xóa tất cả</button>
                         </div>
                     </template>
                 </div>

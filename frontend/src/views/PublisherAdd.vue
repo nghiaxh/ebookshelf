@@ -4,14 +4,18 @@ import Footer from '../components/Footer.vue';
 
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import PublisherService from "../services/publisher.service";
 import { push } from 'notivue';
+import PublisherService from "../services/publisher.service";
+import { useForm, useField } from "vee-validate";
+import { publisherSchema } from '../validations/publisher.validation';
 
 const router = useRouter();
 const publisherService = new PublisherService();
 
-const name = ref("");
-const address = ref("");
+const { meta } = useForm({
+    validationSchema: publisherSchema,
+    mode: "onChange"
+});
 
 const handleCreatePublisher = async () => {
     try {
@@ -28,6 +32,9 @@ const handleCreatePublisher = async () => {
         push.error("Đã có lỗi xảy ra khi tạo nhà xuất bản");
     }
 };
+
+const { value: name, errorMessage: nameError } = useField("name");
+const { value: address, errorMessage: addressError } = useField("address");
 </script>
 
 <template>
@@ -40,9 +47,11 @@ const handleCreatePublisher = async () => {
 
                     <label class="label">Tên nhà xuất bản</label>
                     <input v-model=" name " type="text" class="input" placeholder="Nhập tên nhà xuất bản" />
-                    <!-- TODO form validation -->
+                    <span class="text-sm text-red-600">{{ nameError }}</span>
+                    
                     <label class="label">Địa chỉ</label>
                     <input v-model=" address " type="text" class="input" placeholder="Nhập địa chỉ" />
+                    <span class="text-sm text-red-600">{{ addressError }}</span>
 
                     <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thêm nhà xuất bản</button>
 

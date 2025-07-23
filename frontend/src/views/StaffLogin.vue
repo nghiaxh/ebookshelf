@@ -43,7 +43,7 @@ const handleStaffLogin = async () => {
 </script>
 
 <template>
-    <div class="bg-cover bg-[url(/images/t3_luan_van.jpg)]">
+    <div class="bg-cover bg-[url(/images/t3_luan_van.jpg)] transition-all duration-300">
         <div
             class="backdrop-brightness-50 backdrop-blur-xs grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8 place-items-center h-screen">
             <form @submit.prevent class="mb-24">

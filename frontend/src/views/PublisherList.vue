@@ -66,26 +66,25 @@ onMounted(async () => {
 <template>
     <div class="flex flex-col min-h-screen">
         <Header></Header>
-        <section class="flex-grow mx-16 my-8">
+        <section class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
 
             <div class="grid grid-cols-1 gap-4 place-items-center">
-
-                <!-- TODO create composable usePublisherList -->
-                <InputSearch v-model=" searchText "></InputSearch>
+                <div class="tooltip" data-tip="Tên nhà xuất bản, địa chỉ">
+                    <InputSearch v-model=" searchText "></InputSearch>
+                </div>
 
                 <template v-if=" role === 'staff' ">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
                         <button class="btn btn-neutral hover:btn-info hover:text-white hover:scale-[1.01]"
                             @click=" goToAddPublisher ">Thêm nhà xuất bản</button>
                         <button class="btn btn-neutral hover:btn-error hover:text-white hover:scale-[1.01]"
-                            @click=" handleDeleteAllPublishers ">Xóa tất cả nhà xuất
-                            bản</button>
+                            @click=" handleDeleteAllPublishers ">Xóa tất cả</button>
                     </div>
                 </template>
             </div>
 
             <template v-if=" searchFilteredPublishers.length > 0 ">
-                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-8 mt-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-8 mt-8">
                     <PublisherCard v-for=" publisher in searchFilteredPublishers " :key=" publisher._id "
                         :publisher=" publisher "></PublisherCard>
                 </div>
@@ -93,7 +92,7 @@ onMounted(async () => {
             <template v-else>
                 <div class="grid grid-cols-1 text-center mt-8">
 
-                    <p class="py-6">Lỗi không thể tìm thấy người dùng</p>
+                    <p class="py-6 font-bold">Lỗi không thể tìm thấy người dùng</p>
                 </div>
             </template>
         </section>
