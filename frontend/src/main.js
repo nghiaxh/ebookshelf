@@ -14,7 +14,7 @@ const notivue = createNotivue({
     limit: 5,
     notifications: {
         global: {
-            duration: 3000
+            duration: 2000
         }
     }
 });
