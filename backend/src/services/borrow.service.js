@@ -25,7 +25,6 @@ class BorrowService {
     async find(filter) {
         return await Borrow.find(filter)
             .populate("user_id")
-            .populate("staff_id")
             .populate({
                 path: "book_id",
                 populate: {
@@ -38,7 +37,6 @@ class BorrowService {
     async findById(id) {
         return await Borrow.findById(id)
             .populate("user_id")
-            .populate("staff_id")
             .populate({
                 path: "book_id",
                 populate: {
@@ -62,23 +60,6 @@ class BorrowService {
         const result = await Borrow.findByIdAndUpdate(
             id,
             { $set: payload },
-            {
-                new: true,
-                runValidators: true
-            }
-        );
-        return result;
-    }
-
-    async checkReturned(id, return_date = new Date()) {
-        const result = await Borrow.findByIdAndUpdate(
-            id,
-            {
-                $set: {
-                    status: "returned",
-                    return_date: return_date
-                }
-            },
             {
                 new: true,
                 runValidators: true
