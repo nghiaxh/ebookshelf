@@ -1,5 +1,4 @@
 import axios from "axios";
-import { push } from "notivue";
 
 const ApiClient = (baseUrl) => {
     const apiClient = axios.create({
@@ -19,13 +18,13 @@ const ApiClient = (baseUrl) => {
     });
 
     apiClient.interceptors.response.use(response => response, error => {
-        if (error.response && error.response.status === 401) {
+        if (error.response?.status === 401 && error.response?.data.message === "Token Expired") {
             localStorage.clear();
             window.location.href = "/user/login";
-            push.warning("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại");
         }
         return Promise.reject(error);
     });
+
     return apiClient;
 };
 
