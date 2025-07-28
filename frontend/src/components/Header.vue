@@ -118,12 +118,12 @@ const role = computed(() => localStorage.getItem("role"));
           <li>
             <RouterLink to="/borrowcheck" class="text-base hover:font-bold"
               exact-active-class="text-base underline font-bold transition-all duration-200 ease-in-out">
-              Kiểm tra đơn mượn</RouterLink>
+              Kiểm tra đơn mượn sách</RouterLink>
           </li>
           <li>
             <RouterLink to="/userprofile" class="text-base hover:font-bold"
               exact-active-class="text-base underline font-bold transition-all duration-200 ease-in-out">
-              Thông tin cá nhân</RouterLink>
+              Thông tin người dùng</RouterLink>
           </li>
         </template>
       </ul>
