@@ -46,28 +46,28 @@ const goToEditBook = (book_id) => {
     </div>
 
     <dl class="divide-y divide-gray-200 rounded border border-gray-200 text-sm">
-      <div class="grid grid-cols-2 p-2">
+      <div class="grid grid-cols-1 p-2">
         <dt class="font-bold text-gray-900">Tựa sách</dt>
         <dd class="text-gray-800 sm:col-span-2 truncate">{{ book.title || "Không xác định" }}</dd>
       </div>
-      <div class="grid grid-cols-2 p-2">
+      <div class="grid grid-cols-1 p-2">
         <dt class="font-bold text-gray-900">Tác giả</dt>
         <dd class="text-gray-800 sm:col-span-2 truncate">{{ book.author || "Không xác định" }}</dd>
       </div>
-      <div class="grid grid-cols-2 p-2">
+      <div class="grid grid-cols-1 p-2">
         <dt class="font-bold text-gray-900">Năm xuất bản</dt>
         <dd class="text-gray-800 sm:col-span-2 truncate">{{ book.published_year || "Không xác định" }}</dd>
       </div>
-      <div class="grid grid-cols-2 p-2">
+      <div class="grid grid-cols-1 p-2">
         <dt class="font-bold text-gray-900">Tên nhà xuất bản</dt>
         <dd class="text-gray-800 sm:col-span-2 truncate">{{ book.publisher_id?.name || "Không xác định" }}</dd>
       </div>
-      <div class="grid grid-cols-2 p-2">
+      <div class="grid grid-cols-1 p-2">
         <dt class="font-bold text-gray-900">Đơn giá</dt>
         <dd class="text-gray-800 sm:col-span-2 truncate">{{ `${ book.price.toLocaleString() }đ` || "Không xác định" }}
         </dd>
       </div>
-      <div class="grid grid-cols-2 p-2">
+      <div class="grid grid-cols-1 p-2">
         <dt class="font-bold text-gray-900">Số lượng</dt>
         <template v-if=" book.quantity >= 45 ">
           <dd class="text-emerald-600 font-bold sm:col-span-2 truncate">{{ `Còn ${ book.quantity } quyển sách` }}</dd>
