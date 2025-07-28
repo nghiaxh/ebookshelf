@@ -17,7 +17,8 @@ export function auth(req, res, next) {
         next();
     } catch (error) {
         if (error.name === "TokenExpiredError") {
-            return next(new ApiError(401, "Token has expired"));
+            console.error("Token expired");
+            return next(new ApiError(401, "Token Expired"));
         }
         return next(new ApiError(401, "Invalid token"));
     }
