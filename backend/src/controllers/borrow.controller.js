@@ -8,9 +8,32 @@ export async function create(req, res, next) {
         return next(new ApiError(400, "User, book information or return date is missing"));
     }
 
+    const existingBorrow = await borrowService.find({
+        user_id: req.body.user_id,
+        book_id: req.body.book_id,
+        status: {
+            $in: ["pending", "borrowing"]
+        }
+    });
+
+    const totalBorrow = await borrowService.find({
+        user_id: req.body.user_id,
+        status: {
+            $in: ["pending", "borrowing"]
+        }
+    });
+
+    if (existingBorrow.length >= 3) {
+        return next(new ApiError(422, "Borrowing record for each book is limited to 3"));
+    }
+
+    if (totalBorrow.length >= 10) {
+        return next(new ApiError(409, "Borrowing record is limited to 10"));
+    }
+
     try {
         const document = await borrowService.create(req.body);
-        return res.status(201).json({ message: "Book borrowing record created successfully" }, document);
+        return res.status(201).json({ message: "Book borrowing record created successfully", document });
     } catch (error) {
         console.log(error);
         return next(new ApiError(500, "An error occurred while creating the book borrowing record"));
