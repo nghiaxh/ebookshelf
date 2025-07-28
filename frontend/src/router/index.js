@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import { isAuthenticated } from "../services/auth.service";
 
 const routes = [
-  // * working routes
   {
     path: "/",
     name: "home",
@@ -56,7 +55,6 @@ const routes = [
       requiresAuth: true
     },
   },
-  // TODO testing routes
   {
     path: "/users",
     name: "user.list",
