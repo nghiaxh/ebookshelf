@@ -5,14 +5,12 @@ import { ref, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import BookService from '../services/book.service';
 import BorrowService from '../services/borrow.service';
-import PublisherService from '../services/publisher.service';
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
 import { borrowSchema } from '../validations/borrow.validation';
 
 const bookService = new BookService();
 const borrowService = new BorrowService();
-const publisherService = new PublisherService();
 
 const route = useRoute();
 const router = useRouter();
@@ -53,6 +51,10 @@ const handleUpdateBorrow = async (borrow_id) => {
 const handleDeleteBorrow = async (borrow_id) => {
     try {
         if (confirm("Xác nhận xóa đơn mượn sách?")) {
+            if (borrow.value.status === 'borrowing' || borrow.value.status === 'return_pending') {
+                push.error({ message: "Không thể xóa đơn mượn do người dùng đang mượn hoặc đang chờ duyệt trả sách", duration: 4000 });
+                return;
+            }
             await borrowService.deleteBorrow(borrow_id);
             push.info("Xóa đơn mượn sách thành công");
             router.push("/borrowpending");
@@ -67,7 +69,6 @@ onMounted(async () => {
     try {
         const borrow_data = await borrowService.getBorrowById(borrow_id);
         borrow.value = borrow_data;
-
     } catch (error) {
         console.log(error);
         push.error("Đã có lỗi xảy ra khi try cập thông tin đơn mượn sách");
@@ -93,17 +94,17 @@ onMounted(async () => {
                     <label class="label">Tác giả</label>
                     <input type="text" class="input" readonly :value=" borrow.book_id?.author ">
 
-                    <label class="label">Đơn giá</label>
-                    <input type="number" class="input" readonly :value=" borrow.book_id?.price ">
+                    <label class="label">Tên nhà xuất bản</label>
+                    <input type="text" class="input" readonly :value=" borrow.book_id?.publisher_id?.name ">
 
                     <label class="label">Năm xuất bản</label>
                     <input type="text" class="input" readonly :value=" borrow.book_id?.published_year ">
 
-                    <label class="label">Tên nhà xuất bản</label>
-                    <input type="text" class="input" readonly :value=" borrow.book_id?.publisher_id?.name ">
-
                     <label class="label">Số lượng</label>
                     <input v-model=" quantity " type="number" class="input" readonly value="1" />
+
+                    <label class="label">Ngày mượn</label>
+                    <input type="date" class="input" readonly :value=" new Date().toISOString().slice( 0, 10 ) " />
 
                     <label class="label" for="return_date">Ngày trả sách</label>
                     <input v-model=" return_date " type="date" class="input" id="return_date" />

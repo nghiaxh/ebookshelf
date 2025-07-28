@@ -3,7 +3,7 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 import { useRouter } from 'vue-router';
 import { useRoute } from "vue-router";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { push } from 'notivue';
 import { userSchema } from '../validations/user.validation';
 import UserService from '../services/user.service';
@@ -12,32 +12,17 @@ import { useForm, useField } from "vee-validate";
 const userService = new UserService();
 const router = useRouter();
 const route = useRoute();
+const role = computed(() => localStorage.getItem("role"));
 
-const { meta } = useForm({
+const { handleSubmit } = useForm({
   validationSchema: userSchema,
-  mode: "onChange",
 });
 
 const user_id = route.params.id;
 
-const handleUserProfileEdit = async (user_id) => {
-  if (!meta.value.valid) {
-    push.error("Vui lòng điền đầy đủ thông tin");
-    return;
-  }
+const handleUserProfileEdit = handleSubmit(async (values) => {
   try {
-    const data = {
-      first_name: first_name.value,
-      last_name: last_name.value,
-      username: username.value,
-      password: password.value,
-      address: address.value,
-      birthday: birthday.value,
-      gender: gender.value,
-      phone: phone.value,
-    };
-
-    await userService.updateUser(user_id, data);
+    await userService.updateUser(user_id, values);
     push.success("Cập nhật thông tin người dùng thành công");
     router.push("/users");
   } catch (error) {
@@ -49,7 +34,7 @@ const handleUserProfileEdit = async (user_id) => {
       push.error("Đã xảy ra lỗi khi cập nhật thông tin người dùng");
     }
   }
-};
+});
 
 const handleUserProfileDelete = async (user_id) => {
   try {
@@ -122,15 +107,28 @@ const { value: phone, errorMessage: phoneError } = useField("phone");
             placeholder="Nhập mật khẩu" />
           <span class="text-sm text-red-600">{{ passwordError }}</span>
 
-          <div class="grid grid-cols-2 gap-2">
-            <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
-              @click=" handleUserProfileEdit( user_id )">Lưu thay đổi</button>
-            <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
-              @click=" handleUserProfileDelete( user_id )">Xóa</button>
-          </div>
+          <template v-if=" role === 'staff' ">
+            <div class="grid grid-cols-2 gap-2">
+              <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
+                @click=" handleUserProfileEdit( user_id )">Lưu thay đổi</button>
+              <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
+                @click=" handleUserProfileDelete( user_id )">Xóa</button>
+            </div>
+          </template>
+          <template v-else>
+            <div class="grid grid-cols-1 gap-2">
+              <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
+                @click=" handleUserProfileEdit( user_id )">Lưu thay đổi</button>
+            </div>
+          </template>
           <span class="mt-4">
             <strong class="hover:underline">
-              <RouterLink to="/users" class="text-base">Quay lại</RouterLink>
+              <template v-if=" role === 'staff' ">
+                <RouterLink to="/users" class="text-base">Quay lại</RouterLink>
+              </template>
+              <template v-else>
+                <RouterLink to="/userprofile" class="text-base">Quay lại</RouterLink>
+              </template>
             </strong>
           </span>
         </fieldset>

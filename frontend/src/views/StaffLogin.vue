@@ -4,18 +4,18 @@ import { useRouter } from 'vue-router';
 import StaffService from '../services/staff.service';
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
-import { staffSchema } from '../validations/staff.validation';
+import { loginSchema } from '../validations/login.validation';
 
 const staffService = new StaffService();
 const { handleSubmit } = useForm({
-    validationSchema: staffSchema
+    validationSchema: loginSchema
 });
 const router = useRouter();
 
 const { value: username, errorMessage: usernameError } = useField("username");
 const { value: password, errorMessage: passwordError } = useField("password");
 
-const handleStaffLogin = async () => {
+const handleStaffLogin = handleSubmit(async () => {
     try {
         const response = await staffService.login(username.value, password.value);
 
@@ -35,11 +35,16 @@ const handleStaffLogin = async () => {
         if (error.response.status === 400) {
             push.error("Vui lòng điền đầy đủ thông tin");
         }
+        else if (error.response.status === 404) {
+            push.error("Tên đăng nhập không tồn tại");
+        } else if (error.response.status === 401) {
+            push.error("Mật khẩu không khớp");
+        }
         else {
             push.error("Đăng nhập thất bại, vui lòng thử lại");
         }
     }
-};
+});
 </script>
 
 <template>

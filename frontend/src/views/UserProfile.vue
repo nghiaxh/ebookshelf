@@ -5,14 +5,20 @@ import Footer from '../components/Footer.vue';
 import { useAuth } from '../composables/useAuth';
 import { ref, computed, onMounted } from "vue";
 import UserService from '../services/user.service';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const { logOut } = useAuth();
 const userService = new UserService();
 const user = ref({});
+const user_id = computed(() => localStorage.getItem("id"));
+
+const goToUserProfileEdit = async (user_id) => {
+  router.push({ name: "userprofile.edit", params: { id: user_id } });
+};
 
 onMounted(async () => {
   try {
-    const user_id = computed(() => localStorage.getItem("id"));
     const user_data = await userService.getUser(user_id.value);
     user.value = user_data;
   } catch (error) {
@@ -53,7 +59,7 @@ onMounted(async () => {
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Giới tính</dt>
-              <template v-if=" user.gender === true">
+              <template v-if=" user.gender === true ">
                 <dd class="text-gray-700 sm:col-span-2">Nam</dd>
               </template>
               <template v-else-if=" user.gender === false ">
@@ -71,7 +77,9 @@ onMounted(async () => {
               <dt class="font-medium text-gray-900">Số điện thoại</dt>
               <dd class="text-gray-700 sm:col-span-2">{{ user.phone || "Không xác định" }}</dd>
             </div>
-            <div class="grid grid-cols-1 gap-1 p-3 lg:grid-cols-3 sm:gap-4">
+            <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-4 sm:gap-4">
+              <button @click=" goToUserProfileEdit( user_id )" class="btn btn-neutral hover:scale-[1.01]">Chỉnh
+                sửa</button>
               <button @click=" logOut " class="btn btn-neutral hover:scale-[1.01]">Đăng xuất</button>
             </div>
           </dl>

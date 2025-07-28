@@ -52,7 +52,7 @@ onMounted(async () => {
                         </div>
 
                         <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
-                            <button @click=" logOut " class="btn btn-neutral text-base hover:scale-[1.01]">Đăng xuất</button>
+                            <button @click=" logOut " class="btn btn-neutral hover:scale-[1.01]">Đăng xuất</button>
                         </div>
                     </dl>
                 </div>

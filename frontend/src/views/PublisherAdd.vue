@@ -12,18 +12,14 @@ import { publisherSchema } from '../validations/publisher.validation';
 const router = useRouter();
 const publisherService = new PublisherService();
 
-const { meta } = useForm({
+const { handleSubmit } = useForm({
     validationSchema: publisherSchema,
     mode: "onChange"
 });
 
-const handleCreatePublisher = async () => {
+const handleCreatePublisher = handleSubmit(async (values) => {
     try {
-        const data = {
-            name: name.value,
-            address: address.value
-        };
-        await publisherService.createPublisher(data);
+        await publisherService.createPublisher(values);
         push.success("Thêm nhà xuất bản thành công");
 
         router.push("/publishers");
@@ -31,7 +27,7 @@ const handleCreatePublisher = async () => {
         console.log(error);
         push.error("Đã có lỗi xảy ra khi tạo nhà xuất bản");
     }
-};
+});
 
 const { value: name, errorMessage: nameError } = useField("name");
 const { value: address, errorMessage: addressError } = useField("address");

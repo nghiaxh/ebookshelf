@@ -9,15 +9,7 @@
           <p class="text-2xl my-8">
             Kết nối dễ dàng với kho tàng kiến thức.
           </p>
-
-          <section class="text-center mb-8">
-            <blockquote class="text-sm italic text-neutral-300">
-              “Một cuốn sách hay là một người bạn suốt đời.” <br />
-              <span class="text-xs text-neutral-400">– Ngạn ngữ phương Đông</span>
-            </blockquote>
-          </section>
-
-          <RouterLink to="/books" class="shadow font-bold text-base btn btn-lg hover:scale-[1.01] hover:shadow-md">Truy
+          <RouterLink to="/books" class="shadow font-bold text-base btn btn-lg hover:underline hover:shadow-md">Truy
             cập
           </RouterLink>
 

@@ -11,7 +11,7 @@ import { push } from "notivue";
 const userService = new UserService();
 const router = useRouter();
 
-const handleSubmit = useForm({
+const { handleSubmit } = useForm({
     validationSchema: userSchema
 });
 
@@ -24,20 +24,10 @@ const { value: gender, errorMessage: genderError } = useField("gender");
 const { value: address, errorMessage: addressError } = useField("address");
 const { value: phone, errorMessage: phoneError } = useField("phone");
 
-const handleCreateUser = async () => {
+const handleCreateUser = handleSubmit(async (values) => {
     try {
-        const data = {
-            first_name: first_name.value,
-            last_name: last_name.value,
-            username: username.value,
-            password: password.value,
-            address: address.value,
-            birthday: birthday.value,
-            gender: gender.value,
-            phone: phone.value,
-        };
-
-        await userService.register(data);
+        console.log(values)
+        await userService.register(values);
         // ? Debug code
         // console.log(data);
         // console.log(response.data);
@@ -55,14 +45,14 @@ const handleCreateUser = async () => {
             push.error("Đã xảy ra lỗi, vui lòng thử lại");
         }
     }
-};
+});
 
 </script>
 
 <template>
     <div class="flex flex-col min-h-screen justify-center items-center">
         <Header></Header>
-        <section class="flex-grow mx-16 my-8">
+        <section class="flex-grow mx-16">
             <form @submit.prevent=" handleCreateUser ">
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
                     <legend class="fieldset-legend text-xl">Thêm người dùng</legend>

@@ -68,7 +68,7 @@ onMounted(async () => {
         <Header></Header>
         <div class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
             <div class="grid grid-cols-1 gap-4 place-items-center">
-                <div class="tooltip" data-tip="Họ lót, tên, ngày sinh, địa chỉ, số điện thoại, tên đăng nhập">
+                <div class="tooltip" data-tip="Họ lót, tên, địa chỉ, số điện thoại">
                     <InputSearch v-model=" searchText "></InputSearch>
                 </div>
                 <template v-if=" role === 'staff' ">

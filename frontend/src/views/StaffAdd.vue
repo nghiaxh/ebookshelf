@@ -11,7 +11,7 @@ import { staffSchema } from '../validations/staff.validation';
 
 const router = useRouter();
 const staffService = new StaffService();
-const { handleSubmit, meta } = useForm({
+const { handleSubmit } = useForm({
   validationSchema: staffSchema
 });
 
@@ -21,11 +21,7 @@ const { value: password, errorMessage: passwordError } = useField("password");
 const { value: address, errorMessage: addressError } = useField("address");
 const { value: phone, errorMessage: phoneError } = useField("phone");
 
-const handleCreateStaff = async () => {
-  if (!meta.value.valid) {
-    push.error("Vui lòng điền đầy đủ thông tin");
-    return;
-  }
+const handleCreateStaff = handleSubmit(async () => {
   try {
     const data = {
       name: name.value,
@@ -42,7 +38,7 @@ const handleCreateStaff = async () => {
     console.log(error);
     push.error("Đã xảy ra lỗi khi thêm nhân viên");
   }
-}
+});
 
 </script>
 

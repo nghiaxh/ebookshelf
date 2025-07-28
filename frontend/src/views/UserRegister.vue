@@ -9,7 +9,7 @@ import { push } from "notivue";
 const userService = new UserService();
 const router = useRouter();
 
-const handleSubmit = useForm({
+const { handleSubmit } = useForm({
   validationSchema: userSchema
 });
 
@@ -22,20 +22,9 @@ const { value: gender, errorMessage: genderError } = useField("gender");
 const { value: address, errorMessage: addressError } = useField("address");
 const { value: phone, errorMessage: phoneError } = useField("phone");
 
-const handleUserRegister = async () => {
+const handleUserRegister = handleSubmit(async (values) => {
   try {
-    const data = {
-      first_name: first_name.value,
-      last_name: last_name.value,
-      username: username.value,
-      password: password.value,
-      address: address.value,
-      birthday: birthday.value,
-      gender: gender.value,
-      phone: phone.value,
-    };
-
-    await userService.register(data);
+    await userService.register(values);
     // ? Debug code
     // console.log(data);
     // console.log(response.data);
@@ -53,12 +42,12 @@ const handleUserRegister = async () => {
       push.error("Đăng ký thất bại, vui lòng thử lại");
     }
   }
-};
+});
 
 </script>
 
 <template>
-  <div class="bg-cover bg-[url(/images/t2_khu_vuc_tu_hoc_2.jpg)] transition-all duration-300">
+  <div class="bg-cover bg-[url(/images/t2_khu_vuc_tu_hoc_2.jpg)] transition-all duration-300 overflow-hidden">
     <div class="backdrop-brightness-50 backdrop-blur-xs flex justify-center items-center h-screen">
       <form @submit.prevent=" handleUserRegister ">
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base shadow">

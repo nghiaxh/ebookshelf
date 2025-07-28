@@ -4,19 +4,19 @@ import { useRouter } from 'vue-router';
 import UserService from '../services/user.service';
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
-import { userSchema } from '../validations/user.validation';
+import { loginSchema } from '../validations/login.validation';
 
 const userService = new UserService();
 
 const router = useRouter();
 const { handleSubmit } = useForm({
-  validationSchema: userSchema
+  validationSchema: loginSchema
 });
 
 const { value: username, errorMessage: usernameError } = useField("username");
 const { value: password, errorMessage: passwordError } = useField("password");
 
-const handleUserLogin = async () => {
+const handleUserLogin = handleSubmit(async () => {
   try {
     const response = await userService.login(username.value, password.value);
 
@@ -35,16 +35,16 @@ const handleUserLogin = async () => {
     console.error(error);
     if (error.response.status === 400) {
       push.error("Vui lòng điền đầy đủ thông tin");
-      return;
+    } else if (error.response.status === 401) {
+      push.error("Mật khẩu không khớp");
     } else if (error.response.status === 404) {
-      push.error("Không tìm thấy người dùng hoặc mật khẩu không khớp");
-      return;
+      push.error("Tên đăng nhập không tồn tại");
     }
     else {
       push.error("Đăng nhập thất bại, vui lòng thử lại");
     }
   }
-};
+});
 </script>
 
 <template>

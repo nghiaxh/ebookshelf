@@ -14,9 +14,8 @@ const bookService = new BookService();
 const publisherService = new PublisherService();
 const router = useRouter();
 
-const handleSubmit = useForm({
+const { handleSubmit } = useForm({
   validationSchema: bookSchema,
-  mode: "onChange",
   initialValues: {
     title: "",
     author: "",
@@ -45,17 +44,9 @@ const fetchPublishers = async () => {
   }
 };
 
-const handleCreateBook = async () => {
+const handleCreateBook = handleSubmit(async (values) => {
   try {
-    const data = {
-      title: title.value,
-      author: author.value,
-      price: price.value,
-      published_year: published_year.value,
-      publisher_id: publisher_id.value,
-      quantity: quantity.value
-    };
-    await bookService.createBook(data);
+    await bookService.createBook(values);
 
     push.success("Thêm sách thành công");
     router.push("/books");
@@ -68,7 +59,7 @@ const handleCreateBook = async () => {
       push.error("Đã xảy ra lỗi khi thêm sách");
     }
   }
-};
+});
 
 onMounted(async () => {
   fetchPublishers();
@@ -111,7 +102,8 @@ onMounted(async () => {
           <input v-model=" quantity " type="number" class="input" placeholder="Nhập số lượng" />
 
           <span class="text-sm text-red-600">{{ quantityError }}</span>
-          <button type="submit" class="btn btn-neutral mt-4 hover:scale-[1.01] hover:btn-info hover:text-white text-base">Thêm sách</button>
+          <button type="submit"
+            class="btn btn-neutral mt-4 hover:scale-[1.01] hover:btn-info hover:text-white text-base">Thêm sách</button>
 
           <span class="mt-4">
             <strong class="hover:underline">

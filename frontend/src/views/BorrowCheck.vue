@@ -11,34 +11,49 @@ import BorrowService from "../services/borrow.service";
 const router = useRouter();
 const borrowService = new BorrowService();
 const role = computed(() => localStorage.getItem("role"));
+const id = computed(() => localStorage.getItem("id"));
 
 const borrows = ref([]);
 const searchText = ref("");
+const filteredStatus = ref("");
 
-const fetchBorrows = async () => {
+const fetchBorrows = async (borrow_id) => {
     try {
         const response = await borrowService.getAllBorrows();
         // debug code later
         // console.log(response);
-        borrows.value = response;
+        borrows.value = response.filter(borrow => borrow.user_id?._id === id.value);
     } catch (error) {
         console.error(error);
     }
 };
 
-const searchFilteredBorrows = computed(() => {
-    if (!searchText.value) return borrows.value;
+const handleFilterStatus = (status) => {
+    filteredStatus.value = status;
+};
 
-    const keyword = searchText.value.toLowerCase();
+const filteredBorrows = computed(() => {
+    let result = borrows.value;
 
-    return borrows.value.filter(borrow => {
-        const searchableText = [borrow.borrow_date, borrow.return_date, borrow.status]
-            .filter(Boolean)
-            .join(' ')
-            .toLowerCase();
+    if (filteredStatus.value) {
+        return result.filter(borrow => borrow.status === filteredStatus.value);
+    }
 
-        return searchableText.includes(keyword);
-    });
+    if (searchText.value) {
+
+        const keyword = searchText.value.toLowerCase();
+
+        return borrows.value.filter(borrow => {
+            const searchableText = [borrow.borrow_date, borrow.return_date, borrow.status]
+                .filter(Boolean)
+                .join(' ')
+                .toLowerCase();
+
+            return searchableText.includes(keyword);
+        });
+    }
+
+    return borrows.value;
 });
 
 onMounted(async () => {
@@ -51,23 +66,31 @@ onMounted(async () => {
         <Header></Header>
         <div class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
             <div class="grid grid-cols-1 gap-4 place-items-center">
-                <!-- TODO create composable useUserList -->
+
                 <div class="tooltip" data-tip="Tìm kiếm đơn mượn sách theo ngày mượn, ngày trả">
                     <InputSearch v-model=" searchText "></InputSearch>
                 </div>
-                <template v-if=" role === 'staff' ">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
-                        <button class="btn btn-neutral">Thêm người dùng</button>
-                        <button class="btn btn-neutral">Xóa tất người dùng</button>
+
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="dropdown dropdown-center">
+                        <div tabindex="0" role="button" class="btn bg-base-100 hover:bg-base-300">Trạng thái đơn mượn
+                        </div>
+                        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                            <li><a @click="handleFilterStatus( '' )">Tất cả</a></li>
+                            <li><a @click="handleFilterStatus( 'pending' )">Chờ duyệt</a></li>
+                            <li><a @click="handleFilterStatus( 'borrowing' )">Đang mượn</a></li>
+                            <li><a @click="handleFilterStatus( 'return_pending' )">Chờ duyệt trả</a></li>
+                            <li><a @click="handleFilterStatus( 'returned' )">Đã trả</a></li>
+                            <li><a @click="handleFilterStatus( 'rejected' )">Từ chối</a></li>
+                        </ul>
                     </div>
-                </template>
-                <template v-else>
-                    <div class="mt-4"></div>
-                </template>
+                    <button class="btn btn-neutral hover:scale-[1.01]">Làm mới</button>
+                </div>
+
             </div>
-            <template v-if=" searchFilteredBorrows.length > 0 ">
+            <template v-if=" filteredBorrows.length > 0 ">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
-                    <BorrowCard v-for=" borrow in searchFilteredBorrows " :key=" borrow._id " :borrow=" borrow "
+                    <BorrowCard v-for=" borrow in filteredBorrows " :key=" borrow._id " :borrow=" borrow "
                         @fetchBorrows=" fetchBorrows ">
                     </BorrowCard>
                 </div>

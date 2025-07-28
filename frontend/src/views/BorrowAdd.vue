@@ -20,7 +20,6 @@ const router = useRouter();
 const user_id = computed(() => localStorage.getItem("id"));
 const book_id = route.params.id;
 const book = ref([]);
-// const publisher_name = ref("");
 
 const quantity = ref(1);
 const { handleSubmit, meta } = useForm({
@@ -50,7 +49,15 @@ const handleCreateBorrow = async () => {
     router.push("/books");
   } catch (error) {
     console.log(error);
-    push.error("Không thể mượn sách do số lượng sách đã hết");
+    if (error.response.status === 422) {
+      push.warning("Bạn đã mượn tối đa 3 quyển sách này");
+    }
+    else if (error.response.status === 409) {
+      push.warning("Bạn chỉ có thể mượn tối đa 10 quyển sách");
+    }
+    else {
+      push.error("Đã có lỗi xảy ra trong quá trình tạo đơn mượn");
+    }
   }
 };
 
@@ -59,8 +66,6 @@ onMounted(async () => {
   try {
     const book_data = await bookService.getBook(book_id);
     book.value = book_data;
-    // const publisher_data = await publisherService.getPublisherById(book_data.publisher_id);
-    // publisher_name.value = publisher_data.name;
   } catch (error) {
     console.log(error);
   }
@@ -81,17 +86,14 @@ onMounted(async () => {
           <label class="label">Tác giả</label>
           <input type="text" class="input" readonly :value=" book.author ">
 
-          <label class="label">Đơn giá</label>
-          <input type="number" class="input" readonly :value=" book.price ">
-
-          <label class="label">Năm xuất bản</label>
-          <input type="text" class="input" readonly :value=" book.published_year ">
-
           <label class="label">Tên nhà xuất bản</label>
           <input type="text" class="input" readonly :value=" book.publisher_id?.name ">
 
-          <label class="label">Số lượng</label>
+          <label class="label">Số quyển</label>
           <input v-model=" quantity " type="number" class="input" readonly value="1" />
+
+          <label class="label">Ngày mượn</label>
+          <input type="date" class="input" readonly :value=" new Date().toISOString().slice( 0, 10 ) ">
 
           <label class="label" for="return_date">Ngày trả sách</label>
           <input v-model=" return_date " type="date" class="input" id="return_date" />
