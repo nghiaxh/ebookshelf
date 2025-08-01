@@ -28,14 +28,10 @@ const { handleSubmit, meta } = useForm({
 
 const { value: return_date, errorMessage: return_dateError } = useField("return_date");
 
-const handleCreateBorrow = async () => {
+const handleCreateBorrow = handleSubmit(async () => {
   // debug code
   // console.log(return_date.value);
 
-  if (!meta.value.valid) {
-    push.error('Vui lòng kiểm tra lại thông tin đơn mượn sách');
-    return;
-  }
   try {
     const data = {
       user_id: user_id.value,
@@ -59,7 +55,7 @@ const handleCreateBorrow = async () => {
       push.error("Đã có lỗi xảy ra trong quá trình tạo đơn mượn");
     }
   }
-};
+});
 
 
 onMounted(async () => {

@@ -74,7 +74,6 @@ onMounted(async () => {
 
     <div class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
       <div class="grid grid-cols-1 gap-4 lg:gap-8">
-        <!-- filter books -->
         <div class="grid grid-cols-1 gap-4 place-items-center">
 
           <div class="tooltip" data-tip="Tựa sách, tác giả, năm xuất bản, đơn giá">

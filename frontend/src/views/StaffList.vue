@@ -14,13 +14,14 @@ const router = useRouter();
 const staffs = ref([]);
 const searchText = ref("");
 const role = computed(() => localStorage.getItem("role"));
+const staff_id = computed(() => localStorage.getItem("id"));
 
 const fetchStaffs = async () => {
   try {
     const response = await staffService.getAllStaffs();
     // debug code later
     // console.log(response);
-    staffs.value = response;
+    staffs.value = response.filter(staff => staff._id !== staff_id.value);
   } catch (error) {
     console.error(error);
     push.error("Đã có lỗi xảy ra khi hiện thị danh sách nhân viên");
@@ -33,11 +34,7 @@ const searchFilteredStaff = computed(() => {
   const keyword = searchText.value.toLowerCase();
 
   return staffs.value.filter(staff => {
-    const searchableText = [staff.name, staff.address, staff.phone]
-      .filter(Boolean)
-      .join(' ')
-      .toLowerCase();
-
+    const searchableText = [staff.name, staff.username, staff.address, staff.phone].filter(Boolean).join(' ').toLowerCase();
     return searchableText.includes(keyword);
   });
 });
@@ -49,7 +46,9 @@ const goToAddStaff = () => {
 const handleDeleteAllStaffs = async () => {
   try {
     if (confirm("Xác nhận xóa tất cả nhân viên?")) {
-      await staffService.deleteAllStaffs();
+      const staffToDelete = staffs.value.filter(staff => staff._id !== staff_id);
+      console.log(staffToDelete);
+      // await staffService.deleteAllStaffs();
       push.info("Xóa tất cả nhân viên thành công");
       fetchStaffs();
     }
@@ -68,15 +67,14 @@ onMounted(async () => {
   <div class="flex flex-col min-h-screen overflow-hidden">
     <Header></Header>
     <div class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
-      <div class="grid grid-cols-1 gap-4 place-items-center">
-        <div class="tooltip" data-tip="Họ và tên, địa chỉ, số điện thoại, tên đăng nhập">
-          <InputSearch v-model=" searchText "></InputSearch>
-        </div> <template v-if=" role === 'staff' ">
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
+      <div class="grid grid-cols-1 place-items-center">
+        <template v-if=" role === 'staff' ">
+          <div class="flex flex-col gap-4 sm:flex-row place-items-center mb-8">
+            <div class="tooltip" data-tip="Họ và tên, địa chỉ, số điện thoại, tên đăng nhập">
+              <InputSearch v-model=" searchText "></InputSearch>
+            </div>
             <button class="btn btn-neutral hover:btn-info hover:text-white hover:scale-[1.01]"
               @click=" goToAddStaff ">Thêm nhân viên</button>
-            <button class="btn btn-neutral hover:btn-error hover:text-white hover:scale-[1.01]"
-              @click=" handleDeleteAllStaffs ">Xóa tất cả</button>
           </div>
         </template>
       </div>
@@ -87,7 +85,7 @@ onMounted(async () => {
       </template>
       <template v-else>
         <div class="grid grid-cols-1 text-center">
-          <p class="py-6">Lỗi không thể tìm thấy người dùng</p>
+          <p class="py-6">Lỗi không thể tìm thấy nhân viên</p>
         </div>
       </template>
     </div>

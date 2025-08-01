@@ -88,25 +88,6 @@ const handleApproveAllBorrows = async () => {
     }
 };
 
-const handleDeleteAllBorrows = async () => {
-    try {
-        if (confirm("Xác nhận xóa tất cả các đơn mượn sách")) {
-            const pendingBorrows = borrows.value.filter(borrow => borrow.status === "pending");
-            const return_pendingBorrows = borrows.value.filter(borrow => borrow.status === "return_pending");
-            const borrows = [...pendingBorrows, ...return_pendingBorrows];
-            for (const borrow of borrows) {
-                await borrowService.updateBorrow(borrow._id, { quantity: borrow.book_id?.quantity + 1 });
-            }
-            await borrowService.deleteAllBorrows();
-            push.info("Đã xóa tất cả các đơn mượn sách");
-            fetchBorrows();
-        }
-    } catch (error) {
-        console.log(error);
-        push.error("Đã có lỗi xảy ra khi xóa tất cả các đơn mượn");
-    }
-};
-
 onMounted(async () => {
     fetchBorrows();
 });
@@ -128,7 +109,7 @@ onMounted(async () => {
                     </div>
 
                     <template v-if=" role === 'staff' ">
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div class="dropdown dropdown-center">
                                 <div tabindex="0" role="button" class="btn bg-base-100 hover:bg-base-300">Trạng thái đơn mượn</div>
                                 <ul tabindex="0"
@@ -145,10 +126,6 @@ onMounted(async () => {
                             <button class="btn btn-neutral hover:btn-success hover:text-white hover:scale-[1.01]"
                                 @click=" handleApproveAllBorrows ">Duyệt
                                 tất cả</button>
-
-                            <button class="btn btn-neutral hover:btn-error hover:text-white hover:scale-[1.01]"
-                                @click=" handleDeleteAllBorrows ">Xóa tất
-                                cả</button>
                         </div>
                     </template>
                 </div>

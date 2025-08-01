@@ -4,11 +4,17 @@ import Footer from '../components/Footer.vue';
 import { useAuth } from '../composables/useAuth';
 import { ref, computed, onMounted } from "vue";
 import StaffService from '../services/staff.service';
+import { useRouter } from 'vue-router';
 
 const { logOut } = useAuth();
 const staffService = new StaffService();
 const staff_id = computed(() => localStorage.getItem("id"));
 const staff = ref({});
+const router = useRouter();
+
+const goToStaffProfileEdit = (staff_id) => {
+    router.push({ name: "staffprofile.edit", params: { id: staff_id } });
+};
 
 onMounted(async () => {
     try {
@@ -51,7 +57,9 @@ onMounted(async () => {
                             <dd class="text-gray-700 sm:col-span-2">{{ staff.phone || "Không xác định" }}</dd>
                         </div>
 
-                        <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
+                        <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-4 sm:gap-4">
+                            <button @click=" goToStaffProfileEdit( staff_id )"
+                                class="btn btn-neutral hover:scale-[1.01]">Chỉnh sửa</button>
                             <button @click=" logOut " class="btn btn-neutral hover:scale-[1.01]">Đăng xuất</button>
                         </div>
                     </dl>

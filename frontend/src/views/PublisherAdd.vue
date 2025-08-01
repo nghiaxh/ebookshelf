@@ -14,7 +14,6 @@ const publisherService = new PublisherService();
 
 const { handleSubmit } = useForm({
     validationSchema: publisherSchema,
-    mode: "onChange"
 });
 
 const handleCreatePublisher = handleSubmit(async (values) => {

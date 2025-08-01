@@ -17,7 +17,6 @@ const publisher_id = route.params.id;
 
 const { handleSubmit, setValues } = useForm({
     validationSchema: publisherSchema,
-    mode: "onChange"
 });
 
 const handlePublisherProfileEdit = handleSubmit(async (values) => {

@@ -21,7 +21,6 @@ const book_id = route.params.id;
 
 const { handleSubmit, meta, setValues } = useForm({
     validationSchema: bookSchema,
-    mode: "onBlur",
     initialValues: {
         publisher_id: "",
     }
@@ -60,21 +59,9 @@ const fetchPublishers = async () => {
 };
 
 
-const handleUpdateBook = async (book_id) => {
-    if (!meta.value.valid) {
-        push.warning("Vui lòng điền đầy đủ thông tin");
-        return;
-    }
+const handleUpdateBook = handleSubmit(async (values) => {
     try {
-        const data = {
-            title: title.value,
-            author: author.value,
-            price: price.value,
-            published_year: published_year.value,
-            publisher_id: publisher_id.value,
-            quantity: quantity.value
-        };
-        await bookService.updateBook(book_id, data);
+        await bookService.updateBook(book_id, values);
 
         push.success("Cập nhật sách thành công");
         router.push("/books");
@@ -82,7 +69,7 @@ const handleUpdateBook = async (book_id) => {
         console.log(error);
         push.error("Đã xảy ra lỗi khi cập nhật sách");
     }
-};
+});
 
 const handleDeleteBook = async (book_id) => {
     try {
