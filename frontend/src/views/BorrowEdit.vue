@@ -19,34 +19,23 @@ const user_id = computed(() => localStorage.getItem("id"));
 const borrow_id = route.params.id;
 const borrow = ref({});
 
-const quantity = ref(1);
-const { handleSubmit, meta } = useForm({
+const { handleSubmit } = useForm({
     validationSchema: borrowSchema,
 });
 
 const { value: return_date, errorMessage: return_dateError } = useField("return_date");
 
-const handleUpdateBorrow = async (borrow_id) => {
+const handleUpdateBorrow = handleSubmit(async (values) => {
     // debug code
     // console.log(return_date.value);
-    if (!meta.value.valid) {
-        push.error('Vui lòng kiểm tra lại thông tin');
-        return;
-    }
     try {
-        const data = {
-            user_id: borrow.user_id?._id,
-            book_id: borrow.book_id?._id,
-            return_date: return_date.value,
-            quantity: quantity.value
-        };
-        await borrowService.updateBorrow(borrow_id, data);
+        await borrowService.updateBorrow(borrow_id, values);
         push.success("Cập nhật đơn mượn sách thành công");
         router.push("/borrowpending");
     } catch (error) {
         console.log(error);
     }
-};
+});
 
 const handleDeleteBorrow = async (borrow_id) => {
     try {
@@ -101,7 +90,7 @@ onMounted(async () => {
                     <input type="text" class="input" readonly :value=" borrow.book_id?.published_year ">
 
                     <label class="label">Số lượng</label>
-                    <input v-model=" quantity " type="number" class="input" readonly value="1" />
+                    <input type="number" class="input" readonly value="1" />
 
                     <label class="label">Ngày mượn</label>
                     <input type="date" class="input" readonly :value=" new Date().toISOString().slice( 0, 10 ) " />

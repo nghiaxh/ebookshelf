@@ -23,6 +23,14 @@ const fetchBorrows = async (borrow_id) => {
         // debug code later
         // console.log(response);
         borrows.value = response.filter(borrow => borrow.user_id?._id === id.value);
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        for (const borrow of borrows.value) {
+            const returnDate = new Date(borrow.return_date).setHours(0, 0, 0, 0);
+            if ((now > returnDate && borrow.status !== "returned" && borrow.status !== "rejected")) {
+                await borrowService.updateBorrow(borrow._id, { status: "overdue" });
+            }
+        };
     } catch (error) {
         console.error(error);
     }
@@ -44,7 +52,7 @@ const filteredBorrows = computed(() => {
         const keyword = searchText.value.toLowerCase();
 
         return borrows.value.filter(borrow => {
-            const searchableText = [borrow.borrow_date, borrow.return_date, borrow.status]
+            const searchableText = [borrow.book_id?.title]
                 .filter(Boolean)
                 .join(' ')
                 .toLowerCase();
@@ -67,7 +75,7 @@ onMounted(async () => {
         <div class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
             <div class="grid grid-cols-1 gap-4 place-items-center">
 
-                <div class="tooltip" data-tip="Tìm kiếm đơn mượn sách theo ngày mượn, ngày trả">
+                <div class="tooltip" data-tip="Tựa sách">
                     <InputSearch v-model=" searchText "></InputSearch>
                 </div>
 
@@ -82,6 +90,7 @@ onMounted(async () => {
                             <li><a @click="handleFilterStatus( 'return_pending' )">Chờ duyệt trả</a></li>
                             <li><a @click="handleFilterStatus( 'returned' )">Đã trả</a></li>
                             <li><a @click="handleFilterStatus( 'rejected' )">Từ chối</a></li>
+                            <li><a @click="handleFilterStatus( 'overdue' )">Quá hạn</a></li>
                         </ul>
                     </div>
                     <button class="btn btn-neutral hover:scale-[1.01]">Làm mới</button>

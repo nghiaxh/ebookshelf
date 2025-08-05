@@ -181,6 +181,9 @@ const goToEditBorrow = async (borrow_id) => {
                     <template v-else-if=" borrow.status === 'rejected' ">
                         <dd class="text-red-600 font-bold sm:col-span-2 truncate">Từ chối</dd>
                     </template>
+                    <template v-else-if=" borrow.status === 'overdue' ">
+                        <dd class="text-red-600 font-bold sm:col-span-2 truncate">Quá hạn</dd>
+                    </template>
                     <template v-else>
                         <dd class="text-gray-500 font-bold sm:col-span-2 truncate">Không xác định</dd>
                     </template>
@@ -255,6 +258,19 @@ const goToEditBorrow = async (borrow_id) => {
                         </div>
                     </template>
 
+                    <template v-if=" borrow.status === 'overdue' ">
+                        <div class="grid grid-cols-1">
+                            <button disabled @click=" handleReturnBook( props.borrow._id )"
+                                class="btn btn-ghost text-base hover:underline hover:btn-success hover:text-white">Duyệt
+                                trả sách</button>
+                        </div>
+                        <div class="grid grid-cols-1">
+                            <button @click=" handleDeleteBorrow( props.borrow._id )"
+                                class="btn btn-ghost text-base hover:underline hover:btn-error hover:text-white">Xóa
+                                đơn mượn</button>
+                        </div>
+                    </template>
+
                     <div class="grid grid-cols-1">
                         <button @click=" goToEditBorrow( props.borrow._id )"
                             class="btn btn-ghost text-base hover:underline hover:btn-info hover:text-white">Chỉnh
@@ -293,6 +309,14 @@ const goToEditBorrow = async (borrow_id) => {
                     </template>
 
                     <template v-if=" borrow.status === 'returned' ">
+                        <div class="grid grid-cols-1">
+                            <button disabled @click=" handleReturnBook( props.borrow._id )"
+                                class="btn btn-ghost text-base hover:underline hover:btn-success hover:text-white">Trả
+                                sách</button>
+                        </div>
+                    </template>
+
+                    <template v-if=" borrow.status === 'overdue' ">
                         <div class="grid grid-cols-1">
                             <button disabled @click=" handleReturnBook( props.borrow._id )"
                                 class="btn btn-ghost text-base hover:underline hover:btn-success hover:text-white">Trả

@@ -25,6 +25,14 @@ const fetchBorrows = async () => {
         // debug code later
         // console.log(response);
         borrows.value = response;
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        for (const borrow of borrows.value) {
+            const returnDate = new Date(borrow.return_date).setHours(0, 0, 0, 0);
+            if ((now > returnDate && borrow.status !== "returned" && borrow.status !== "rejected")) {
+                await borrowService.updateBorrow(borrow._id, { status: "overdue" });
+            }
+        };
     } catch (error) {
         console.error(error);
     }
@@ -35,8 +43,8 @@ const handleFilterStatus = (status) => {
 };
 
 const filteredBorrows = computed(() => {
-    let result = borrows.value
-    
+    let result = borrows.value;
+
     if (filteredStatus.value) {
         return result.filter(borrow => borrow.status === filteredStatus.value);
     }
@@ -46,7 +54,7 @@ const filteredBorrows = computed(() => {
         const keyword = searchText.value.toLowerCase();
 
         return borrows.value.filter(borrow => {
-            const searchableText = [borrow.borrow_date, borrow.return_date, borrow.status]
+            const searchableText = [borrow.book_id?.title, borrow.user_id?.first_name, borrow.user_id?.last_name]
                 .filter(Boolean)
                 .join(' ')
                 .toLowerCase();
@@ -104,14 +112,15 @@ onMounted(async () => {
                 <!-- filter books -->
                 <div class="grid grid-cols-1 gap-4 place-items-center">
 
-                    <div class="tooltip" data-tip="YYYY-MM-DD (năm-tháng-ngày)">
+                    <div class="tooltip" data-tip="Người mượn, tựa sách">
                         <InputSearch class="w-full" v-model=" searchText "></InputSearch>
                     </div>
 
                     <template v-if=" role === 'staff' ">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div class="dropdown dropdown-center">
-                                <div tabindex="0" role="button" class="btn bg-base-100 hover:bg-base-300">Trạng thái đơn mượn</div>
+                                <div tabindex="0" role="button" class="btn bg-base-100 hover:bg-base-300">Trạng thái đơn
+                                    mượn</div>
                                 <ul tabindex="0"
                                     class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
                                     <li><a @click="handleFilterStatus( '' )">Tất cả</a></li>
@@ -120,6 +129,7 @@ onMounted(async () => {
                                     <li><a @click="handleFilterStatus( 'return_pending' )">Chờ duyệt trả</a></li>
                                     <li><a @click="handleFilterStatus( 'returned' )">Đã trả</a></li>
                                     <li><a @click="handleFilterStatus( 'rejected' )">Từ chối</a></li>
+                                    <li><a @click="handleFilterStatus( 'overdue' )">Quá hạn</a></li>
                                 </ul>
                             </div>
 
