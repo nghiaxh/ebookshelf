@@ -72,16 +72,16 @@ onMounted(async () => {
 
     <Header></Header>
 
-    <div class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
+    <div class="flex-grow mx-8 sm:mx-16 lg:mx-24 my-8">
       <div class="grid grid-cols-1 gap-4 lg:gap-8">
-        <div class="grid grid-cols-1 gap-4 place-items-center">
+        <div class="flex flex-col sm:flex-row gap-2 justify-center">
 
           <div class="tooltip" data-tip="Tựa sách, tác giả, năm xuất bản, đơn giá">
             <InputSearch class="w-full" v-model=" searchText "></InputSearch>
           </div>
 
           <template v-if=" role === 'staff' ">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <button class="btn btn-neutral hover:btn-info hover:text-white hover:scale-[1.01]"
                 @click=" goToAddBook ">Thêm sách</button>
               <button class="btn btn-neutral hover:btn-error hover:text-white hover:scale-[1.01]"

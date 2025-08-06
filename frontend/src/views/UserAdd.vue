@@ -26,7 +26,6 @@ const { value: phone, errorMessage: phoneError } = useField("phone");
 
 const handleCreateUser = handleSubmit(async (values) => {
     try {
-        console.log(values)
         await userService.register(values);
         // ? Debug code
         // console.log(data);

@@ -18,6 +18,7 @@ const route = useRoute();
 const router = useRouter();
 
 const user_id = computed(() => localStorage.getItem("id"));
+const role = computed(() => localStorage.getItem("role"));
 const book_id = route.params.id;
 const book = ref([]);
 const quantity = ref(1);
@@ -59,6 +60,9 @@ const handleCreateBorrow = handleSubmit(async () => {
 
 
 onMounted(async () => {
+  if (role.value !== "user") {
+    router.push("/");
+  }
   try {
     const book_data = await bookService.getBook(book_id);
     book.value = book_data;

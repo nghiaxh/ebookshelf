@@ -5,7 +5,7 @@ import Footer from '../components/Footer.vue';
 import PublisherService from '../services/publisher.service';
 import BookService from "../services/book.service";
 import { useRouter, useRoute } from 'vue-router';
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
 import { bookSchema } from '../validations/book.validation';
@@ -18,12 +18,10 @@ const publishers = ref([]);
 const book = ref({});
 
 const book_id = route.params.id;
+const role = computed(() => localStorage.getItem("role"));
 
-const { handleSubmit, meta, setValues } = useForm({
+const { handleSubmit, resetForm } = useForm({
     validationSchema: bookSchema,
-    initialValues: {
-        publisher_id: "",
-    }
 });
 
 const { value: title, errorMessage: titleError } = useField("title");
@@ -36,13 +34,15 @@ const { value: quantity, errorMessage: quantityError } = useField("quantity");
 const fetchBook = async () => {
     try {
         const book_data = await bookService.getBook(book_id);
-        setValues({
-            title: book_data.title,
-            author: book_data.author,
-            price: book_data.price,
-            published_year: book_data.published_year,
-            publisher_id: book_data.publisher_id?._id,
-            quantity: book_data.quantity
+        resetForm({
+            values: {
+                title: book_data.title,
+                author: book_data.author,
+                price: book_data.price,
+                published_year: book_data.published_year,
+                publisher_id: book_data.publisher_id?._id,
+                quantity: book_data.quantity
+            }
         });
     } catch (error) {
         console.log(error);
@@ -85,6 +85,9 @@ const handleDeleteBook = async (book_id) => {
 };
 
 onMounted(async () => {
+    if (role.value !== "staff") {
+        router.push("/");
+    }
     fetchBook();
     fetchPublishers();
 });

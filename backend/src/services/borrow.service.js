@@ -11,7 +11,7 @@ class BorrowService {
                 status: payload.status || "pending"
             });
             Object.keys(borrow).forEach(key => {
-                if (borrow[key] === undefined) {
+                if (borrow[key] === undefined || borrow[key] === null || borrow[key] === "") {
                     delete borrow[key];
                 }
             });

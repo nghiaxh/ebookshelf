@@ -3,7 +3,7 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { push } from 'notivue';
 import PublisherService from "../services/publisher.service";
 import { useForm, useField } from "vee-validate";
@@ -11,6 +11,7 @@ import { publisherSchema } from '../validations/publisher.validation';
 
 const router = useRouter();
 const publisherService = new PublisherService();
+const role = computed(() => localStorage.getItem("role"));
 
 const { handleSubmit } = useForm({
     validationSchema: publisherSchema,
@@ -30,6 +31,12 @@ const handleCreatePublisher = handleSubmit(async (values) => {
 
 const { value: name, errorMessage: nameError } = useField("name");
 const { value: address, errorMessage: addressError } = useField("address");
+
+onMounted(() => {
+    if (role.value !== "staff") {
+        router.push("/");
+    }
+});
 </script>
 
 <template>
@@ -43,7 +50,7 @@ const { value: address, errorMessage: addressError } = useField("address");
                     <label class="label">Tên nhà xuất bản</label>
                     <input v-model=" name " type="text" class="input" placeholder="Nhập tên nhà xuất bản" />
                     <span class="text-sm text-red-600">{{ nameError }}</span>
-                    
+
                     <label class="label">Địa chỉ</label>
                     <input v-model=" address " type="text" class="input" placeholder="Nhập địa chỉ" />
                     <span class="text-sm text-red-600">{{ addressError }}</span>

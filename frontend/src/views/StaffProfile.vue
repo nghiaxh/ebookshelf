@@ -9,6 +9,7 @@ import { useRouter } from 'vue-router';
 const { logOut } = useAuth();
 const staffService = new StaffService();
 const staff_id = computed(() => localStorage.getItem("id"));
+const role = computed(() => localStorage.getItem("role"));
 const staff = ref({});
 const router = useRouter();
 
@@ -17,6 +18,9 @@ const goToStaffProfileEdit = (staff_id) => {
 };
 
 onMounted(async () => {
+    if (role.value !== "staff") {
+        router.push("/");
+    }
     try {
         staff.value = await staffService.getStaff(staff_id.value);
     } catch (error) {

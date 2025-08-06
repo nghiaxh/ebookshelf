@@ -5,7 +5,7 @@ import Footer from '../components/Footer.vue';
 import PublisherService from '../services/publisher.service';
 import BookService from "../services/book.service";
 import { useRouter } from 'vue-router';
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
 import { bookSchema } from '../validations/book.validation';
@@ -13,6 +13,7 @@ import { bookSchema } from '../validations/book.validation';
 const bookService = new BookService();
 const publisherService = new PublisherService();
 const router = useRouter();
+const role = computed(() => localStorage.getItem("role"));
 
 const { handleSubmit } = useForm({
   validationSchema: bookSchema,
@@ -62,6 +63,9 @@ const handleCreateBook = handleSubmit(async (values) => {
 });
 
 onMounted(async () => {
+  if (role.value !== "staff") {
+    router.push("/");
+  }
   fetchPublishers();
 });
 </script>

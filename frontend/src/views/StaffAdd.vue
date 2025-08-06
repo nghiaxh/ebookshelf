@@ -21,22 +21,18 @@ const { value: password, errorMessage: passwordError } = useField("password");
 const { value: address, errorMessage: addressError } = useField("address");
 const { value: phone, errorMessage: phoneError } = useField("phone");
 
-const handleCreateStaff = handleSubmit(async () => {
+const handleCreateStaff = handleSubmit(async (values) => {
   try {
-    const data = {
-      name: name.value,
-      username: username.value,
-      password: password.value,
-      phone: phone.value,
-      address: address.value
-    };
-    await staffService.createStaff(data);
-
+    await staffService.createStaff(values);
     push.success("Thêm nhân viên thành công");
     router.push("/staffs");
   } catch (error) {
     console.log(error);
-    push.error("Đã xảy ra lỗi khi thêm nhân viên");
+    if (error.response.status === 409) {
+      push.error("Nhân viên đã tồn tại");
+    } else {
+      push.error("Đã xảy ra lỗi khi thêm nhân viên");
+    }
   }
 });
 

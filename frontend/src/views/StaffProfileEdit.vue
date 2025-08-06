@@ -3,7 +3,7 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 import { useRouter } from 'vue-router';
 import { useRoute } from "vue-router";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
 import { staffSchema } from '../validations/staff.validation';
@@ -12,10 +12,11 @@ import StaffService from '../services/staff.service';
 const route = useRoute();
 const router = useRouter();
 const staffService = new StaffService();
-const staff_edit_id = route.params.id;
-const staff_id = computed(() => localStorage.getItem("id"));
+const staffEditId = route.params.id;
+const staffId = computed(() => localStorage.getItem("id"));
+const role = computed(() => localStorage.getItem("role"));
 
-const { handleSubmit, meta } = useForm({
+const { handleSubmit, resetForm } = useForm({
   validationSchema: staffSchema
 });
 
@@ -27,8 +28,7 @@ const { value: phone, errorMessage: phoneError } = useField("phone");
 
 const handleStaffProfileEdit = handleSubmit(async (values) => {
   try {
-    await staffService.updateStaff(staff_edit_id, values);
-
+    await staffService.updateStaff(staffEditId, values);
     push.success("Cập nhật thông tin nhân viên thành công");
     router.push("/staffs");
   } catch (error) {
@@ -37,10 +37,10 @@ const handleStaffProfileEdit = handleSubmit(async (values) => {
   }
 });
 
-const handleStaffProfileDelete = async (staff_id) => {
+const handleStaffProfileDelete = async (staffId) => {
   try {
     if (confirm("Xác nhận xóa nhân viên?")) {
-      await staffService.deleteStaff(staff_id);
+      await staffService.deleteStaff(staffId);
       push.success("Xóa nhân viên thành công");
       router.push("/staffs");
     }
@@ -48,6 +48,33 @@ const handleStaffProfileDelete = async (staff_id) => {
     push.error("Đã xảy ra lỗi khi xóa nhân viên");
   }
 };
+
+onMounted(async () => {
+  if (role.value !== "staff") {
+    router.push("/");
+  }
+  if (staffEditId !== staffId) {
+    const staffData = await staffService.getStaff(staffEditId);
+    resetForm({
+      values: {
+        name: staffData.name,
+        username: staffData.username,
+        phone: staffData.phone,
+        address: staffData.address,
+      }
+    });
+  } else {
+    const staffData = await staffService.getStaff(staffId.value);
+    resetForm({
+      values: {
+        name: staffData.name,
+        username: staffData.username,
+        phone: staffData.phone,
+        address: staffData.address,
+      }
+    });
+  }
+});
 </script>
 
 <template>
@@ -78,23 +105,23 @@ const handleStaffProfileDelete = async (staff_id) => {
           <input v-model=" password " type="password" class="input" id="password" placeholder="Nhập mật khẩu" />
           <span class="text-sm text-red-600">{{ passwordError }}</span>
 
-          <template v-if=" staff_edit_id !== staff_id ">
+          <template v-if=" staffEditId !== staffId ">
             <div class="grid grid-cols-2 gap-2">
               <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
-                @click="handleStaffProfileEdit( staff_edit_id )">Lưu thay đổi</button>
+                @click="handleStaffProfileEdit( staffEditId )">Lưu thay đổi</button>
               <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
-                @click="handleStaffProfileDelete( staff_edit_id )">Xóa</button>
+                @click="handleStaffProfileDelete( staffEditId )">Xóa</button>
             </div>
           </template>
           <template v-else>
             <div class="grid grid-cols-1 gap-2">
               <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
-                @click="handleStaffProfileEdit( staff_edit_id )">Lưu thay đổi</button>
+                @click="handleStaffProfileEdit( staffEditId )">Lưu thay đổi</button>
             </div>
           </template>
           <span class="mt-4">
             <strong class="hover:underline">
-              <template v-if=" staff_edit_id === staff_id ">
+              <template v-if=" staffEditId === staffId ">
                 <RouterLink to="/staffprofile" class="text-base">Quay lại</RouterLink>
               </template>
               <template v-else>

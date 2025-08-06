@@ -44,7 +44,7 @@ const goToEditStaff = (staff_id) => {
                     <dd class="text-gray-800 sm:col-span-2 truncate">{{ staff.phone || "Không xác định" }}</dd>
                 </div>
                 <div class="grid grid-cols-1">
-                    <button @click=" goToEditStaff( staff._id )"
+                    <button @click=" goToEditStaff( props.staff._id )"
                         class="btn btn-ghost text-base hover:underline hover:btn-info hover:text-white">Chỉnh
                         sửa</button>
                 </div>

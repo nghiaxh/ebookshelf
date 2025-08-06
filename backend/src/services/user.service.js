@@ -10,7 +10,7 @@ class UserService {
             password: payload.password,
             role: payload.role || "user",
             birthday: payload.birthday || undefined,
-            gender: payload.gender || undefined,
+            gender: payload.gender,
             address: payload.address || undefined,
             phone: payload.phone || undefined,
         });

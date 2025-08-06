@@ -77,52 +77,52 @@ const role = computed(() => localStorage.getItem("role"));
 
         <template v-if=" role === 'staff' ">
           <li>
-            <RouterLink to="/books" class="text-base hover:font-bold"
-              exact-active-class="text-base underline font-bold transition-all duration-200 ease-in-out">
+            <RouterLink to="/books" class="text-base hover:font-bold hover:underline"
+              exact-active-class="text-base font-bold transition-all duration-200 ease-in-out">
               Danh mục sách
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="/borrowpending" class="text-base hover:font-bold"
-              exact-active-class="text-base underline font-bold transition-all duration-200 ease-in-out">
+            <RouterLink to="/borrowpending" class="text-base hover:font-bold hover:underline"
+              exact-active-class="text-base font-bold transition-all duration-200 ease-in-out">
               Đơn mượn sách</RouterLink>
           </li>
           <li>
-            <RouterLink to="/publishers" class="text-base hover:font-bold"
-              exact-active-class="text-base underline font-bold transition-all duration-200 ease-in-out">
+            <RouterLink to="/publishers" class="text-base hover:font-bold hover:underline"
+              exact-active-class="text-base font-bold transition-all duration-200 ease-in-out">
               Nhà xuất bản</RouterLink>
           </li>
           <li>
-            <RouterLink to="/users" class="text-base hover:font-bold"
-              exact-active-class="text-base underline font-bold transition-all duration-200 ease-in-out">
+            <RouterLink to="/users" class="text-base hover:font-bold hover:underline"
+              exact-active-class="text-base font-bold transition-all duration-200 ease-in-out">
               Người dùng</RouterLink>
           </li>
           <li>
-            <RouterLink to="/staffs" class="text-base hover:font-bold"
-              exact-active-class="text-base underline font-bold transition-all duration-200 ease-in-out">
+            <RouterLink to="/staffs" class="text-base hover:font-bold hover:underline"
+              exact-active-class="text-base font-bold transition-all duration-200 ease-in-out">
               Nhân viên</RouterLink>
           </li>
           <li>
-            <RouterLink to="/staffprofile" class="text-base hover:font-bold"
-              exact-active-class="text-base underline font-bold transition-all duration-200 ease-in-out">
+            <RouterLink to="/staffprofile" class="text-base hover:font-bold hover:underline"
+              exact-active-class="text-base font-bold transition-all duration-200 ease-in-out">
               Thông tin nhân viên</RouterLink>
           </li>
         </template>
 
         <template v-if=" role === 'user' ">
           <li>
-            <RouterLink to="/books" class="text-base hover:font-bold"
-              exact-active-class="text-base underline font-bold transition-all duration-200 ease-in-out">
+            <RouterLink to="/books" class="text-base hover:font-bold hover:underline"
+              exact-active-class="text-base font-bold transition-all duration-200 ease-in-out">
               Danh mục sách</RouterLink>
           </li>
           <li>
-            <RouterLink to="/borrowcheck" class="text-base hover:font-bold"
-              exact-active-class="text-base underline font-bold transition-all duration-200 ease-in-out">
+            <RouterLink to="/borrowcheck" class="text-base hover:font-bold hover:underline"
+              exact-active-class="text-base font-bold transition-all duration-200 ease-in-out">
               Kiểm tra đơn mượn sách</RouterLink>
           </li>
           <li>
-            <RouterLink to="/userprofile" class="text-base hover:font-bold"
-              exact-active-class="text-base underline font-bold transition-all duration-200 ease-in-out">
+            <RouterLink to="/userprofile" class="text-base hover:font-bold hover:underline"
+              exact-active-class="text-base font-bold transition-all duration-200 ease-in-out">
               Thông tin người dùng</RouterLink>
           </li>
         </template>

@@ -59,7 +59,7 @@ const goToEditBook = (book_id) => {
         <dd class="text-gray-800 sm:col-span-2 truncate">{{ book.published_year || "Không xác định" }}</dd>
       </div>
       <div class="grid grid-cols-1 p-2">
-        <dt class="font-bold text-gray-900">Tên nhà xuất bản</dt>
+        <dt class="font-bold text-gray-900">Nhà xuất bản</dt>
         <dd class="text-gray-800 sm:col-span-2 truncate">{{ book.publisher_id?.name || "Không xác định" }}</dd>
       </div>
       <div class="grid grid-cols-1 p-2">

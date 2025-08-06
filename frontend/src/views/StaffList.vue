@@ -59,6 +59,9 @@ const handleDeleteAllStaffs = async () => {
 };
 
 onMounted(async () => {
+  if (role.value !== "staff") {
+    router.push("/");
+  }
   fetchStaffs();
 });
 </script>
@@ -66,12 +69,12 @@ onMounted(async () => {
 <template>
   <div class="flex flex-col min-h-screen overflow-hidden">
     <Header></Header>
-    <div class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
+    <div class="flex-grow mx-8 sm:mx-16 lg:mx-24 my-8">
       <div class="grid grid-cols-1 place-items-center">
         <template v-if=" role === 'staff' ">
-          <div class="flex flex-col gap-4 sm:flex-row place-items-center mb-8">
+          <div class="flex flex-col gap-2 sm:flex-row justify-center mb-8 w-full">
             <div class="tooltip" data-tip="Họ và tên, địa chỉ, số điện thoại, tên đăng nhập">
-              <InputSearch v-model=" searchText "></InputSearch>
+              <InputSearch class="w-full" v-model=" searchText "></InputSearch>
             </div>
             <button class="btn btn-neutral hover:btn-info hover:text-white hover:scale-[1.01]"
               @click=" goToAddStaff ">Thêm nhân viên</button>
@@ -85,7 +88,7 @@ onMounted(async () => {
       </template>
       <template v-else>
         <div class="grid grid-cols-1 text-center">
-          <p class="py-6">Lỗi không thể tìm thấy nhân viên</p>
+          <p class="py-6 font-bold">Hiện tại không thể tìm thấy nhân viên</p>
         </div>
       </template>
     </div>

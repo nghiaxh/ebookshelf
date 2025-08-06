@@ -3,7 +3,7 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 import { useRouter } from 'vue-router';
 import { useRoute } from "vue-router";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { push } from 'notivue';
 import { userSchema } from '../validations/user.validation';
 import UserService from '../services/user.service';
@@ -14,7 +14,7 @@ const router = useRouter();
 const route = useRoute();
 const role = computed(() => localStorage.getItem("role"));
 
-const { handleSubmit } = useForm({
+const { handleSubmit, resetForm } = useForm({
   validationSchema: userSchema,
 });
 
@@ -24,7 +24,11 @@ const handleUserProfileEdit = handleSubmit(async (values) => {
   try {
     await userService.updateUser(user_id, values);
     push.success("Cập nhật thông tin người dùng thành công");
-    router.push("/users");
+    if (role.value === "staff") {
+      router.push("/users");
+    } else {
+      router.push("/userprofile");
+    }
   } catch (error) {
     console.log(error);
     if (error.response.status === 400) {
@@ -57,6 +61,22 @@ const { value: gender, errorMessage: genderError } = useField("gender");
 const { value: address, errorMessage: addressError } = useField("address");
 const { value: phone, errorMessage: phoneError } = useField("phone");
 
+onMounted(async () => {
+  const userData = await userService.getUser(user_id);
+  console.log();
+  resetForm({
+    values: {
+      first_name: userData.first_name,
+      last_name: userData.last_name,
+      gender: userData.gender,
+      address: userData.address,
+      birthday: new Date(userData.birthday).toISOString().slice(0, 10),
+      phone: userData.phone,
+      username: userData.username,
+      // password: userData.password
+    }
+  });
+});
 </script>
 
 <template>

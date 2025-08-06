@@ -16,6 +16,7 @@ const id = computed(() => localStorage.getItem("id"));
 const borrows = ref([]);
 const searchText = ref("");
 const filteredStatus = ref("");
+const filteredStatusText = ref("");
 
 const fetchBorrows = async () => {
     try {
@@ -38,6 +39,30 @@ const fetchBorrows = async () => {
 
 const handleFilterStatus = (status) => {
     filteredStatus.value = status;
+    switch (status) {
+        case "pending":
+            filteredStatusText.value = "Chờ duyệt";
+            break;
+        case "return_pending":
+            filteredStatusText.value = "Chờ duyệt trả";
+            break;
+        case "borrowing":
+            filteredStatusText.value = "Đang mượn";
+            break;
+        case "returned":
+            filteredStatusText.value = "Đã trả";
+            break;
+        case "rejected":
+            filteredStatusText.value = "Từ chối";
+            break;
+        case "overdue":
+            filteredStatusText.value = "Quá hạn";
+            break;
+
+        default:
+            filteredStatusText.value = "Tất cả sách";
+            break;
+    }
 };
 
 const filteredBorrows = computed(() => {
@@ -73,28 +98,25 @@ onMounted(async () => {
 <template>
     <div class="flex flex-col min-h-screen overflow-hidden">
         <Header></Header>
-        <div class="flex-grow mx-16 sm:mx-24 lg:mx-32 my-8">
-            <div class="grid grid-cols-1 gap-4 place-items-center">
+        <div class="flex-grow mx-8 sm:mx-16 lg:mx-24 my-8">
+            <div class="flex flex-col sm:flex-row gap-2 justify-center mb-8 w-full">
 
                 <div class="tooltip" data-tip="Tựa sách">
-                    <InputSearch v-model=" searchText "></InputSearch>
+                    <InputSearch class="w-full" v-model=" searchText "></InputSearch>
                 </div>
-
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div class="dropdown dropdown-center">
-                        <div tabindex="0" role="button" class="btn bg-base-100 hover:bg-base-300">Trạng thái đơn mượn
-                        </div>
-                        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                            <li><a @click="handleFilterStatus( '' )">Tất cả</a></li>
-                            <li><a @click="handleFilterStatus( 'pending' )">Chờ duyệt</a></li>
-                            <li><a @click="handleFilterStatus( 'borrowing' )">Đang mượn</a></li>
-                            <li><a @click="handleFilterStatus( 'return_pending' )">Chờ duyệt trả</a></li>
-                            <li><a @click="handleFilterStatus( 'returned' )">Đã trả</a></li>
-                            <li><a @click="handleFilterStatus( 'rejected' )">Từ chối</a></li>
-                            <li><a @click="handleFilterStatus( 'overdue' )">Quá hạn</a></li>
-                        </ul>
+                <div class="dropdown dropdown-center flex justify-center">
+                    <div tabindex="0" role="button" class="btn bg-base-100 hover:bg-base-300">{{ filteredStatusText ||
+                        "Tất cả sách" }}
                     </div>
-                    <button @click=" fetchBorrows " class="btn btn-neutral hover:scale-[1.01]">Làm mới</button>
+                    <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                        <li><a @click="handleFilterStatus( '' )">Tất cả sách</a></li>
+                        <li><a @click="handleFilterStatus( 'pending' )">Chờ duyệt</a></li>
+                        <li><a @click="handleFilterStatus( 'borrowing' )">Đang mượn</a></li>
+                        <li><a @click="handleFilterStatus( 'return_pending' )">Chờ duyệt trả</a></li>
+                        <li><a @click="handleFilterStatus( 'returned' )">Đã trả</a></li>
+                        <li><a @click="handleFilterStatus( 'rejected' )">Từ chối</a></li>
+                        <li><a @click="handleFilterStatus( 'overdue' )">Quá hạn</a></li>
+                    </ul>
                 </div>
 
             </div>

@@ -19,7 +19,7 @@ const user_id = computed(() => localStorage.getItem("id"));
 const borrow_id = route.params.id;
 const borrow = ref({});
 
-const { handleSubmit } = useForm({
+const { handleSubmit, resetForm } = useForm({
     validationSchema: borrowSchema,
 });
 
@@ -58,6 +58,11 @@ onMounted(async () => {
     try {
         const borrow_data = await borrowService.getBorrowById(borrow_id);
         borrow.value = borrow_data;
+        resetForm({
+            values: {
+                return_date: new Date(borrow.value.return_date).toISOString().slice(0, 10)
+            }
+        });
     } catch (error) {
         console.log(error);
         push.error("Đã có lỗi xảy ra khi try cập thông tin đơn mượn sách");

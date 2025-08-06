@@ -3,7 +3,7 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 
 import { useRouter, useRoute } from 'vue-router';
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import PublisherService from '../services/publisher.service';
 import { push } from 'notivue';
 import { publisherSchema } from "../validations/publisher.validation";
@@ -13,9 +13,9 @@ const publisherService = new PublisherService();
 const router = useRouter();
 const route = useRoute();
 const publisher_id = route.params.id;
+const role = computed(() => localStorage.getItem("role"));
 
-
-const { handleSubmit, setValues } = useForm({
+const { handleSubmit, resetForm } = useForm({
     validationSchema: publisherSchema,
 });
 
@@ -48,11 +48,16 @@ const { value: name, errorMessage: nameError } = useField("name");
 const { value: address, errorMessage: addressError } = useField("address");
 
 onMounted(async () => {
+    if (role.value !== "staff") {
+        router.push("/");
+    }
     try {
-        const publisher_data = await publisherService.getPublisherById(publisher_id);
-        setValues({
-            name: publisher_data.name,
-            address: publisher_data.address
+        const publisherData = await publisherService.getPublisherById(publisher_id);
+        resetForm({
+            values: {
+                name: publisherData.name,
+                address: publisherData.address
+            }
         });
     } catch (error) {
         console.log(error);
