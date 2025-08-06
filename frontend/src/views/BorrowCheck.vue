@@ -17,7 +17,7 @@ const borrows = ref([]);
 const searchText = ref("");
 const filteredStatus = ref("");
 
-const fetchBorrows = async (borrow_id) => {
+const fetchBorrows = async () => {
     try {
         const response = await borrowService.getAllBorrows();
         // debug code later
@@ -66,6 +66,7 @@ const filteredBorrows = computed(() => {
 
 onMounted(async () => {
     fetchBorrows();
+    fetchBorrows();
 });
 </script>
 
@@ -93,7 +94,7 @@ onMounted(async () => {
                             <li><a @click="handleFilterStatus( 'overdue' )">Quá hạn</a></li>
                         </ul>
                     </div>
-                    <button class="btn btn-neutral hover:scale-[1.01]">Làm mới</button>
+                    <button @click=" fetchBorrows " class="btn btn-neutral hover:scale-[1.01]">Làm mới</button>
                 </div>
 
             </div>

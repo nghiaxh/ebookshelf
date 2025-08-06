@@ -7,6 +7,7 @@ import BookService from "../services/book.service";
 import { push } from "notivue";
 
 const role = computed(() => localStorage.getItem("role"));
+const staff_id = computed(() => localStorage.getItem("id"));
 const router = useRouter();
 const borrowService = new BorrowService();
 const bookService = new BookService();
@@ -27,7 +28,7 @@ const handleApproveBook = async (borrow_id) => {
             push.error("Duyệt sách thất bại do số lượng sách đã hết");
             return;
         }
-
+        await borrowService.updateBorrow(props.borrow._id, { staff_id: staff_id.value });
         await borrowService.updateBorrow(props.borrow._id, { status: "borrowing" });
         await bookService.updateBook(props.borrow.book_id?._id, { quantity: props.borrow.book_id?.quantity - 1 });
         push.success("Duyệt sách thành công");
@@ -40,6 +41,7 @@ const handleApproveBook = async (borrow_id) => {
 
 const handleApproveReturnBook = async (borrow_id) => {
     try {
+        await borrowService.updateBorrow(props.borrow._id, { staff_id: staff_id.value });
         await borrowService.updateBorrow(props.borrow._id, { status: "returned" });
         await bookService.updateBook(props.borrow.book_id?._id, { quantity: props.borrow.book_id?.quantity + 1 });
         push.success("Duyệt trả sách thành công");
@@ -56,6 +58,7 @@ const handleRejectBook = async (borrow_id) => {
             push.error("Duyệt sách thất bại do số lượng sách đã hết");
             return;
         }
+        await borrowService.updateBorrow(props.borrow._id, { staff_id: staff_id.value });
         await borrowService.updateBorrow(props.borrow._id, { status: "rejected" });
         push.success("Từ chối duyệt sách thành công");
         emit("fetchBorrows");
@@ -68,7 +71,7 @@ const handleRejectBook = async (borrow_id) => {
 const handleReturnBook = async (borrow_id) => {
     try {
         await borrowService.updateBorrow(props.borrow._id, { status: "return_pending" });
-        push.info("Tiến hành trả sách");
+        push.info("Đang xử lý trả sách");
         emit("fetchBorrows");
     } catch (error) {
         console.log(error);
@@ -116,6 +119,13 @@ const goToEditBorrow = async (borrow_id) => {
                         </dd>
                     </div>
                 </template>
+
+                <div class="grid grid-cols-1 p-2">
+                    <dt class="font-bold text-gray-900">Nhân viên duyệt</dt>
+                    <dd class="text-gray-800 sm:col-span-2 truncate">{{ borrow.staff_id?.name || "Không xác định"
+                    }}
+                    </dd>
+                </div>
 
                 <div class="grid grid-cols-1 p-2">
                     <dt class="font-bold text-gray-900">Tựa sách</dt>

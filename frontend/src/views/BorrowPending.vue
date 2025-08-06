@@ -14,6 +14,7 @@ const router = useRouter();
 const borrowService = new BorrowService();
 const bookService = new BookService();
 const role = computed(() => localStorage.getItem("role"));
+const staff_id = computed(() => localStorage.getItem("id"));
 
 const borrows = ref([]);
 const searchText = ref("");
@@ -33,6 +34,7 @@ const fetchBorrows = async () => {
                 await borrowService.updateBorrow(borrow._id, { status: "overdue" });
             }
         };
+        console.log(borrows.value[0]);
     } catch (error) {
         console.error(error);
     }
@@ -54,7 +56,7 @@ const filteredBorrows = computed(() => {
         const keyword = searchText.value.toLowerCase();
 
         return borrows.value.filter(borrow => {
-            const searchableText = [borrow.book_id?.title, borrow.user_id?.first_name, borrow.user_id?.last_name]
+            const searchableText = [borrow.book_id?.title, borrow.user_id?.first_name, borrow.user_id?.last_name, borrow.staff_id?.name]
                 .filter(Boolean)
                 .join(' ')
                 .toLowerCase();
@@ -72,6 +74,7 @@ const handleApproveAllBorrows = async () => {
         const return_pendingBorrows = borrows.value.filter(borrow => borrow.status === "return_pending");
         for (const borrow of pendingBorrows) {
             if (borrow.book_id?.quantity > 0) {
+                await borrowService.updateBorrow(borrow._id, { staff_id: staff_id.value });
                 await borrowService.updateBorrow(borrow._id, { status: "borrowing" });
                 await bookService.updateBook(borrow.book_id?._id, { quantity: borrow.book_id?.quantity - 1 });
             } else {
@@ -81,6 +84,7 @@ const handleApproveAllBorrows = async () => {
         }
         for (const borrow of return_pendingBorrows) {
             if (borrow.book_id?.quantity > 0) {
+                await borrowService.updateBorrow(borrow._id, { staff_id: staff_id.value });
                 await borrowService.updateBorrow(borrow._id, { status: "returned" });
                 await bookService.updateBook(borrow.book_id?._id, { quantity: borrow.book_id?.quantity + 1 });
             } else {
@@ -92,11 +96,12 @@ const handleApproveAllBorrows = async () => {
         fetchBorrows();
     } catch (error) {
         console.log(error);
-        push.error("Đã có lỗi trong quá trình duyệt tất cả các đơn mượn");
+        push.error("Đã xảy ra lỗi trong quá trình duyệt tất cả các đơn mượn");
     }
 };
 
 onMounted(async () => {
+    fetchBorrows();
     fetchBorrows();
 });
 </script>
@@ -112,7 +117,7 @@ onMounted(async () => {
                 <!-- filter books -->
                 <div class="grid grid-cols-1 gap-4 place-items-center">
 
-                    <div class="tooltip" data-tip="Người mượn, tựa sách">
+                    <div class="tooltip" data-tip="Người mượn, nhân viên duyệt, tựa sách">
                         <InputSearch class="w-full" v-model=" searchText "></InputSearch>
                     </div>
 

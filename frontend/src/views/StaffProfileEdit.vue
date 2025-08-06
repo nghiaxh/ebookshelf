@@ -94,7 +94,12 @@ const handleStaffProfileDelete = async (staff_id) => {
           </template>
           <span class="mt-4">
             <strong class="hover:underline">
-              <RouterLink to="/staffs" class="text-base">Quay lại</RouterLink>
+              <template v-if=" staff_edit_id === staff_id ">
+                <RouterLink to="/staffprofile" class="text-base">Quay lại</RouterLink>
+              </template>
+              <template v-else>
+                <RouterLink to="/staffs" class="text-base">Quay lại</RouterLink>
+              </template>
             </strong>
           </span>
         </fieldset>

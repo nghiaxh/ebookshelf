@@ -31,6 +31,9 @@ class BorrowService {
                     path: "publisher_id",
                     model: "Publisher"
                 }
+            }).populate({
+                path: "staff_id",
+                model: "Staff"
             });
     }
 
@@ -43,6 +46,9 @@ class BorrowService {
                     path: "publisher_id",
                     model: "Publisher"
                 }
+            }).populate({
+                path: "staff_id",
+                model: "Staff"
             });
     }
 

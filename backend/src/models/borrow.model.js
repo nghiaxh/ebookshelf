@@ -5,6 +5,10 @@ const borrowSchema = mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: "User",
     },
+    staff_id: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Staff",
+    },
     book_id: {
         type: mongoose.Schema.ObjectId,
         ref: "Book",
