@@ -16,8 +16,10 @@ const route = useRoute();
 const router = useRouter();
 
 const user_id = computed(() => localStorage.getItem("id"));
-const borrow_id = route.params.id;
+const borrowId = route.params.id;
 const borrow = ref({});
+
+const borrowDate = ref(undefined);
 
 const { handleSubmit, resetForm } = useForm({
     validationSchema: borrowSchema,
@@ -29,7 +31,7 @@ const handleUpdateBorrow = handleSubmit(async (values) => {
     // debug code
     // console.log(return_date.value);
     try {
-        await borrowService.updateBorrow(borrow_id, values);
+        await borrowService.updateBorrow(borrowId, values);
         push.success("Cập nhật đơn mượn sách thành công");
         router.push("/borrowpending");
     } catch (error) {
@@ -37,14 +39,14 @@ const handleUpdateBorrow = handleSubmit(async (values) => {
     }
 });
 
-const handleDeleteBorrow = async (borrow_id) => {
+const handleDeleteBorrow = async (borrowId) => {
     try {
         if (confirm("Xác nhận xóa đơn mượn sách?")) {
             if (borrow.value.status === 'borrowing' || borrow.value.status === 'return_pending') {
                 push.error({ message: "Không thể xóa đơn mượn do người dùng đang mượn hoặc đang chờ duyệt trả sách", duration: 4000 });
                 return;
             }
-            await borrowService.deleteBorrow(borrow_id);
+            await borrowService.deleteBorrow(borrowId);
             push.info("Xóa đơn mượn sách thành công");
             router.push("/borrowpending");
         }
@@ -56,8 +58,9 @@ const handleDeleteBorrow = async (borrow_id) => {
 
 onMounted(async () => {
     try {
-        const borrow_data = await borrowService.getBorrowById(borrow_id);
+        const borrow_data = await borrowService.getBorrowById(borrowId);
         borrow.value = borrow_data;
+        borrowDate.value = new Date(borrow.value.borrow_date).toISOString().slice(0, 10);
         resetForm({
             values: {
                 return_date: new Date(borrow.value.return_date).toISOString().slice(0, 10)
@@ -78,37 +81,28 @@ onMounted(async () => {
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
                     <legend class="fieldset-legend text-xl">Cập nhật đơn mượn sách</legend>
 
-                    <label class="label">Người mượn</label>
-                    <input type="text" class="input" readonly
+                    <label class="label" for="user_id">Người mượn</label>
+                    <input type="text" class="input" id="user_id" readonly
                         :value=" borrow.user_id?.last_name + ' ' + borrow.user_id?.first_name " />
 
-                    <label class="label">Tựa sách</label>
-                    <input type="text" class="input" readonly :value=" borrow.book_id?.title " />
+                    <label class="label" for="title">Tựa sách</label>
+                    <input type="text" class="input" id="title" readonly :value=" borrow.book_id?.title " />
 
-                    <label class="label">Tác giả</label>
-                    <input type="text" class="input" readonly :value=" borrow.book_id?.author ">
+                    <label class="label" for="staff_id">Nhân viên duyệt</label>
+                    <input type="text" class="input" id="staff_id" readonly :value=" borrow.staff_id?.name || 'Không xác định' ">
 
-                    <label class="label">Tên nhà xuất bản</label>
-                    <input type="text" class="input" readonly :value=" borrow.book_id?.publisher_id?.name ">
-
-                    <label class="label">Năm xuất bản</label>
-                    <input type="text" class="input" readonly :value=" borrow.book_id?.published_year ">
-
-                    <label class="label">Số lượng</label>
-                    <input type="number" class="input" readonly value="1" />
-
-                    <label class="label">Ngày mượn</label>
-                    <input type="date" class="input" readonly :value=" new Date().toISOString().slice( 0, 10 ) " />
+                    <label class="label" for="borrow_date">Ngày mượn</label>
+                    <input type="date" class="input" id="borrow_date" readonly :value=" borrowDate " />
 
                     <label class="label" for="return_date">Ngày trả sách</label>
                     <input v-model=" return_date " type="date" class="input" id="return_date" />
                     <span class="text-red-600 text-sm">{{ return_dateError }}</span>
 
                     <div class="grid grid-cols-2 gap-2">
-                        <button @click=" handleUpdateBorrow( borrow_id )"
+                        <button @click=" handleUpdateBorrow( borrowId )"
                             class="btn btn-neutral mt-4 hover:scale-[1.01] hover:btn-info hover:text-white text-base">Cập
                             nhật</button>
-                        <button @click=" handleDeleteBorrow( borrow_id )"
+                        <button @click=" handleDeleteBorrow( borrowId )"
                             class="btn btn-neutral mt-4 hover:scale-[1.01] hover:btn-error hover:text-white text-base">Xóa</button>
                     </div>
 

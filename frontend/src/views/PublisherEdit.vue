@@ -73,12 +73,12 @@ onMounted(async () => {
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
                     <legend class="fieldset-legend text-xl">Chỉnh sửa nhà xuất bản</legend>
 
-                    <label class="label">Tên nhà xuất bản</label>
-                    <input v-model=" name " type="text" class="input w-full" placeholder="Nhập tên nhà xuất bản" />
+                    <label class="label" for="name">Tên nhà xuất bản</label>
+                    <input v-model=" name " type="text" class="input w-full" id="name" placeholder="Nhập tên nhà xuất bản" />
                     <span class="text-sm text-red-600">{{ nameError }}</span>
 
-                    <label class="label">Địa chỉ</label>
-                    <input v-model=" address " type="text" class="input w-full" placeholder="Nhập địa chỉ" />
+                    <label class="label" for="address">Địa chỉ</label>
+                    <input v-model=" address " type="text" class="input w-full" id="address" placeholder="Nhập địa chỉ" />
                     <span class="text-sm text-red-600">{{ addressError }}</span>
 
                     <div class="grid grid-cols-2 gap-2">

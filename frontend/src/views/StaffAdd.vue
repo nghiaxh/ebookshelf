@@ -46,24 +46,24 @@ const handleCreateStaff = handleSubmit(async (values) => {
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
           <legend class="fieldset-legend text-xl">Thêm nhân viên</legend>
 
-          <label class="label">Họ và tên</label>
-          <input v-model=" name " type="text" class="input" placeholder="Nhập họ và tên" />
+          <label class="label" for="name">Họ và tên</label>
+          <input v-model=" name " type="text" class="input" id="name" placeholder="Nhập họ và tên" />
           <span class="text-sm text-red-600">{{ nameError }}</span>
 
-          <label class="label">Địa chỉ</label>
-          <input v-model=" address " type="text" class="input" placeholder="Nhập địa chỉ" />
+          <label class="label" for="address">Địa chỉ</label>
+          <input v-model=" address " type="text" class="input" id="address" placeholder="Nhập địa chỉ" />
           <span class="text-sm text-red-600">{{ addressError }}</span>
 
-          <label class="label">Số điện thoại</label>
-          <input v-model=" phone " type="text" class="input" placeholder="Nhập số điện thoại" />
+          <label class="label" for="phone">Số điện thoại</label>
+          <input v-model=" phone " type="text" class="input" id="phone" placeholder="Nhập số điện thoại" />
           <span class="text-sm text-red-600">{{ phoneError }}</span>
 
-          <label class="label">Tên đăng nhập</label>
-          <input v-model=" username " type="text" class="input" placeholder="Nhập tên đăng nhập" />
+          <label class="label" for="username">Tên đăng nhập</label>
+          <input v-model=" username " type="text" class="input" id="username" placeholder="Nhập tên đăng nhập" />
           <span class="text-sm text-red-600">{{ usernameError }}</span>
 
-          <label class="label">Mật khẩu</label>
-          <input v-model=" password " type="password" class="input" placeholder="Nhập mật khẩu" />
+          <label class="label" for="password">Mật khẩu</label>
+          <input v-model=" password " type="password" class="input" id="password" placeholder="Nhập mật khẩu" />
           <span class="text-sm text-red-600">{{ passwordError }}</span>
 
           <button type="submit" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thêm nhân viên</button>

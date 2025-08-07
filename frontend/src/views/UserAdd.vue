@@ -56,16 +56,16 @@ const handleCreateUser = handleSubmit(async (values) => {
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
                     <legend class="fieldset-legend text-xl">Thêm người dùng</legend>
 
-                    <label class="label">Họ lót</label>
-                    <input v-model=" last_name " type="text" class="input" placeholder="Nhập họ lót" />
+                    <label class="label" for="last_name">Họ lót</label>
+                    <input v-model=" last_name " type="text" class="input" id="last_name" placeholder="Nhập họ lót" />
                     <span class="text-red-600 text-sm">{{ last_nameError }}</span>
 
-                    <label class="label">Tên</label>
-                    <input v-model=" first_name " type="text" class="input" placeholder="Nhập tên" />
+                    <label class="label" for="first_name">Tên</label>
+                    <input v-model=" first_name " type="text" class="input" id="first_name" placeholder="Nhập tên" />
                     <span class="text-red-600 text-sm">{{ first_nameError }}</span>
 
-                    <label class="label">Ngày sinh</label>
-                    <input v-model=" birthday " type="date" class="input" />
+                    <label class="label" for="birthday">Ngày sinh</label>
+                    <input v-model=" birthday " type="date" class="input" id="birthday" />
                     <span class="text-red-600 text-sm">{{ birthdayError }}</span>
 
                     <label class="label">Giới tính</label>
@@ -80,20 +80,20 @@ const handleCreateUser = handleSubmit(async (values) => {
                     </div>
                     <span class="text-red-600 text-sm">{{ genderError }}</span>
 
-                    <label class="label">Địa chỉ</label>
-                    <input v-model=" address " type="text" class="input" placeholder="Nhập địa chỉ" />
+                    <label class="label" for="address">Địa chỉ</label>
+                    <input v-model=" address " type="text" class="input" id="address" placeholder="Nhập địa chỉ" />
                     <span class="text-red-600 text-sm">{{ addressError }}</span>
 
-                    <label class="label">Số điện thoại</label>
-                    <input v-model=" phone " type="text" class="input" placeholder="Nhập số điện thoại" />
+                    <label class="label" for="phone">Số điện thoại</label>
+                    <input v-model=" phone " type="text" class="input" id="phone" placeholder="Nhập số điện thoại" />
                     <span class="text-red-600 text-sm">{{ phoneError }}</span>
 
-                    <label class="label">Tên đăng nhập</label>
-                    <input v-model=" username " type="text" class="input" placeholder="Nhập tên đăng nhập" />
+                    <label class="label" for="username">Tên đăng nhập</label>
+                    <input v-model=" username " type="text" class="input" id="username" placeholder="Nhập tên đăng nhập" />
                     <span class="text-red-600 text-sm">{{ usernameError }}</span>
 
-                    <label class="label">Mật khẩu</label>
-                    <input v-model=" password " type="password" class="input" placeholder="Nhập mật khẩu" />
+                    <label class="label" for="password">Mật khẩu</label>
+                    <input v-model=" password " type="password" class="input" id="password" placeholder="Nhập mật khẩu" />
                     <span class="text-red-600 text-sm">{{ passwordError }}</span>
 
                     <button type="submit" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thêm người

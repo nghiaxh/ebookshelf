@@ -100,16 +100,16 @@ onMounted(async () => {
             <form @submit.prevent>
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
                     <legend class="fieldset-legend text-xl">Cập nhật sách</legend>
-                    <label class="label">Tựa sách</label>
-                    <input v-model=" title " type="text" class="input" placeholder="Nhập tựa sách" />
+                    <label class="label" for="title">Tựa sách</label>
+                    <input v-model=" title " type="text" class="input" id="title" placeholder="Nhập tựa sách" />
                     <span class="text-sm text-red-600">{{ titleError }}</span>
 
-                    <label class="label">Tác giả</label>
-                    <input v-model=" author " type="text" class="input" placeholder="Nhập tác giả" />
+                    <label class="label" for="author">Tác giả</label>
+                    <input v-model=" author " type="text" class="input" id="author" placeholder="Nhập tác giả" />
                     <span class="text-sm text-red-600">{{ authorError }}</span>
 
-                    <label class="label">Nhà xuất bản</label>
-                    <select v-model=" publisher_id " class="select">
+                    <label class="label" for="publisher">Nhà xuất bản</label>
+                    <select v-model=" publisher_id " class="select" id="publisher">
                         <option disabled value="">Chọn nhà xuất bản</option>
                         <option v-for=" publisher in publishers " :key=" publisher._id " :value=" publisher._id ">
                             {{ publisher.name }}
@@ -117,17 +117,16 @@ onMounted(async () => {
                     </select>
                     <span class="text-sm text-red-600">{{ publisher_idError }}</span>
 
-                    <label class="label">Năm xuất bản</label>
-                    <input v-model=" published_year " type="number" class="input" placeholder="Nhập năm xuất bản" />
+                    <label class="label" for="published_year">Năm xuất bản</label>
+                    <input v-model=" published_year " type="number" class="input" id="published_year" placeholder="Nhập năm xuất bản" />
                     <span class="text-sm text-red-600">{{ published_yearError }}</span>
 
-                    <label class="label">Đơn giá</label>
-                    <input v-model=" price " type="number" class="input" placeholder="Nhập đơn giá" />
+                    <label class="label" for="price">Đơn giá</label>
+                    <input v-model=" price " type="number" class="input" id="price" placeholder="Nhập đơn giá" />
                     <span class="text-sm text-red-600">{{ priceError }}</span>
 
-                    <label class="label">Số lượng</label>
-                    <input v-model=" quantity " type="number" class="input" placeholder="Nhập số lượng" />
-
+                    <label class="label" for="quantity">Số lượng</label>
+                    <input v-model=" quantity " type="number" class="input" id="quantity" placeholder="Nhập số lượng" />
                     <span class="text-sm text-red-600">{{ quantityError }}</span>
 
                     <div class="grid grid-cols-2 gap-2">

@@ -47,12 +47,12 @@ onMounted(() => {
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
                     <legend class="fieldset-legend text-xl">Thêm nhà xuất bản mới</legend>
 
-                    <label class="label">Tên nhà xuất bản</label>
-                    <input v-model=" name " type="text" class="input" placeholder="Nhập tên nhà xuất bản" />
+                    <label class="label" for="name">Tên nhà xuất bản</label>
+                    <input v-model=" name " type="text" class="input" id="name" placeholder="Nhập tên nhà xuất bản" />
                     <span class="text-sm text-red-600">{{ nameError }}</span>
 
-                    <label class="label">Địa chỉ</label>
-                    <input v-model=" address " type="text" class="input" placeholder="Nhập địa chỉ" />
+                    <label class="label" for="address">Địa chỉ</label>
+                    <input v-model=" address " type="text" class="input" id="address" placeholder="Nhập địa chỉ" />
                     <span class="text-sm text-red-600">{{ addressError }}</span>
 
                     <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thêm nhà xuất bản</button>

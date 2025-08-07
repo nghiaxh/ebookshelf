@@ -75,12 +75,12 @@ const handleUserRegister = handleSubmit(async (values) => {
           </div>
           <span class="text-red-600 text-sm">{{ genderError }}</span>
 
-          <label class="label">Địa chỉ</label>
-          <input v-model=" address " type="text" class="input" placeholder="Nhập địa chỉ" />
+          <label class="label" for="address">Địa chỉ</label>
+          <input v-model=" address " type="text" class="input" id="address" placeholder="Nhập địa chỉ" />
           <span class="text-red-600 text-sm">{{ addressError }}</span>
 
-          <label class="label">Số điện thoại</label>
-          <input v-model=" phone " type="text" class="input" placeholder="Nhập số điện thoại" />
+          <label class="label" for="phone">Số điện thoại</label>
+          <input v-model=" phone " type="text" class="input" id="phone" placeholder="Nhập số điện thoại" />
           <span class="text-red-600 text-sm">{{ phoneError }}</span>
 
           <label class="label" for="username">Tên đăng nhập</label>

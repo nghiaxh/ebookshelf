@@ -80,20 +80,20 @@ onMounted(async () => {
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base">
           <legend class="fieldset-legend text-xl">Thêm đơn mượn sách</legend>
 
-          <label class="label">Tựa sách</label>
-          <input type="text" class="input" readonly :value=" book.title " />
+          <label class="label" for="title">Tựa sách</label>
+          <input type="text" class="input" id="title" readonly :value=" book.title " />
 
-          <label class="label">Tác giả</label>
-          <input type="text" class="input" readonly :value=" book.author ">
+          <label class="label" for="author">Tác giả</label>
+          <input type="text" class="input" id="author" readonly :value=" book.author ">
 
-          <label class="label">Tên nhà xuất bản</label>
-          <input type="text" class="input" readonly :value=" book.publisher_id?.name ">
+          <label class="label" for="publisher">Tên nhà xuất bản</label>
+          <input type="text" class="input" id="publisher" readonly :value=" book.publisher_id?.name ">
 
-          <label class="label">Số quyển</label>
-          <input v-model=" quantity " type="number" class="input" readonly value="1" />
+          <label class="label" for="quantity">Số quyển</label>
+          <input v-model=" quantity " type="number" class="input" id="quantity" readonly value="1" />
 
-          <label class="label">Ngày mượn</label>
-          <input type="date" class="input" readonly :value=" new Date().toISOString().slice( 0, 10 ) ">
+          <label class="label" for="borrow_date">Ngày mượn</label>
+          <input type="date" class="input" id="borrow_date" readonly :value=" new Date().toISOString().slice( 0, 10 ) ">
 
           <label class="label" for="return_date">Ngày trả sách</label>
           <input v-model=" return_date " type="date" class="input" id="return_date" />
