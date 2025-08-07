@@ -8,21 +8,21 @@
 
 ## Tính năng chính
 
--   **Tìm kiếm sách:** Tìm kiếm sách theo tên, tác giả, thể loại.
+-   **Tìm kiếm sách:** Tìm kiếm sách theo tên, tác giả, năm xuất bản...
 
 -   **Đăng ký và đăng nhập:** Người dùng có thể tạo tài khoản và đăng nhập để mượn sách.
 
--   **Mượn sách:** Đặt mượn sách trực tuyến với thời gian mượn tùy chọn.
+-   **Mượn sách:** Tạo đơn mượn sách trực tuyến với thời gian mượn tùy chọn.
 
--   **Quản lý sách:** Quản lý sách, cập nhật, chỉnh sửa thông tin sách.
+-   **Quản lý sách:** Xem danh mục sách, cập nhật, chỉnh sửa, xóa thông tin sách.
 
--   **Quản lý đơn mượn:** Quản lý đơn mượn sách, cập nhật thông tin đơn mượn sách, xử lý yêu cầu đơn mượn của người dùng.
+-   **Quản lý đơn mượn:** Theo dõi đơn mượn sách, cập nhật thông tin đơn mượn sách, xử lý yêu cầu đơn mượn của người dùng.
 
--   **Quản lý nhà xuất bản:** Quản lý nhà xuất bản, cập nhật, chỉnh sửa thông tin nhà xuất bản.
+-   **Quản lý nhà xuất bản:** Xem danh sách nhà xuất bản, thực hiện thêm, sửa, xóa nhà xuất bản.
 
 -   **Quản lý người dùng:** Xem danh sách người dùng, thực hiện thêm, sửa, xóa người dùng.
 
--   **Quản lý nhân viên:** Xem danh sách người dùng, thực hiện thêm, sửa, xóa người dùng.
+-   **Quản lý nhân viên:** Xem danh sách nhân viên, thực hiện thêm, sửa, xóa nhân viên.
 
 ## Công nghệ sử dụng
 
@@ -33,6 +33,13 @@
 -   Cơ sở dữ liệu: MongoDB
 
 -   Xác thực: JSON Web Token (JWT)
+
+## Cấu trúc thư mục
+
+```
+/frontend      # mã nguồn giao diện người dùng
+/backend       # mã nguồn server và API
+```
 
 ## Cài đặt và chạy ứng dụng
 
@@ -47,7 +54,7 @@ git clone https://github.com/nghiaxh/ebookshelf.git
 ```
 cd backend
 npm install     # hoặc yarn install
-cd ..
+
 cd frontend
 npm install     # hoặc yarn install
 ```
@@ -66,16 +73,9 @@ MONGODB_URL = "mongodb://localhost:27017/ebookshelf"
 ```
 cd backend
 npm run start   # hoặc yarn start
-cd ..
+
 cd frontend
 npm run dev     # hoặc yarn dev
 ```
 
 5. Truy cập ứng dụng tại: `http://localhost:3001`
-
-## Cấu trúc thư mục
-
-```
-/frontend      # mã nguồn giao diện người dùng
-/backend       # mã nguồn server và API
-```
