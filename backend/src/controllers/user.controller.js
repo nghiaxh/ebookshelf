@@ -61,10 +61,10 @@ export async function update(req, res, next) {
     }
 
     try {
-        // const existingUser = await userService.findByUsername(req.body.username);
-        // if (existingUser) {
-        //     return next(new ApiError(400, "Username already exists"));
-        // }
+        const existingUser = await userService.findByUsername(req.body.username);
+        if (existingUser) {
+            return next(new ApiError(409, "Username already exists"));
+        }
 
         const document = await userService.update(req.params.id, req.body);
         if (!document) {

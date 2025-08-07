@@ -32,8 +32,11 @@ const handleStaffProfileEdit = handleSubmit(async (values) => {
     push.success("Cập nhật thông tin nhân viên thành công");
     router.push("/staffs");
   } catch (error) {
-    push.error("Đã xảy ra lỗi khi cập nhật thông tin nhân viên");
-    console.log(error);
+    if (error.response.status === 409) {
+      push.error("Tên đăng nhập đã tồn tại");
+    } else {
+      push.error("Đã xảy ra lỗi khi cập nhật thông tin nhân viên");
+    } console.log(error);
   }
 });
 

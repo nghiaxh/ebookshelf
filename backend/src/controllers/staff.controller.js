@@ -61,10 +61,16 @@ export async function update(req, res, next) {
     }
 
     try {
+        const existingStaff = await staffService.findByUsername(req.body.username);
+        if (existingStaff) {
+            return next(new ApiError(409, "Username already exists"));
+        }
+        
         const document = await staffService.update(req.params.id, req.body);
         if (!document) {
             return next(new ApiError(404, "Staff record not found"));
         }
+
         return res.json({ message: "Staff record updated successfully", document });
     } catch (error) {
         console.log(error);

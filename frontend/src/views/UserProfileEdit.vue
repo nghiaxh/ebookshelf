@@ -33,6 +33,8 @@ const handleUserProfileEdit = handleSubmit(async (values) => {
     console.log(error);
     if (error.response.status === 400) {
       push.error("Vui lòng điền đầy đủ thông tin");
+    } else if (error.response.status === 409) {
+      push.error("Tên đăng nhập đã tồn tại");
     }
     else {
       push.error("Đã xảy ra lỗi khi cập nhật thông tin người dùng");
