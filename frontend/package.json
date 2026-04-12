@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.10",
-    "axios": "^1.13.5",
+    "axios": "^1.15.0",
     "notivue": "^2.4.5",
     "tailwindcss": "^4.1.10",
     "vee-validate": "^4.15.1",
