@@ -11,9 +11,9 @@ git clone https://github.com/nghiaxh/ebookshelf.git
 
 ### Chạy dự án
 ```bash
-docker compose up          # chạy lần đầu hoặc không thay đổi code
-docker compose up --build  # build lại images khi có update code
-docker compose down -v     # xóa data, chạy lại để seed từ đầu
+docker compose up --build  # chạy lần đầu hoặc build lại images khi có update code
+docker compose update      # lần sau khi chạy không thay đổi code
+docker compose down -v     # xóa data, sau đó chạy lại để seed từ đầu
 ```
 
 ### Tài khoản mẫu
