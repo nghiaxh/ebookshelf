@@ -1,0 +1,45 @@
+services:
+  database:
+    container_name: ebookshelf-database
+    image: mongo:8
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  server:
+    container_name: ebookshelf-backend
+    build: ./backend
+    image: ebookshelf-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URL=mongodb://database:27017/ebookshelf
+      - JWT_SECRET=a856a06214afa7b104c4ace59e969f793b8d59529aab6c1414a1387b35c5383c
+      - PORT=3000
+    depends_on:
+      database:
+        condition: service_healthy
+
+  client:
+    container_name: ebookshelf-frontend
+    build: ./frontend
+    image: ebookshelf-frontend
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - API_PROXY_TARGET=http://server:3000
+    depends_on:
+      - server
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  mongo-data:
