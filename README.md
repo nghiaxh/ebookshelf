@@ -1,5 +1,23 @@
 # Ứng dụng Mượn Sách Trực Tuyến
 
+## Chạy bằng Docker Compose
+
+Yêu cầu: **Docker Desktop**
+
+```bash
+docker compose up          # chạy lần đầu hoặc không thay đổi code
+docker compose up --build  # build lại images khi có update code
+docker compose down -v     # xóa data, chạy lại để seed từ đầu
+```
+
+### Tài khoản mẫu
+
+| Username | Password | Vai trò |
+|----------|----------|---------|
+| `staff01` | `123456` | Nhân viên |
+| `staff05` | `123456` | Nhân viên |
+| `user01` | `123456` | Độc giả |
+
 ## Mô tả dự án
 
 Ứng dụng Mượn Sách Trực Tuyến là một nền tảng giúp người dùng dễ dàng tìm kiếm, mượn và quản lý sách trực tuyến một cách nhanh chóng và tiện lợi.
