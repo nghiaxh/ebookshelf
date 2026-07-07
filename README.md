@@ -1,9 +1,15 @@
 # Ứng dụng Mượn Sách Trực Tuyến
 
-## Chạy bằng Docker Compose
+## Hướng dẫn
 
 Yêu cầu: **Docker Desktop**
 
+### Clone dự án về máy
+```bash
+git clone https://github.com/nghiaxh/ebookshelf.git
+```
+
+### Chạy dự án
 ```bash
 docker compose up          # chạy lần đầu hoặc không thay đổi code
 docker compose up --build  # build lại images khi có update code
@@ -55,45 +61,49 @@ docker compose down -v     # xóa data, chạy lại để seed từ đầu
 ## Cấu trúc thư mục
 
 ```
-/frontend      # mã nguồn giao diện người dùng
-/backend       # mã nguồn server và API
+ebookshelf/
+├── docker-compose.yml           # Docker Compose config
+│
+├── backend/                     # Mã nguồn server và API (Node.js + Express)
+│   ├── Dockerfile
+│   ├── server.js                # Entry point
+│   ├── app.js                   # Cấu hình Express app
+│   ├── seed.js                  # Tạo dữ liệu mẫu cho db
+│   ├── wait-for-mongo.js        # Script chờ MongoDB sẵn sàng
+│   ├── docker-entrypoint.sh
+│   ├── package.json
+│   └── src/
+│       ├── config/
+│       │   └── index.js         # Cấu hình kết nối DB, env
+│       ├── models/              # Mongoose models (book, borrow, user, staff, publisher)
+│       ├── routes/              # Định tuyến API endpoints
+│       ├── controllers/         # Xử lý request/response
+│       ├── services/            # Business logic layer
+│       ├── middlewares/
+│       │   └── auth.middleware.js # Xác thực JWT
+│       └── api-error.js         # Error handling class
+│
+├── frontend/                    # Mã nguồn giao diện người dùng (Vue 3 + Vite)
+│   ├── Dockerfile
+│   ├── index.html
+│   ├── vite.config.js
+│   ├── package.json
+│   ├── public/
+│   │   ├── icons/
+│   │   └── images/              # Hình ảnh tĩnh
+│   └── src/
+│       ├── main.js              # Entry point Vue app
+│       ├── App.vue              # Root component
+│       ├── assets/
+│       │   └── style.css        # Global styles (Tailwind + DaisyUI)
+│       ├── router/
+│       │   └── index.js         # Vue Router định tuyến
+│       ├── components/          # Component dùng chung (Header, Footer, BookCard...)
+│       ├── views/               # View components cho từng trang
+│       ├── services/            # API client calls
+│       ├── composables/
+│       │   └── useAuth.js       # Auth state composable
+│       └── validations/         # Form validation rules
+│
+└── README.md
 ```
-
-## Cài đặt và chạy ứng dụng
-
-1. Clone repository về máy:
-
-```
-git clone https://github.com/nghiaxh/ebookshelf.git
-```
-
-2. Cài đặt phụ thuộc vào thư mục `backend` và `frontend`:
-
-```
-cd backend
-npm install     # hoặc yarn install
-
-cd frontend
-npm install     # hoặc yarn install
-```
-
-3. Thiết lập biến môi trường:
-
--   Tạo file `.env` thư mục `ebookshelf/backend/` và cấu hình các biến như database, secret key,...
-
-```env
-JWT_SECRET= "secret key"
-MONGODB_URL = "mongodb://localhost:27017/ebookshelf"
-```
-
-4. Chạy ứng dụng ở hai thư mục `backend` và `frontend`:
-
-```
-cd backend
-npm run start   # hoặc yarn start
-
-cd frontend
-npm run dev     # hoặc yarn dev
-```
-
-5. Truy cập ứng dụng tại: `http://localhost:3001`
