@@ -9,7 +9,21 @@ import bookRouter from "./src/routes/book.route.js";
 import borrowRouter from "./src/routes/borrow.route.js";
 
 const app = express();
-app.use(cors());
+
+const allowedOrigins = process.env.CORS_ORIGINS
+    ? process.env.CORS_ORIGINS.split(",")
+    : ["http://localhost:5173", "http://localhost:3001"];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new ApiError(403, "Not allowed by CORS"));
+        }
+    },
+    credentials: true,
+}));
 app.use(express.json());
 
 app.get("/", (req, res) => {
