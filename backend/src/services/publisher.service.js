@@ -14,7 +14,7 @@ class PublisherService {
     }
 
     async findByName(name) {
-        return await User.find({
+        return await Publisher.find({
             name: { $regex: new RegExp(name, "i") },
         });
     }
