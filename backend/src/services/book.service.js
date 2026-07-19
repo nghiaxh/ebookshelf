@@ -33,7 +33,7 @@ class BookService {
 
     async findByName(name) {
         return await Book.find({
-            name: { $regex: name, $options: "i" }
+            title: { $regex: name, $options: "i" }
         });
     }
 
