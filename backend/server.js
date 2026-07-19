@@ -8,6 +8,7 @@ async function startServer() {
     try {
         mongoose.connect(config.db.uri);
         console.log("Connected to the database!");
+        console.log("Express 5 compatibility: OK");
 
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
