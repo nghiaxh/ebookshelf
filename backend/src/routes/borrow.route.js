@@ -1,11 +1,12 @@
 import express from "express";
 import auth from "../middlewares/auth.middleware.js";
+import validate from "../middlewares/validate.js";
 import BorrowController from "../controllers/borrow.controller.js";
 
 const router = express.Router();
 
 router.route("/")
-    .post(BorrowController.create)
+    .post(validate("borrow", "create"), BorrowController.create)
     .get(auth, BorrowController.findAll)
     .delete(auth, BorrowController.deleteAll);
 
