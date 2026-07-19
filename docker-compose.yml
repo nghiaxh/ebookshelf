@@ -18,10 +18,8 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
-    environment:
-      - MONGODB_URL=mongodb://database:27017/ebookshelf
-      - JWT_SECRET=a856a06214afa7b104c4ace59e969f793b8d59529aab6c1414a1387b35c5383c
-      - PORT=3000
+    env_file:
+      - .env
     depends_on:
       database:
         condition: service_healthy
