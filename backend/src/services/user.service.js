@@ -24,11 +24,11 @@ class UserService {
     }
 
     async find(filter) {
-        return await User.find(filter);
+        return await User.find(filter).select("-password");
     }
 
     async findById(id) {
-        return await User.findById(id);
+        return await User.findById(id).select("-password");
     }
 
     async findByName(name) {

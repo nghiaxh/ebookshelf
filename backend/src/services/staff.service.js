@@ -21,11 +21,11 @@ class StaffService {
     }
 
     async find(filter) {
-        return await Staff.find(filter);
+        return await Staff.find(filter).select("-password");
     }
 
     async findById(id) {
-        return await Staff.findById(id);
+        return await Staff.findById(id).select("-password");
     }
 
     async findByName(name) {
