@@ -33,7 +33,10 @@ class UserService {
 
     async findByName(name) {
         return await User.find({
-            name: { $regex: new RegExp(name, "i") },
+            $or: [
+                { first_name: { $regex: new RegExp(name, "i") } },
+                { last_name: { $regex: new RegExp(name, "i") } }
+            ],
         });
     }
 
