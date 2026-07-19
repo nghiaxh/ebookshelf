@@ -9,7 +9,7 @@ export async function create(req, res, next) {
     }
     try {
         const document = await publisherService.create(req.body);
-        return res.json({ message: "Publisher created successfully" }, document);
+        return res.status(201).json({ message: "Publisher created successfully", document });
     } catch (error) {
         console.log(error);
         return next(new ApiError(500, "Error creating the publisher"));

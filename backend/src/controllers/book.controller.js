@@ -10,7 +10,7 @@ export async function create(req, res, next) {
 
     try {
         const document = await bookService.create(req.body);
-        return res.status(201).json({ message: "Book created successfully" }, document);
+        return res.status(201).json({ message: "Book created successfully", document });
     } catch (error) {
         console.log(error);
         return next(new ApiError(500, "Error while creating book"));
@@ -63,7 +63,7 @@ export async function update(req, res, next) {
             return next(new ApiError(404, "Book not found"));
         }
 
-        return res.send({ message: "Book updated successfully" }, document);
+        return res.json({ message: "Book updated successfully", document });
     } catch (error) {
         console.log(error);
         return next(

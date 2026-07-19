@@ -79,7 +79,7 @@ export async function update(req, res, next) {
             return next(new ApiError(404, "Book borrowing record not found"));
         }
 
-        return res.json({ message: "Book borrowing record updated successfully" }, document);
+        return res.json({ message: "Book borrowing record updated successfully", document });
     } catch (error) {
         console.log(error);
         return next(new ApiError(500, `Error while updating book borrowing record with id ${req.params.id}`)
