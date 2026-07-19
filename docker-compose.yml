@@ -16,8 +16,8 @@ services:
     build: ./backend
     image: ebookshelf-backend
     restart: unless-stopped
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     environment:
       - MONGODB_URL=mongodb://database:27017/ebookshelf
       - JWT_SECRET=a856a06214afa7b104c4ace59e969f793b8d59529aab6c1414a1387b35c5383c
@@ -25,6 +25,19 @@ services:
     depends_on:
       database:
         condition: service_healthy
+
+  nginx:
+    container_name: ebookshelf-nginx
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - server
 
   client:
     container_name: ebookshelf-frontend
@@ -34,9 +47,9 @@ services:
     ports:
       - "3001:3001"
     environment:
-      - API_PROXY_TARGET=http://server:3000
+      - API_PROXY_TARGET=http://nginx:80
     depends_on:
-      - server
+      - nginx
     volumes:
       - ./frontend:/app
       - /app/node_modules
