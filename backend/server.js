@@ -6,7 +6,7 @@ const PORT = config.src.port;
 
 async function startServer() {
     try {
-        mongoose.connect(config.db.uri);
+        await mongoose.connect(config.db.uri);
         console.log("Connected to the database!");
 
         app.listen(PORT, () => {
