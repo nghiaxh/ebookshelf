@@ -6,7 +6,7 @@ import { useRoute } from "vue-router";
 import { computed, onMounted, ref } from "vue";
 import { push } from 'notivue';
 import { useForm, useField } from "vee-validate";
-import { staffSchema } from '../validations/staff.validation';
+import { staffUpdateSchema } from '../validations/staff.validation';
 import StaffService from '../services/staff.service';
 
 const route = useRoute();
@@ -17,7 +17,7 @@ const staffId = computed(() => localStorage.getItem("id"));
 const role = computed(() => localStorage.getItem("role"));
 
 const { handleSubmit, resetForm } = useForm({
-  validationSchema: staffSchema
+  validationSchema: staffUpdateSchema
 });
 
 const { value: name, errorMessage: nameError } = useField("name");

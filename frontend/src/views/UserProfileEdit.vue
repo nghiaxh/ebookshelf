@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 import { useRoute } from "vue-router";
 import { computed, onMounted, ref } from "vue";
 import { push } from 'notivue';
-import { userSchema } from '../validations/user.validation';
+import { userUpdateSchema } from '../validations/user.validation';
 import UserService from '../services/user.service';
 import { useForm, useField } from "vee-validate";
 
@@ -15,7 +15,7 @@ const route = useRoute();
 const role = computed(() => localStorage.getItem("role"));
 
 const { handleSubmit, resetForm } = useForm({
-  validationSchema: userSchema,
+  validationSchema: userUpdateSchema,
 });
 
 const user_id = route.params.id;
