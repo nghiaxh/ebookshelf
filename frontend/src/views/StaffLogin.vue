@@ -51,7 +51,7 @@ const handleStaffLogin = handleSubmit(async () => {
     <div class="bg-cover bg-[url(/images/t3_luan_van.jpg)] transition-all duration-300">
         <div
             class="backdrop-brightness-50 backdrop-blur-xs grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8 place-items-center h-screen">
-            <form @submit.prevent class="mb-24">
+            <form @submit.prevent="handleStaffLogin" class="mb-24">
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 text-base shadow">
                     <!-- User login -->
                     <h1 class="font-bold text-2xl text-center mb-4">Đăng Nhập Nhân Viên</h1>
@@ -66,7 +66,7 @@ const handleStaffLogin = handleSubmit(async () => {
                         placeholder="Nhập mật khẩu" />
                     <span class="text-red-600 text-sm">{{ passwordError }}</span>
 
-                    <button @click=" handleStaffLogin " type="submit"
+                    <button type="submit"
                         class="btn btn-neutral mt-4 text-base hover:scale-[1.01]">Đăng
                         Nhập</button>
 
