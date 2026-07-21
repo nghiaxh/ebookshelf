@@ -7,7 +7,12 @@ export const userSchema = yup.object({
     first_name: yup.string().required("Vui lòng nhập tên").min(2, "Vui lòng nhập ít nhất 2 ký tự").max(30, "Tên người dùng tối đa 30 ký tự"),
     last_name: yup.string().required("Vui lòng nhập họ lót").min(2, "Vui lòng nhập ít nhất 2 ký tự").max(30, "Họ lót người dùng tối đa 30 ký tự"),
     username: yup.string().required("Vui lòng nhập tên đăng nhập").min(3, "Vui lòng nhập ít nhất 3 ký tự").max(30, "Tên đăng nhập tối đa 30 ký tự"),
-    password: yup.string().required("Vui lòng nhập mật khẩu").min(3, "Vui lòng nhập ít nhất 3 ký tự").max(30, "Mật khẩu tối đa 30 ký tự"),
+    password: yup.string().required("Vui lòng nhập mật khẩu")
+        .min(8, "Mật khẩu phải có ít nhất 8 ký tự")
+        .max(30, "Mật khẩu tối đa 30 ký tự")
+        .matches(/[A-Z]/, "Mật khẩu phải có ít nhất 1 chữ hoa")
+        .matches(/[a-z]/, "Mật khẩu phải có ít nhất 1 chữ thường")
+        .matches(/[0-9]/, "Mật khẩu phải có ít nhất 1 chữ số"),
     birthday: yup.date().max(birthdayValidate, "Người dùng phải ít nhất từ 7 tuổi trở lên")
         .required("Vui lòng chọn ngày sinh").typeError("Vui lòng chọn ngày sinh"),
     gender: yup.boolean().required("Vui lòng chọn giới tính"),
