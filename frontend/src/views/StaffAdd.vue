@@ -11,6 +11,7 @@ import { staffSchema } from '../validations/staff.validation';
 
 const router = useRouter();
 const staffService = new StaffService();
+const loading = ref(false);
 const { handleSubmit } = useForm({
   validationSchema: staffSchema
 });
@@ -22,6 +23,7 @@ const { value: address, errorMessage: addressError } = useField("address");
 const { value: phone, errorMessage: phoneError } = useField("phone");
 
 const handleCreateStaff = handleSubmit(async (values) => {
+  loading.value = true;
   try {
     await staffService.createStaff(values);
     push.success("Thêm nhân viên thành công");
@@ -33,6 +35,8 @@ const handleCreateStaff = handleSubmit(async (values) => {
     } else {
       push.error("Đã xảy ra lỗi khi thêm nhân viên");
     }
+  } finally {
+    loading.value = false;
   }
 });
 
@@ -66,7 +70,10 @@ const handleCreateStaff = handleSubmit(async (values) => {
           <input v-model=" password " type="password" class="input" id="password" placeholder="Nhập mật khẩu" />
           <span class="text-sm text-red-600">{{ passwordError }}</span>
 
-          <button type="submit" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thêm nhân viên</button>
+          <button type="submit" :disabled="loading" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">
+            <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+            {{ loading ? 'Đang xử lý...' : 'Thêm nhân viên' }}
+          </button>
 
           <span class="mt-8">
             <strong class="hover:underline">

@@ -35,6 +35,7 @@ const { value: publisher_id, errorMessage: publisher_idError } = useField("publi
 const { value: quantity, errorMessage: quantityError } = useField("quantity");
 
 const publishers = ref([]);
+const loading = ref(false);
 
 const fetchPublishers = async () => {
   try {
@@ -46,6 +47,7 @@ const fetchPublishers = async () => {
 };
 
 const handleCreateBook = handleSubmit(async (values) => {
+  loading.value = true;
   try {
     await bookService.createBook(values);
 
@@ -59,6 +61,8 @@ const handleCreateBook = handleSubmit(async (values) => {
     } else {
       push.error("Đã xảy ra lỗi khi thêm sách");
     }
+  } finally {
+    loading.value = false;
   }
 });
 
@@ -107,8 +111,11 @@ onMounted(async () => {
           <input v-model=" quantity " type="number" class="input" id="quantity" placeholder="Nhập số lượng" />
           <span class="text-sm text-red-600">{{ quantityError }}</span>
 
-          <button type="submit"
-            class="btn btn-neutral mt-4 hover:scale-[1.01] hover:btn-info hover:text-white text-base">Thêm sách</button>
+          <button type="submit" :disabled="loading"
+            class="btn btn-neutral mt-4 hover:scale-[1.01] hover:btn-info hover:text-white text-base">
+            <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+            {{ loading ? 'Đang xử lý...' : 'Thêm sách' }}
+          </button>
 
           <span class="mt-4">
             <strong class="hover:underline">

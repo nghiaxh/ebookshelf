@@ -8,6 +8,7 @@ import { push } from "notivue";
 
 const userService = new UserService();
 const router = useRouter();
+const loading = ref(false);
 
 const { handleSubmit } = useForm({
   validationSchema: userSchema
@@ -23,6 +24,7 @@ const { value: address, errorMessage: addressError } = useField("address");
 const { value: phone, errorMessage: phoneError } = useField("phone");
 
 const handleUserRegister = handleSubmit(async (values) => {
+  loading.value = true;
   try {
     await userService.register(values);
     // ? Debug code
@@ -41,6 +43,8 @@ const handleUserRegister = handleSubmit(async (values) => {
     else {
       push.error("Đăng ký thất bại, vui lòng thử lại");
     }
+  } finally {
+    loading.value = false;
   }
 });
 
@@ -91,7 +95,10 @@ const handleUserRegister = handleSubmit(async (values) => {
           <input v-model=" password " type="password" class="input" id="password" placeholder="Nhập mật khẩu" />
           <span class="text-red-600 text-sm">{{ passwordError }}</span>
 
-          <button type="submit" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Đăng Ký</button>
+          <button type="submit" :disabled="loading" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">
+            <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+            {{ loading ? 'Đang xử lý...' : 'Đăng Ký' }}
+          </button>
           <span class="mt-8">Bạn đã có tài khoản?
             <strong class="hover:underline">
               <RouterLink to="/user/login" class="text-base">Đăng nhập</RouterLink>

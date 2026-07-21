@@ -16,6 +16,7 @@ const router = useRouter();
 const route = useRoute();
 const publishers = ref([]);
 const book = ref({});
+const loading = ref(false);
 
 const book_id = route.params.id;
 const role = computed(() => localStorage.getItem("role"));
@@ -60,6 +61,7 @@ const fetchPublishers = async () => {
 
 
 const handleUpdateBook = handleSubmit(async (values) => {
+    loading.value = true;
     try {
         await bookService.updateBook(book_id, values);
 
@@ -68,6 +70,8 @@ const handleUpdateBook = handleSubmit(async (values) => {
     } catch (error) {
         console.log(error);
         push.error("Đã xảy ra lỗi khi cập nhật sách");
+    } finally {
+        loading.value = false;
     }
 });
 
@@ -130,9 +134,11 @@ onMounted(async () => {
                     <span class="text-sm text-red-600">{{ quantityError }}</span>
 
                     <div class="grid grid-cols-2 gap-2">
-                        <button @click="handleUpdateBook( book_id )"
-                            class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Cập
-                            nhật</button>
+                        <button @click="handleUpdateBook( book_id )" :disabled="loading"
+                            class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">
+                            <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+                            {{ loading ? 'Đang xử lý...' : 'Cập nhật' }}
+                        </button>
                         <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
                             @click=" handleDeleteBook( book_id )">Xóa</button>
                     </div>

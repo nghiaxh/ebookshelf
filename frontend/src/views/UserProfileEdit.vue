@@ -13,6 +13,7 @@ const userService = new UserService();
 const router = useRouter();
 const route = useRoute();
 const role = computed(() => localStorage.getItem("role"));
+const loading = ref(false);
 
 const { handleSubmit, resetForm } = useForm({
   validationSchema: userSchema,
@@ -21,6 +22,7 @@ const { handleSubmit, resetForm } = useForm({
 const user_id = route.params.id;
 
 const handleUserProfileEdit = handleSubmit(async (values) => {
+  loading.value = true;
   try {
     await userService.updateUser(user_id, values);
     push.success("Cập nhật thông tin người dùng thành công");
@@ -39,6 +41,8 @@ const handleUserProfileEdit = handleSubmit(async (values) => {
     else {
       push.error("Đã xảy ra lỗi khi cập nhật thông tin người dùng");
     }
+  } finally {
+    loading.value = false;
   }
 });
 
@@ -131,16 +135,22 @@ onMounted(async () => {
 
           <template v-if=" role === 'staff' ">
             <div class="grid grid-cols-2 gap-2">
-              <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
-                @click=" handleUserProfileEdit( user_id )">Lưu thay đổi</button>
+              <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base" :disabled="loading"
+                @click=" handleUserProfileEdit( user_id )">
+                <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+                {{ loading ? 'Đang xử lý...' : 'Lưu thay đổi' }}
+              </button>
               <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
                 @click=" handleUserProfileDelete( user_id )">Xóa</button>
             </div>
           </template>
           <template v-else>
             <div class="grid grid-cols-1 gap-2">
-              <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
-                @click=" handleUserProfileEdit( user_id )">Lưu thay đổi</button>
+              <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base" :disabled="loading"
+                @click=" handleUserProfileEdit( user_id )">
+                <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+                {{ loading ? 'Đang xử lý...' : 'Lưu thay đổi' }}
+              </button>
             </div>
           </template>
           <span class="mt-4">

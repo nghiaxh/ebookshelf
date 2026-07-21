@@ -15,6 +15,7 @@ const staffService = new StaffService();
 const staffEditId = route.params.id;
 const staffId = computed(() => localStorage.getItem("id"));
 const role = computed(() => localStorage.getItem("role"));
+const loading = ref(false);
 
 const { handleSubmit, resetForm } = useForm({
   validationSchema: staffSchema
@@ -27,6 +28,7 @@ const { value: address, errorMessage: addressError } = useField("address");
 const { value: phone, errorMessage: phoneError } = useField("phone");
 
 const handleStaffProfileEdit = handleSubmit(async (values) => {
+  loading.value = true;
   try {
     await staffService.updateStaff(staffEditId, values);
     push.success("Cập nhật thông tin nhân viên thành công");
@@ -37,6 +39,8 @@ const handleStaffProfileEdit = handleSubmit(async (values) => {
     } else {
       push.error("Đã xảy ra lỗi khi cập nhật thông tin nhân viên");
     } console.log(error);
+  } finally {
+    loading.value = false;
   }
 });
 
@@ -110,16 +114,22 @@ onMounted(async () => {
 
           <template v-if=" staffEditId !== staffId ">
             <div class="grid grid-cols-2 gap-2">
-              <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
-                @click="handleStaffProfileEdit( staffEditId )">Lưu thay đổi</button>
+              <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base" :disabled="loading"
+                @click="handleStaffProfileEdit( staffEditId )">
+                <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+                {{ loading ? 'Đang xử lý...' : 'Lưu thay đổi' }}
+              </button>
               <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
                 @click="handleStaffProfileDelete( staffEditId )">Xóa</button>
             </div>
           </template>
           <template v-else>
             <div class="grid grid-cols-1 gap-2">
-              <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base"
-                @click="handleStaffProfileEdit( staffEditId )">Lưu thay đổi</button>
+              <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base" :disabled="loading"
+                @click="handleStaffProfileEdit( staffEditId )">
+                <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+                {{ loading ? 'Đang xử lý...' : 'Lưu thay đổi' }}
+              </button>
             </div>
           </template>
           <span class="mt-4">

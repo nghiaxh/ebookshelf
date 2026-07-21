@@ -27,11 +27,14 @@ const { handleSubmit } = useForm({
   validationSchema: borrowSchema,
 });
 
+const loading = ref(false);
+
 const { value: return_date, errorMessage: return_dateError } = useField("return_date");
 
 const handleCreateBorrow = handleSubmit(async () => {
   // debug code
   // console.log(return_date.value);
+  loading.value = true;
 
   try {
     const data = {
@@ -55,6 +58,8 @@ const handleCreateBorrow = handleSubmit(async () => {
     else {
       push.error("Đã có lỗi xảy ra trong quá trình tạo đơn mượn");
     }
+  } finally {
+    loading.value = false;
   }
 });
 
@@ -99,7 +104,10 @@ onMounted(async () => {
           <input v-model=" return_date " type="date" class="input" id="return_date" />
           <span class="text-red-600 text-sm">{{ return_dateError }}</span>
 
-          <button type="submit" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thêm phiếu mượn</button>
+          <button type="submit" :disabled="loading" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">
+            <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+            {{ loading ? 'Đang xử lý...' : 'Thêm phiếu mượn' }}
+          </button>
 
           <span class="mt-8">
             <strong class="hover:underline">

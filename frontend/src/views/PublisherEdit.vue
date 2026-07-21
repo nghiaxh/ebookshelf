@@ -14,12 +14,14 @@ const router = useRouter();
 const route = useRoute();
 const publisher_id = route.params.id;
 const role = computed(() => localStorage.getItem("role"));
+const loading = ref(false);
 
 const { handleSubmit, resetForm } = useForm({
     validationSchema: publisherSchema,
 });
 
 const handlePublisherProfileEdit = handleSubmit(async (values) => {
+    loading.value = true;
     try {
         await publisherService.updatePublisher(publisher_id, values);
 
@@ -28,6 +30,8 @@ const handlePublisherProfileEdit = handleSubmit(async (values) => {
     } catch (error) {
         console.log(error);
         push.error("Đã xảy ra lỗi khi cập nhật thông tin nhà xuất bản");
+    } finally {
+        loading.value = false;
     }
 });
 
@@ -82,8 +86,11 @@ onMounted(async () => {
                     <span class="text-sm text-red-600">{{ addressError }}</span>
 
                     <div class="grid grid-cols-2 gap-2">
-                        <button @click=" handlePublisherProfileEdit( publisher_id )"
-                            class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Cập nhật</button>
+                        <button @click=" handlePublisherProfileEdit( publisher_id )" :disabled="loading"
+                            class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">
+                            <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+                            {{ loading ? 'Đang xử lý...' : 'Cập nhật' }}
+                        </button>
                         <button @click=" handlePublisherProfileDelete( publisher_id )"
                             class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Xóa</button>
                     </div>

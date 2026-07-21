@@ -12,12 +12,14 @@ import { publisherSchema } from '../validations/publisher.validation';
 const router = useRouter();
 const publisherService = new PublisherService();
 const role = computed(() => localStorage.getItem("role"));
+const loading = ref(false);
 
 const { handleSubmit } = useForm({
     validationSchema: publisherSchema,
 });
 
 const handleCreatePublisher = handleSubmit(async (values) => {
+    loading.value = true;
     try {
         await publisherService.createPublisher(values);
         push.success("Thêm nhà xuất bản thành công");
@@ -26,6 +28,8 @@ const handleCreatePublisher = handleSubmit(async (values) => {
     } catch (error) {
         console.log(error);
         push.error("Đã có lỗi xảy ra khi tạo nhà xuất bản");
+    } finally {
+        loading.value = false;
     }
 });
 
@@ -55,7 +59,10 @@ onMounted(() => {
                     <input v-model=" address " type="text" class="input" id="address" placeholder="Nhập địa chỉ" />
                     <span class="text-sm text-red-600">{{ addressError }}</span>
 
-                    <button class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">Thêm nhà xuất bản</button>
+                    <button type="submit" :disabled="loading" class="btn btn-neutral mt-4 hover:scale-[1.01] text-base">
+                        <span v-if="loading" class="loading loading-spinner loading-sm"></span>
+                        {{ loading ? 'Đang xử lý...' : 'Thêm nhà xuất bản' }}
+                    </button>
 
                     <span class="mt-8">
                         <strong class="hover:underline">
