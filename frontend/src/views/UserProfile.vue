@@ -41,11 +41,11 @@ onMounted(async () => {
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Họ lót</dt>
-              <dd class="text-gray-700 sm:col-span-2">{{ user.first_name || "Không xác định" }}</dd>
+              <dd class="text-gray-700 sm:col-span-2">{{ user.last_name || "Không xác định" }}</dd>
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Tên</dt>
-              <dd class="text-gray-700 sm:col-span-2">{{ user.last_name || "Không xác định" }}</dd>
+              <dd class="text-gray-700 sm:col-span-2">{{ user.first_name || "Không xác định" }}</dd>
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
               <dt class="font-medium text-gray-900">Tên đăng nhập</dt>
