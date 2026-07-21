@@ -91,7 +91,6 @@ const filteredBorrows = computed(() => {
 
 onMounted(async () => {
     fetchBorrows();
-    fetchBorrows();
 });
 </script>
 

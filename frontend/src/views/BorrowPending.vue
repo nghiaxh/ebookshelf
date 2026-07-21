@@ -129,7 +129,6 @@ onMounted(async () => {
         router.push("/");
     }
     fetchBorrows();
-    fetchBorrows();
 });
 </script>
 
